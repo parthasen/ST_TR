@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Stocktrade : Functions to use in stock price prediction" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Stocktrade</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/parthasen/stocktrade">View on GitHub</a>
+
+          <h1 id="project_title">Stocktrade</h1>
+          <h2 id="project_tagline">Functions to use in stock price prediction</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/parthasen/stocktrade/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/parthasen/stocktrade/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>8 packages to load to use onedayaheadprediction. These are TSA,quantmod,rugarch,lmtest, moments,forecast and tseries. </p>
+
+<h1>
+<a name="getsymbolsabc-from1900-01-01to-download-data-of-abc-stock" class="anchor" href="#getsymbolsabc-from1900-01-01to-download-data-of-abc-stock"><span class="octicon octicon-link"></span></a>getSymbols("ABC", from="1900-01-01")to download data of ABC stock.</h1>
+
+<h1>
+<a name="natrim-roc-clabc---is-useful-to-get-return-and-this-matrix-will-be-input-to--fitg--garchfit-garch1-1-data--return-matrix-trace--false-conddistqmle" class="anchor" href="#natrim-roc-clabc---is-useful-to-get-return-and-this-matrix-will-be-input-to--fitg--garchfit-garch1-1-data--return-matrix-trace--false-conddistqmle"><span class="octicon octicon-link"></span></a>na.trim( ROC( Cl(ABC) ) ) is useful to get return and this matrix will be input to  fitg &lt;-garchFit(~ garch(1, 1), data = "return matrix", trace = FALSE, cond.dist="QMLE")</h1>
+
+<p>p&lt;-predict(fitg,n.ahead=1,plot=TRUE,conf=.9,nx=100)
+STRATEGY
+1# onedayaheadprediction(Op(ABC),Cl(ABC)) gives the predicted value of open and close
+2# If open&gt;close and p[4]</p><p>MA(V,5)
+if step 2 is satisfied then buy above predicted open price and sell at predicted close price with stop loss of predicted open price. </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Stocktrade maintained by <a href="https://github.com/parthasen">parthasen</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-49822711-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
