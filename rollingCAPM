@@ -1,0 +1,14 @@
+#function for rolling CAPM
+roll<-function(j){
+  beta<-j:(length-1)*0
+  mRFR<-j:(length-1)*0
+  mER<-j:(length-1)*0
+  CAPM<-j:(length-1)*0
+  for(i in j:(length-1)){
+    beta[i]<-array(coef(lm(SR[(i-j+1):(i-1)]~ER[(i-j+1):(i-1)])))[2]
+    mRFR[i]<-mean(RFR[(i-j+1):(i-1)])
+    mER[i]<-mean(ER[(i-j+1):(i-1)])
+    CAPM[i]<-mRFR[i]+beta[i]*mER[i]#rolling CAPM value
+  }
+  mean(CAPM[j:(length-1)])
+}
