@@ -1,0 +1,181 @@
+##1##. FROM YAHOO ********************
+ABC<-get.hist.quote(instrument="a", start="2008-01-01", end="2014-02-01", quote="AdjClose", provider="yahoo", origin="1970-01-01", compression="d", retclass="zoo")
+********************
+
+##2##. #MINUTE DATA 
+http://www.google.com/finance/getprices?q=RELIANCE&x=NSE&i=60&p=5d&f=d,c,o,h,l&df=cpct&auto=1&ts=1266701290218
+q= stock symbol on Google finance
+x= exchange symbol
+i= interval (here 60 means 60 sec (1 minute interval))
+p= no of period(here 5d denotes 5 days of data)
+f= parameters (day, close, open, high and low)
+df= difference (cpct is may be in % change )
+auto =1,
+ts = time start. if you cut the last 4 digits.the rest gives the start day in seconds
+*****************
+symbol = "IOB"  #change for different stock/index
+noDays = 15  # change the number of days
+interval = 60 #Seconds  
+minutedata(symbol,nodays,interval)## call this function
+##********************** to run the function below till END***********#
+minutedata<-function(symbol,nodays,interval){
+dirPath = "c:/DATA/min/"  
+fileName = paste(dirPath,symbol,".csv",sep="")  
+
+download.file(paste("http://www.google.com/finance/getprices?q=",symbol,"&x=NSE&i=",interval,"&p=",noDays,"d&f=d,o,h,l,c,v,t",sep=""), fileName)  
+
+unix2POSIXct <- function (time)  structure(time, class = c("POSIXt", "POSIXct"))  
+data = read.table(fileName,sep=",",col.names=c("DATE1","CLOSE","HIGH","LOW","OPEN","VOLUME"),fill=TRUE)  
+data$DATE = 0  
+data$TIME = 0  
+
+for (i in 8:nrow(data))  
+{  
+  if(i==8 || substr(as.vector((data$DATE1[i])),1,1) == "a")  
+  {  
+    tempDate = unix2POSIXct(as.numeric(substr(as.vector((data$DATE1[i])),2,nchar(as.vector((data$DATE1[i]))))))    
+    data$DATE[i] = as.numeric(format(tempDate,format="%Y%m%d"))  
+    data$TIME[i] = as.numeric(format(tempDate,format="%H%M"))  
+  } else {  
+    tempDate1 = tempDate + as.numeric(as.vector(data$DATE1[i]))*interval   
+    data$DATE[i] = as.numeric(format(tempDate1,format="%Y%m%d"))  
+    data$TIME[i] = as.numeric(format(tempDate1,format="%H%M"))  
+  }   
+}  
+data1=as.data.frame(data)  
+data1=(data1[data1$TIME>915 & data1$TIME<=1530,])  
+
+finalData = data.frame(DATE=as.vector(data1$DATE),TIME=as.vector(data1$TIME),CLOSE=as.vector(data1$CLOSE),HIGH=as.vector(data1$HIGH),LOW=as.vector(data1$LOW),OPEN=as.vector(data1$OPEN),VOLUME=as.vector(data1$VOLUME))  
+finalData = data.frame(DATE=data1$DATE,TIME=data1$TIME,CLOSE=data1$CLOSE,HIGH=data1$HIGH,LOW=data1$LOW,OPEN=data1$OPEN,VOLUME=data1$VOLUME)  
+write.csv(finalData,file=fileName,row.names=FALSE)}  
+************************END********************************************
+
+##3##. ****************DOWNLOADING BHAV COPY*********************************
+#Define Working Directory, where files would be saved
+setwd('c:/R/nsedata')
+
+#Define start and end dates, and convert them into date format
+startDate = as.Date("2010-12-25", order="ymd")
+endDate = as.Date("2012-07-01", order="ymd")
+
+#work with date, month, year for which data has to be extracted
+myDate = startDate
+zippedFile <- tempfile() 
+
+while (myDate <= endDate){
+ 	filenameDate = paste(as.character(myDate, "%y%m%d"), ".csv", sep = "")
+	monthfilename=paste(as.character(myDate, "%y%m"),".csv", sep = "")
+	downloadfilename=paste("cm", toupper(as.character(myDate, "%d%b%Y")), "bhav.csv", sep = "")
+	temp =""
+
+ 	#Generate URL
+	myURL = paste("http://nseindia.com/content/historical/EQUITIES/", as.character(myDate, "%Y"), "/", toupper(as.character(myDate, "%b")), "/", downloadfilename, ".zip", sep = "")
+
+ 	#retrieve Zipped file
+ 	tryCatch({
+		#Download Zipped File
+		download.file(myURL,zippedFile, quiet=TRUE, mode="wb")
+
+		#Unzip file and save it in temp 
+		temp <- read.csv(unzip(zippedFile), sep = ",") 
+
+		#Rename Columns Volume and Date
+		colnames(temp)[9] <- "VOLUME"
+		colnames(temp)[11] <- "DATE"
+
+		#Define Date format
+		temp$DATE <- as.Date(temp$DATE, format="%d-%b-%Y")
+
+		#Reorder Columns and Select relevant columns
+		temp<-subset(temp,select=c("DATE","SYMBOL","OPEN","HIGH","LOW","CLOSE","LAST","VOLUME"))
+
+		#Write the BHAVCOPY csv - datewise
+		write.csv(temp,file=filenameDate,row.names = FALSE)
+
+		#Write the csv in Monthly file
+		if (file.exists(monthfilename))
+		{
+			write.table(temp,file=monthfilename,sep=",", eol="\n", row.names = FALSE, col.names = FALSE, append=TRUE)
+		}else
+		{
+			write.table(temp,file=monthfilename,sep=",", eol="\n", row.names = FALSE, col.names = TRUE, append=FALSE)
+		}
+
+		#Write the file Symbol wise
+
+
+		#Print Progress
+		#print(paste (myDate, "-Done!", endDate-myDate, "left"))
+	}, error=function(err){
+		#print(paste(myDate, "-No Record"))
+	}
+	)
+ 	myDate <- myDate+1
+ 	#print(paste(myDate, "Next Record"))
+}
+
+	#Delete temp file - Bhavcopy
+	junk <- dir(pattern="cm")
+	file.remove(junk)
+****************************************************************	
+
+##4##. Downloading multiple stocks**********************************
+#######################DOWNLOADING TO Rdata
+#install.packages("quantmod")
+library("quantmod")
+#Script to download prices from yahoo
+#and Save the prices to a RData file
+#The tickers will be loaded from a csv file
+ 
+#Script Parameters
+tickerlist <- "mystocks.csv"  #CSV containing tickers on rows
+savefilename <- "c:/R/stockdata.RData" #The file to save the data in
+startDate = as.Date("2005-01-13") #Specify what date to get the prices from
+maxretryattempts <- 5 #If there is an error downloading a price how many times to retry
+ 
+#Load the list of ticker symbols from a csv, each row contains a ticker
+stocksLst <- read.csv("c:/R/mystocks.csv", header = F, stringsAsFactors = F)
+stockData <- new.env() #Make a new environment for quantmod to store data in
+nrstocks = length(stocksLst[,1]) #The number of stocks to download
+ 
+#Download all the stock data
+for (i in 1:nrstocks){
+    for(t in 1:maxretryattempts){
+ 
+       tryCatch(
+           {
+               #This is the statement to Try
+               #Check to see if the variables exists
+               #NEAT TRICK ON HOW TO TURN A STRING INTO A VARIABLE
+               #SEE  http://www.r-bloggers.com/converting-a-string-to-a-variable-name-on-the-fly-and-vice-versa-in-r/
+                if(!is.null(eval(parse(text=paste("stockData$",stocksLst[i,1],sep=""))))){
+                    #The variable exists so dont need to download data for this stock
+                    #So lets break out of the retry loop and process the next stock
+                    #cat("No need to retry")
+                    break
+                }
+ 
+              #The stock wasnt previously downloaded so lets attempt to download it
+              cat("(",i,"/",nrstocks,") ","Downloading ", stocksLst[i,1] , "\t\t Attempt: ", t , "/", maxretryattempts,"\n")
+              getSymbols(stocksLst[i,1], env = stockData, src = "yahoo", from = startDate)
+           }
+        #Specify the catch function, and the finally function
+       , error = function(e) print(e))
+     }
+}
+ 
+#Lets save the stock data to a data file
+tryCatch(
+    {
+    save(stockData, file=savefilename)
+    cat("Sucessfully saved the stock data to %s",savefilename)
+    }
+    , error = function(e) print(e))
+
+
+
+
+
+
+
+
