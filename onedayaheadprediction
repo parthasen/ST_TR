@@ -1,0 +1,13 @@
+myprediction<-function(O,C){
+ret<-na.trim( ROC( C) )# considered for garch
+Spread<-na.trim(C-O)
+fito<-arima(O, order = c(1,0,1), seasonal = list(order = c(1,0,1)))
+fits <- arima(spread, order = c(1,0,1), seasonal = list(order = c(1,0,1)))
+pred_open<-predict(fito, n.ahead = 1)$pred[1]
+pred_spread<-predict(fits, n.ahead = 1)$pred[1]
+pred_close<-pred_open+pred_spread
+fitg = garchFit(~ garch(1, 1), data = ret, trace = FALSE, cond.dist="QMLE")
+p<-predict(fitg,n.ahead=1,plot=TRUE,conf=.9,nx=100) 
+garchfactor<-ifelse(p[1]>p[5] |p[1]<p[4],1,0)
+return(c(pred_open, pred_close,garchfactor))
+}
