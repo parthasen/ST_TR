@@ -11,3 +11,26 @@ p<-predict(fitg,n.ahead=1,plot=TRUE,conf=.9,nx=100)
 garchfactor<-ifelse(p[1]>p[5] |p[1]<p[4],1,0)
 return(c(pred_open, pred_close,garchfactor))
 }
+
+factor<-function(ret){
+fit<-arima(ret, order = c(1,0,1), seasonal = list(order = c(1,0,1)))
+pred<-predict(fit, n.ahead = 1)$pred[1]
+fitg<-garchFit(~ garch(1, 1), data = ret, trace = FALSE, cond.dist="QMLE")
+p<-predict(fitg,n.ahead=1,plot=FALSE,conf=.9,nx=100) 
+#adf.test(ret)
+#acf(ret)
+#acf(ret, lag.max = NULL,plot=TRUE)
+#fit<-arima(ret, order = c(1,0,3))
+#tsdiag(fit)
+#auto.arima(ret) # helps to get the order
+higherclose<-ifelse(Op(P)< Cl(P),1,0)
+garchfactor<-ifelse(p[1]>p[5] |p[1]<p[4],0,1)
+factor<-higherclose*garchfactor*pred
+return(factor)
+}
+
+predictionplot<-function(P){
+P<-na.trim(Cl(P))
+fitp <- arfima(P)
+plot(forecast(fitp,h=30)) #for plotting purpose only
+}
