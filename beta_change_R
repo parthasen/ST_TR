@@ -1,0 +1,51 @@
+library(quantmod)
+library(PerformanceAnalytics)
+
+tckr<-c("^NSEI", "^NSEBANK") 
+seq1 = c(30,90,180,365)
+end<-format(Sys.Date() ,"%Y-%m-%d")  
+Tickers = array(dim =c(260,4,2) )
+Tickersret = array(dim =c(260,4,2) )
+for (j in 1:2){
+for (i in seq1){
+ind =  match(i,seq1)
+start[ind] <-format(Sys.Date() - (i) ,"%Y-%m-%d") 
+dat0 = (getSymbols(tckr[j], src="yahoo", from=start[ind], to=end, auto.assign = FALSE))
+ret = (as.vector(dat0[2:NROW(dat0),4]) - as.vector(dat0[1:(NROW(dat0)-1),4]) )/ dat0[1:(NROW(dat0)-1),4]
+Tickers[1:(NROW(dat0)),ind,j] =  as.numeric( (dat0[,4]+dat0[,1]+(dat0[,2] + dat0[,3])/2)/3 ) # average price
+Tickersret[1:(NROW(dat0)-1),ind,j] = as.numeric(ret)
+}}
+
+## Plot of prices:
+par(mfrow = c(2,2))
+for (i in 1:4){
+plot(na.omit(Tickers[,i,1])/na.omit(Tickers[1,i,1]) , ty = "b", ylim = c(.65,1.35),
+ main = paste('Last', seq1[i], 'days'), ylab = "Return", xlab = "Time")     
+points(na.omit(Tickers[,i,2])/na.omit(Tickers[1,i,2]), ty = "b", col = 2)
+legend('topright',legend = c(paste(tckr[1]), paste(tckr[2])), bty = "n", col = c(1:2), pch = 1)
+}
+
+## Plot of Beta return vs prices:
+i = 4
+par(mfrow = c(2,1))
+plot(na.omit(Tickers[,i,2]) ~ na.omit(Tickers[,i,1]), ty = "p", main = 
+  paste('Beta for the last', seq1[i], 'days', 
+"=", format(as.numeric(lm(na.omit(Tickers[,i,2]) ~ na.omit(Tickers[,i,1]))$coef[2]),digits = 3) )
+, ylab = paste(tckr[2]), xlab = paste(tckr[1]) )
+abline(lm(na.omit(Tickers[,i,2]) ~ na.omit(Tickers[,i,1])  ), col = 2, lwd = 3)
+
+plot(na.omit(Tickersret[,i,2]) ~ na.omit(Tickersret[,i,1]), ty = "p", main = 
+  paste('Beta for the last', seq1[i], 'days', 
+"=", format(as.numeric(lm(na.omit(Tickersret[,i,2]) ~ na.omit(Tickersret[,i,1]))$coef[2]),digits = 3) )
+, ylab = paste(tckr[2]), xlab = paste(tckr[1]) )
+abline(lm(na.omit(Tickersret[,i,2]) ~ na.omit(Tickersret[,i,1])  ), col = 2, lwd = 3)
+
+## Plots of beta over time:
+par(mfrow = c(2,2))
+for (i in 1:4){
+plot(na.omit(Tickers[,i,1]) ~ na.omit(Tickers[,i,2]), ty = "p", main = 
+  paste('Beta for the last', seq1[i], 'days', 
+"=", format(as.numeric(lm(na.omit(Tickers[,i,1]) ~ na.omit(Tickers[,i,2]))$coef[2]),digits = 3) )
+, ylab = paste(tckr[1]), xlab = paste(tckr[2]) )
+abline(lm(na.omit(Tickers[,i,1]) ~ na.omit(Tickers[,i,2])  ), col = 2, lwd = 3)
+}
