@@ -1,0 +1,2 @@
+aa<- read.csv(file=" ",head=TRUE,sep=",")// stringsAsFactors=FALSE
+
