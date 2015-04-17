@@ -1,0 +1,25 @@
+system.time()
+Rprof()
+SummaryRprof()
+by.self
+by.total
+sample.interval
+sampling.time
+//
+Rprof(tmp <- tempfile())
+example(glm)
+Rprof()
+summaryRprof(tmp)
+//
+require(profr)
+require(ggplot2)
+x = profr(example(glm))
+ggplot(x)
+//
+Rprof(tmp <- tempfile())
+example(glm)
+Rprof()
+plotProfileCallGraph(readProfileData(tmp), score = "total")
+//
+source("http://bioconductor.org/biocLite.R")
+biocLite("Rgraphviz")
