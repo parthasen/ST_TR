@@ -23,3 +23,10 @@ plotProfileCallGraph(readProfileData(tmp), score = "total")
 //
 source("http://bioconductor.org/biocLite.R")
 biocLite("Rgraphviz")
+//
+library(stockPortfolio)
+fileName <- "Rprof_example.txt"
+Rprof(fileName)
+gr <- getReturns(c("GOOG", "MSFT", "IBM"), freq="week")
+Rprof(NULL)
+summaryRprof(fileName)$by.total[1:8,]
