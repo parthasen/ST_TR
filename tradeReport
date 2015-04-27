@@ -1,0 +1,42 @@
+abc <- read.csv("C:/Users/PARTHA/Desktop/trades.20150422.csv")
+abcnew<-abc[order(abc$Symbol,abc$Action),]
+summary(abcnew)
+length(abcnew$Action)
+for(i in 2:length(abcnew$Action))
+{
+abcnew$Quantity[i]<-ifelse(abcnew$Action[i]==abcnew$Action[i-1] && abcnew$Symbol[i]==abcnew$Symbol[i-1],abcnew
+
+$Quantity[i]+abcnew$Quantity[i-1],abcnew$Quantity[i])
+abcnew$Price[i]<-ifelse(abcnew$Action[i]==abcnew$Action[i-1] && abcnew$Symbol[i]==abcnew$Symbol[i-1],(abcnew$Price
+
+[i]+abcnew$Price[i-1])/2,abcnew$Price[i])
+ifelse(abcnew$Action[i]==abcnew$Action[i-1] & abcnew$Symbol[i]==abcnew$Symbol[i-1] & abcnew$Quantity[i]>abcnew
+
+$Quantity[i-1],abcnew$Quantity[i-1]<-0,abcnew$Quantity[i])
+}
+
+abclast<-abcnew[!abcnew$Quantity==0,]
+abcF<-abclast[!abclast$Action=="BOT",]
+
+for(i in 1:length(abclast$Action))
+{
+ifelse(abclast$Symbol[i]==abclast$Symbol[i+1],abclast$Action[i],ifelse(abclast$Action[i]=="BOT",abclast$Action[i]<-
+
+substr(abclast$Action[i],3,3),abclast$Action[i]))
+}
+
+abclast$TimeM<-substr(abclast$Time[1:length(abclast$Action)],1,5)
+****
+qplot(abclast$Symbol,abclast$TimeM, data = abclast) + theme(text = element_text(size=10),axis.text.x = element_text
+(angle=90, vjust=1))
+
+qplot(abcF$Symbol,abcF$Realized.P.L, data = abcF) + theme(text = element_text(size=10),axis.text.x = element_text
+(angle=90, vjust=1)) +     geom_boxplot() 
+
+qplot(abclast$Symbol,abclast$Action, data = abclast) + theme(text = element_text(size=10),axis.text.x = element_text
+(angle=90, vjust=1))
+
+
+
+
+
