@@ -1,0 +1,89 @@
+//Kalman filter as a way to smooth time series without lag
+
+library(KFAS)
+library(tseries)
+library(timeSeries)
+library(zoo)
+library(quantmod)
+
+getDailyPrices = function( tickerSym, startDate, endDate )
+{
+  prices = get.hist.quote( instrument = tickerSym, start = startDate, end = endDate,
+                       quote="AdjClose", provider="yahoo", 
+                       compression="d",  quiet=T)
+
+  prices.ts = ts(prices)
+  return( prices.ts )
+}
+
+kalmanFilter = function( x )
+{
+  t = x
+  if (class(t) != "ts") {
+    t = ts(t)
+  }
+  ssModel = structSSM( y = t, distribution="Gaussian")
+  ssFit = fitSSM(inits=c(0.5*log(var(t)), 0.5*log(var(t))), model = ssModel )
+  kfs = KFS( ssFit$model, smoothing="state", nsim=length(t))
+  vals = kfs$a
+  lastVal = vals[ length(vals)]
+  return(lastVal)
+}
+
+Start = "2014-01-01"
+End   = "2015-04-28"
+NASDAQ = "^NDX"
+
+
+library(TTR)
+
+emaSmooth = function( x )
+{
+  ema = EMA(x)
+  val = ema[ length(ema) ]
+  return(val)
+}
+
+emaSmooth = rollapply( data = NASDAQ.ts, width=windowWidth, FUN=emaSmooth)
+
+windowWidth = 20
+tsLength = 100
+
+NASDAQ.ts = getDailyPrices( NASDAQ, Start, End )
+NASDAQ.ts = NASDAQ.ts[1:tsLength]
+NASDAQ.smoothed = rollapply( data=NASDAQ.ts, width=windowWidth, FUN=kalmanFilter)
+
+par(mfrow=c(1,1))
+prices = coredata( NASDAQ.ts[windowWidth:length(NASDAQ.ts)])
+plot(prices, col="blue", type="l")
+lines(coredata(NASDAQ.smoothed), col="magenta")
+par(mfrow=c(1,1))
+####
+
+# generating the data set 
+len<-100 
+ndim<-4 
+x_data<-matrix(ncol=ndim,nrow=len) 
+x_data[,1]<-rep(1,len) 
+for (i in 1:3) 
+{ 
+  x_data[,i+1]<-cumsum(rnorm(len)) 
+} 
+beta<-c(10,2,3,4) # these are the betas 
+y<-x_data%*%beta+rnorm(len) 
+
+# estimating the betas from a state space model built using the structSSM  function 
+library(KFAS) 
+mod = structSSM(y=y,X=x_data[,-1],distribution="Gaussian") 
+fit = fitSSM(inits=rep(0,2),model=mod) 
+out = KFS(fit$model,smoothing="state") 
+out$a[,len] 
+#      level   beta1.1   beta2.1   beta3.1 
+#10.180638  1.975403  3.004505  4.022862 
+
+# estimating the betas using a state space model built using the regSSM function 
+model = regSSM(y=y,X=x_data) 
+out = KFS(model) 
+out[[14]][,len] 
+#   beta1.1    beta2.1    beta3.1    beta4.1 
+# 8.1490733  0.7021807 -0.7177351  3.0845611 
