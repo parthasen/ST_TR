@@ -1,4 +1,5 @@
 # https://idontgetoutmuch.wordpress.com/2014/09/09/fun-with-extended-kalman-filters-4/
+#http://www.magesblog.com/2011/12/fitting-distributions-with-r.html
 # Logistic growth function
 logistG <- function(r, p, k, t){
   k * p * exp(r*t) / (k + p * (exp(r*t) - 1))
