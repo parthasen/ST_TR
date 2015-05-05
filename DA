@@ -1,0 +1,70 @@
+
+ACM <- read.csv("C:/DataExport/ACM.txt")
+dim(ACM)
+ACM[1:4,]
+ACM<-na.omit(ACM)
+dim(ACM)
+names(ACM)
+plot(ACM$Close, ACM$Volume)
+time=as.factor(ACM$Date.Time)
+plot(time, ACM$Volume, col="red", varwidth=T, xlab="Close", ylab="Volume")
+hist(ACM$Close,col=2,breaks=15)
+pairs(ACM)
+pairs(~ACM$Close+ACM$Volume)
+summary(ACM)
+summary(ACM$Volume)
+
+library(MASS)
+library(ISLR)
+lm.fit=lm(Close~Volume,data=ACM)
+lm.fit
+summary(lm.fit)
+names(lm.fit)
+coef(lm.fit)
+confint(lm.fit)
+plot(lm.fit)
+plot(predict(lm.fit), residuals(lm.fit))
+plot(predict(lm.fit), rstudent(lm.fit))
+plot(hatvalues(lm.fit))
+library(car)
+lm.fit=lm(Close~Open+High+Low,data=ACM)
+vif(lm.fit)
+summary(lm.fit)
+# Non-linear Transformations of the Predictors
+lm.fit1=lm(ACM$Close~ACM$Volume+I(ACM$Volume^2))
+summary(lm.fit1)
+anova(lm.fit,lm.fit1)
+plot(lm.fit1)
+lm.fit2=lm(ACM$Close~poly(ACM$Volume,5))
+lm.fit2
+summary(lm(ACM$Close~log(ACM$Volume),data=ACM))
+
+# Qualitative Predictors
+
+fix(Carseats)
+names(Carseats)
+lm.fit=lm(Sales~.+Income:Advertising+Price:Age,data=Carseats)
+summary(lm.fit)
+attach(Carseats)
+contrasts(ShelveLoc)
+
+shift<-function(x,shift_by){
+    stopifnot(is.numeric(shift_by))
+    stopifnot(is.numeric(x))
+ 
+    if (length(shift_by)>1)
+        return(sapply(shift_by,shift, x=x))
+ 
+    out<-NULL
+    abs_shift_by=abs(shift_by)
+    if (shift_by > 0 )
+        out<-c(tail(x,-abs_shift_by),rep(NA,abs_shift_by))
+    else if (shift_by < 0 )
+        out<-c(rep(NA,abs_shift_by), head(x,-abs_shift_by))
+    else
+        out<-x
+    out
+}
+ACM$ACM_lead2<-shift(ACM$High,2)
+#generate lag variable
+ACM$ACM_lag2<-shift(ACM$High,-2) 
