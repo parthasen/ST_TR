@@ -65,6 +65,37 @@ shift<-function(x,shift_by){
         out<-x
     out
 }
+# Logistic Regression
 ACM$ACM_lead2<-shift(ACM$High,2)
 #generate lag variable
 ACM$ACM_lag2<-shift(ACM$High,-2) 
+ACM<-na.omit(ACM)
+ACM$Direction<-ifelse(ACM$Close>ACM$Open,1,0)#1=up.0=down
+glm.fit=glm(Direction~ACM_lead2+ACM_lag2+Volume,data=ACM,family=binomial)
+summary(glm.fit)
+coef(glm.fit)
+summary(glm.fit)$coef
+summary(glm.fit)$coef[,4]
+glm.probs<-predict(glm.fit,type="response")
+glm.probs[1:10]
+glm.pred=rep(0,53)
+contrasts(as.factor(ACM$Direction))
+glm.pred[glm.probs>.5]=1
+table(glm.pred,ACM$Direction)
+# Linear Discriminant Analysis
+library(MASS)
+lda.fit=lda(Direction~Lag1+Lag2,data=Smarket,subset=train)
+lda.fit
+plot(lda.fit)
+lda.pred=predict(lda.fit, Smarket.2005)
+names(lda.pred)
+lda.class=lda.pred$class
+table(lda.class,Direction.2005)
+mean(lda.class==Direction.2005)
+sum(lda.pred$posterior[,1]>=.5)
+sum(lda.pred$posterior[,1]<.5)
+lda.pred$posterior[1:20,1]
+lda.class[1:20]
+sum(lda.pred$posterior[,1]>.9)
+
+
