@@ -1,0 +1,27 @@
+#http://cran.r-project.org/web/packages/IBrokers/IBrokers.pdf
+#http://cran.r-project.org/web/packages/IBrokers/vignettes/RealTime.pdf
+#http://cran.r-project.org/web/packages/IBrokers/vignettes/IBrokers.pdf
+tws <- twsConnect()
+id <- reqIds(tws)
+reqCurrentTime(tws)# Request The Current TWS Time
+contract <- twsEquity('RARE')
+reqContractDetails(tws,contract)
+# retrieve all QQQQ contracts as a list
+reqContractDetails(tws, twsOption(local="", right="", symbol="RARE"))
+# retrieve only calls
+reqContractDetails(tws, twsOption(local="", right="C", symbol="RARE"))
+# retrieve only puts
+reqContractDetails(tws, twsOption(local="", right="P", symbol="RARE"))
+reqMktData(tws,contract)
+fh <- file('d://out.dat',open='a')
+reqMktData(tws, contract, file=fh)
+Sys.sleep(10)
+reqHistory(tws, Contract=contract)
+reqHistoricalData(tws,contract)
+reqMktDepth(tws,contract)
+reqRealTimeBars(tws,contract)
+twsSTK(contract)
+twsDisconnect(tws)
+#NDX150508P04240000-SMART-OPT-USD
+opt <- twsOption("NDX",expiry="150508", strike="4240", right="P")
+
