@@ -2,6 +2,7 @@
 #http://cran.r-project.org/web/packages/IBrokers/vignettes/RealTime.pdf
 #http://cran.r-project.org/web/packages/IBrokers/vignettes/IBrokers.pdf
 #http://artax.karlin.mff.cuni.cz/r-help/library/IBrokers/html/00Index.html
+#https://www.rmetrics.org/files/Meielisalp2009/Presentations/Ryan.pdf
 tws <- twsConnect()
 id <- reqIds(tws)
 reqCurrentTime(tws)# Request The Current TWS Time
