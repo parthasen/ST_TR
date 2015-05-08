@@ -25,6 +25,23 @@ reqMktDepth(tws,contract)
 reqRealTimeBars(tws,contract)
 twsSTK(contract)
 twsDisconnect(tws)
+reqMktData(tws, twsFUT("NDM5","GLOBEX","201505"))
+reqMktData(tws, twsFuture("NDM5","GLOBEX","201505"))
+
+ reqMktData(tws,
+ Contract = twsSTK("RARE"),
+ eventWrapper = eWrapper(TRUE),
+ timeStamp=NULL)
+
+reqMktData(tws, twsEquity("SBUX"), CALLBACK=NULL, file="D://SBUX.dat")
+twsp <- twsConnect(filename="SBUX.dat")
+
+To playback the saved data, call reqMktData again:
+reqMktData(twsp)
+reqMktData(twsp, playback=0)
+
+reqMktDepth(tws, twsEquity("SBUX"), CALLBACK=NULL, file="D://SBUX.dat")
+reqRealTimeBars(tws, twsEquity("SBUX"), C ALLBACK=NULL, file="D://SBUX.dat")
 #NDX150508P04240000-SMART-OPT-USD
 opt <- twsOption("NDX",expiry="150508", strike="4240", right="P")
 
