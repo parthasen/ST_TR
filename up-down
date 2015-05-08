@@ -1,0 +1,15 @@
+NDX<-getQuote("^NDX")
+NV<-getQuote("^NDX;^VXN",what=yahooQF(c("Bid","Ask")))
+getQuote("AAPL",src = "Google")
+getSymbols("^NDX", src = "yahoo")
+getSymbols("^VXN", src = "yahoo")
+View(NDX)
+NDX$NDX.Close
+NDX$NDX.Open
+
+NDX$up[1:length(NDX$NDX.Open)]<-1
+
+for(i in 2:length(NDX$NDX.Open))
+{
+NDX$up[i]<-ifelse(NDX$NDX.Close[i]>NDX$NDX.Open[i],1,0)
+}
