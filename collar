@@ -1,0 +1,30 @@
+put option (long)
+******
+Strike Price: 3900
+Expire:Sep
+Premium: 45
+Delta:-0.14
+Beta:1.3
+Number of put to buy: 6
+
+Call option (short)
+******
+Strike Price: 4650
+Expire:Sep
+Premium: 65
+
+Testing with 2 lots
+Earning: (65-45)*200=4000
+
+volatility:10%
+interest rate:6%
+
+
+#http://cran.r-project.org/web/packages/fOptions/fOptions.pdf
+fOption
+GBSOption(TypeFlag = "c", S = 4438, X = 4650, Time = 1/3, r = 0.06,
+          b = 0.08, sigma = 0.1)
+GBSOption(TypeFlag = "p", S = 4438, X = 3900, Time = 1/3, r = 0.06,
+          b = -0.305, sigma = 0.1)
+
+
