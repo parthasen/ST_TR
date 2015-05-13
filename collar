@@ -27,4 +27,6 @@ GBSOption(TypeFlag = "c", S = 4438, X = 4650, Time = 1/3, r = 0.06,
 GBSOption(TypeFlag = "p", S = 4438, X = 3900, Time = 1/3, r = 0.06,
           b = -0.305, sigma = 0.1)
 
+#http://www.igidr.ac.in/conf/money1/Hedging%20performance%20of%20Nifty%20index%20futures_Anjali%20Prashad.pdf
+#http://www.nseindia.com/content/research/comppaper171.pdf
 
