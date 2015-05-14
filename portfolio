@@ -1,0 +1,25 @@
+http://www.morganstanleyfa.com/public/projectfiles/cf8baa6e-b385-45aa-abd4-74ea5d34ade8.pdf
+http://economistatlarge.com/portfolio-theory/r-optimized-portfolio
+https://alphaism.wordpress.com/2012/05/04/finding-efficient-frontier-and-optimal-portfolio-in-r/
+http://www.rinfinance.com/agenda/2012/workshop/DougMartin.pdf
+https://systematicinvestor.wordpress.com/category/portfolio-construction/
+http://www.rinfinance.com/agenda/2012/workshop/Carl+Peterson.pdf
+http://www.r-bloggers.com/modeling-couch-potato-strategy/
+http://www.r-bloggers.com/tag/portfolio-construction/
+
+library(stockPortfolio)
+library(quadprog)
+
+stocks <- c( "SPY", "EFA", "IWM", "VWO", "LQD", "HYG")
+
+
+
+afsi <- read.csv("C:/DataExport/AFSI.txt",header=T)
+akrx <- read.csv("C:/DataExport/AKRX.txt",header=T)
+
+stocks<-cbind(afsi$Close[1:60000],akrx$Close[1:60000])
+colnames(stocks) <- c("afsi","akrx")
+stocks.df <- data.frame(stocks)
+
+stocks$afsi<-afsi$Close[1:60000]
+stocks$akrx<-akrx$Close[1:60000]
