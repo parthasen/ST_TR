@@ -19,8 +19,17 @@ stocks <- c( "SPY", "EFA", "IWM", "VWO", "LQD", "HYG")
 
 
 afsi <- read.csv("C:/DataExport/AFSI.txt",header=T)
-#afsi <- read.csv("/home/octo/Desktop/DataExport/AFSI.txt",header=T)
 akrx <- read.csv("C:/DataExport/AKRX.txt",header=T)
+#afsi <- read.csv("/home/octo/Desktop/DataExport/AFSI.txt",header=T)
+#akrx <- read.csv("/home/octo/Desktop/DataExport/AKRX.txt",header=T)
+# acco <- read.csv("/home/octo/Desktop/DataExport/ACCO.txt",header=T)
+# acm <- read.csv("/home/octo/Desktop/DataExport/ACM.txt",header=T)
+# advs <- read.csv("/home/octo/Desktop/DataExport/ADVS.txt",header=T)
+# alg <- read.csv("/home/octo/Desktop/DataExport/ALG.txt",header=T)
+# cno <- read.csv("/home/octo/Desktop/DataExport/CNO.txt",header=T)
+# che <- read.csv("/home/octo/Desktop/DataExport/CHE.txt",header=T)
+# wal <- read.csv("/home/octo/Desktop/DataExport/WAL.txt",header=T)
+
 
 stocks<-cbind(afsi$Close[1:60000],akrx$Close[1:60000])
 colnames(stocks) <- c("afsi","akrx")
