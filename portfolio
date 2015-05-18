@@ -32,8 +32,12 @@ akrx <- read.csv("C:/DataExport/AKRX.txt",header=T)
 
 
 stocks<-cbind(afsi$Close[1:60000],akrx$Close[1:60000])
-colnames(stocks) <- c("afsi","akrx")
+stocks<-cbind(afsi$Close[1:15000],akrx$Close[1:15000],acco$Close[1:15000],advs$Close[1:15000],alg$Close[1:15000],cno$Close[1:15000],che$Close[1:15000],wal$Close[1:15000])
+colnames(stocks) <- c("afsi","akrx","acco","advs","alg","cno","che","wal")
 stocks.df <- data.frame(stocks)
 
 stocks$afsi<-afsi$Close[1:60000]
 stocks$akrx<-akrx$Close[1:60000]
+
+ret<-diff(log(stocks),lag=1)
+
