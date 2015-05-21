@@ -41,6 +41,6 @@ stocks$akrx<-akrx$Close[1:60000]
 
 ret<-diff(log(stocks),lag=1)
 dim(ret)
-mu <- colMeans(R)
+mu <- colMeans(ret)
 sigma <- cov(ret)
 library("PerformanceAnalytics")
