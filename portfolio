@@ -29,7 +29,7 @@ akrx <- read.csv("C:/DataExport/AKRX.txt",header=T)
 # cno <- read.csv("/home/octo/Desktop/DataExport/CNO.txt",header=T)
 # che <- read.csv("/home/octo/Desktop/DataExport/CHE.txt",header=T)
 # wal <- read.csv("/home/octo/Desktop/DataExport/WAL.txt",header=T)
-
+# data1<-read.table("/home/octo/Desktop/DataExport/AFSI.txt", sep=",", header=TRUE)
 
 stocks<-cbind(afsi$Close[1:60000],akrx$Close[1:60000])
 stocks<-cbind(afsi$Close[1:15000],akrx$Close[1:15000],acco$Close[1:15000],advs$Close[1:15000],alg$Close[1:15000],cno$Close[1:15000],che$Close[1:15000],wal$Close[1:15000])
