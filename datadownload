@@ -172,7 +172,16 @@ tryCatch(
     }
     , error = function(e) print(e))
 
-
+****** FUNDAMENTAL DATA****
+require(quantmod)
+HPQ<-getFinancials("HPQ",src="google",auto.assign=FALSE)
+viewFin(HPQ)
+write.csv(HPQ$IS$A,"HPQ_Income_Statement(Annual).csv")
+write.csv(HPQ$BS$A,"HPQ_Balance_Sheet(Annual).csv")
+write.csv(HPQ$CF$A,"HPQ_Cash_Flow(Annual).csv")
+write.csv(HPQ$IS$Q,"HPQ_Income_Statement(Quarterly).csv")
+write.csv(HPQ$BS$Q,"HPQ_Balance_Sheet(Quarterly).csv")
+write.csv(HPQ$CF$Q,"HPQ_Cash_Flow(Quarterly).csv")
 
 
 
