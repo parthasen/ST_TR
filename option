@@ -38,3 +38,33 @@ NDX.OPT <- getOptionChain("^NDX")
 
 fOption
 bv <- CRRBinomialTreeOption(TypeFlag = "pa", S = 4350, X = 4500,Time = 3/12, r = 0.1, b = 0.1, sigma = 0.4, n = 5)
+*****
+S_0 = 100, V_0 = 0.04, sigma = 0.1, kappa = 3, theta = 0.04, rho = -0.1.
+stockprob(100,0.04,0.1,3,0.04,0.1,1,1)
+stockProb <- function(v0,vt,yt,sigma,kappa,rho,delT)
+{
+  muY <- (rho/sigma*kappa-0.5)*vt
+  sigmayt <- sqrt(1-rho^2)*sqrt(vt)
+  sigmay0 <- sqrt(1-rho^2)*sqrt(v0)
+  if(vt > 0)
+  {
+    k <- ceiling(sqrt(vt/v0))
+  }
+  else
+  {
+    k <- 1
+  }
+
+  I <- round(muY/k/sigmay0*sqrt(delT))
+  yu <- yt + (I+1)*k*sigmay0*sqrt(delT)
+  ym <- yt + I*k*sigmay0*sqrt(delT)
+  yd <- yt + (I-1)*k*sigmay0*sqrt(delT)  
+  eu <- yu - yt - muY*delT
+  em <- ym - yt - muY*delT
+  ed <- yd - yt - muY*delT
+  pu <- 0.5*(sigmayt^2*delT + em*ed)/k^2/sigmay0^2/delT
+  pm <- -(sigmayt^2*delT + eu*ed)/k^2/sigmay0^2/delT
+  pd <- 0.5*(sigmayt^2*delT +eu*em)/k^2/sigmay0^2/delT  
+  ps <- c(pu,pm,pd)
+  ps
+}
