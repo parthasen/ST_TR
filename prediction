@@ -1,0 +1,9 @@
+GARCH
+*****
+library(tseries)
+p<-get.hist.quote(instrument="^gspc",start="2005-01-01",quote="AdjClose",quiet=T)
+y<-diff(log(p))*100
+y<-y-mean(y)
+library(fGarch)
+res<-garchFit(~garch(1,1),data=y,include.mean=FALSE,cond.dist="std",trace=F)
+plot(res)
