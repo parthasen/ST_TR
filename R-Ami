@@ -1,0 +1,4 @@
+install.packages(c("rscproxy","rcom"),repos="http://rcom.univie.ac.at/download",lib=.Library,type="binary")
+library("rscproxy", lib.loc="~/R/win-library/3.2")
+library("rcom", lib.loc="~/R/win-library/3.2")
+installstatconnDCOM(id="rcom")
