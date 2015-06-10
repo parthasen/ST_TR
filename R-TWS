@@ -4,9 +4,13 @@
 #http://artax.karlin.mff.cuni.cz/r-help/library/IBrokers/html/00Index.html
 #https://www.rmetrics.org/files/Meielisalp2009/Presentations/Ryan.pdf
 #http://interactivebrokers.github.io/#
+install.packages("IBrokers")
 tws <- twsConnect()
 id <- reqIds(tws)
 reqCurrentTime(tws)# Request The Current TWS Time
+isConnected(tws)
+serverVersion(tws)
+twsConnectionTime(tws)
 contract <- twsEquity('RARE')
 reqContractDetails(tws,contract)
 # retrieve all QQQQ contracts as a list
@@ -16,26 +20,28 @@ reqContractDetails(tws, twsOption(local="", right="C", symbol="RARE"))
 # retrieve only puts
 reqContractDetails(tws, twsOption(local="", right="P", symbol="RARE"))
 reqMktData(tws,contract)
+reqHistory(tws,contract,"1 min")
+reqHistoricalData(tws,twsEquity('AAPL'))
+reqHistoricalData(tws,twsIndex('NDX',"NASDAQ"))
+mean(reqHistoricalData(tws,twsEquity('AAPL'))[,1])
+reqRealTimeBars(tws,twsEquity('AAPL'))
+reqRealTimeBars(tws,contract)
 fh <- file('d://out.dat',open='a')
 reqMktData(tws, contract, file=fh)
 Sys.sleep(10)
 reqHistory(tws, Contract=contract)
 reqHistoricalData(tws,contract)
 reqMktDepth(tws,contract)
-reqRealTimeBars(tws,contract)
 twsSTK(contract)
 twsDisconnect(tws)
 reqMktData(tws, twsFUT("NDM5","GLOBEX","201505"))
 reqMktData(tws, twsFuture("NDM5","GLOBEX","201505"))
-
- reqMktData(tws,
+reqMktData(tws,
  Contract = twsSTK("RARE"),
  eventWrapper = eWrapper(TRUE),
  timeStamp=NULL)
-
 reqMktData(tws, twsEquity("SBUX"), CALLBACK=NULL, file="D://SBUX.dat")
 twsp <- twsConnect(filename="SBUX.dat")
-
 To playback the saved data, call reqMktData again:
 reqMktData(twsp)
 reqMktData(twsp, playback=0)
