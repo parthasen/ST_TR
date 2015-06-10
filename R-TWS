@@ -45,7 +45,7 @@ twsp <- twsConnect(filename="SBUX.dat")
 To playback the saved data, call reqMktData again:
 reqMktData(twsp)
 reqMktData(twsp, playback=0)
-
+twsPortfolioValue(reqAccountUpdates(tws))
 reqMktDepth(tws, twsEquity("SBUX"), CALLBACK=NULL, file="D://SBUX.dat")
 reqRealTimeBars(tws, twsEquity("SBUX"), C ALLBACK=NULL, file="D://SBUX.dat")
 #NDX150508P04240000-SMART-OPT-USD
