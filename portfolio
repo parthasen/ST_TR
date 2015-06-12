@@ -11,6 +11,9 @@ http://cran.r-project.org/web/packages/DEoptim/vignettes/DEoptimPortfolioOptimiz
 http://economistatlarge.com/portfolio-theory/r-optimized-portfolio/r-code-graph-efficient-frontier
 http://www.rinfinance.com/agenda/2012/workshop/Carl+Peterson.pdf
 
+port<-twsPortfolioValue(reqAccountUpdates(tws))
+list<-twsPortfolioValue(reqAccountUpdates(tws))[1]
+
 library(stockPortfolio)
 library(quadprog)
 
