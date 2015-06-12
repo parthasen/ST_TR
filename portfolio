@@ -10,7 +10,8 @@ http://www.r-bloggers.com/tag/portfolio-construction/
 http://cran.r-project.org/web/packages/DEoptim/vignettes/DEoptimPortfolioOptimization.pdf
 http://economistatlarge.com/portfolio-theory/r-optimized-portfolio/r-code-graph-efficient-frontier
 http://www.rinfinance.com/agenda/2012/workshop/Carl+Peterson.pdf
-
+http://systematicinvestor.github.io/
+https://systematicinvestor.wordpress.com/2014/08/
 port<-twsPortfolioValue(reqAccountUpdates(tws))
 list<-twsPortfolioValue(reqAccountUpdates(tws))[1]
 //dataexport.afl
