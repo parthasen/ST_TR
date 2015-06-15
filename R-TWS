@@ -7,6 +7,7 @@
 #install.packages("twsInstrument", repos="http://R-Forge.R-project.org")
 #install.packages("qmao", repos="http://R-Forge.R-project.org")
 #TTR,quantmod,FinancialInstrument
+http://rpackages.ianhowson.com/rforge/twsInstrument/man/twsInstrument-package.html
 install.packages("IBrokers")
 tws <- twsConnect()
 id <- reqIds(tws)
