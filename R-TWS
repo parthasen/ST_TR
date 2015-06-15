@@ -4,6 +4,9 @@
 #http://artax.karlin.mff.cuni.cz/r-help/library/IBrokers/html/00Index.html
 #https://www.rmetrics.org/files/Meielisalp2009/Presentations/Ryan.pdf
 #http://interactivebrokers.github.io/#
+#install.packages("twsInstrument", repos="http://R-Forge.R-project.org")
+#install.packages("qmao", repos="http://R-Forge.R-project.org")
+#TTR,quantmod,FinancialInstrument
 install.packages("IBrokers")
 tws <- twsConnect()
 id <- reqIds(tws)
