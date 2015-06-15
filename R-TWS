@@ -50,4 +50,8 @@ reqMktDepth(tws, twsEquity("SBUX"), CALLBACK=NULL, file="D://SBUX.dat")
 reqRealTimeBars(tws, twsEquity("SBUX"), C ALLBACK=NULL, file="D://SBUX.dat")
 #NDX150508P04240000-SMART-OPT-USD
 opt <- twsOption("NDX",expiry="150508", strike="4240", right="P")
-
+reqContractDetails(tws, twsOption(local="", right="P", symbol="INTU"))
+twsOption("BFR","150717","16","P")
+reqMktData(tws,twsOption("BFR","150717","16","P"))
+reqHistoricalData(tws,twsOption("BFR","150717","16","P"))
+reqHistoricalData(tws,twsOption("INTU","150717","105","P"))
