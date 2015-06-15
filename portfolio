@@ -13,6 +13,7 @@ http://www.rinfinance.com/agenda/2012/workshop/Carl+Peterson.pdf
 http://systematicinvestor.github.io/
 https://systematicinvestor.wordpress.com/2014/08/
 port<-twsPortfolioValue(reqAccountUpdates(tws))
+write.csv(port,file="port.csv")# at working directory >this PC/Documents
 list<-twsPortfolioValue(reqAccountUpdates(tws))[1]
 //dataexport.afl
 library(stockPortfolio)
