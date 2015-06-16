@@ -59,3 +59,10 @@ twsOption("BFR","150717","16","P")
 reqMktData(tws,twsOption("BFR","150717","16","P"))
 reqHistoricalData(tws,twsOption("BFR","150717","16","P"))
 reqHistoricalData(tws,twsOption("INTU","150717","105","P"))
+id <- reqIds(tws)//85
+twsConnectionTime(tws)
+reqCurrentTime(tws)
+isConnected(tws)
+serverVersion(tws)//76
+contract <- twsEquity('RARE')
+reqContractDetails(tws,contract)[[1]]$category
