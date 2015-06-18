@@ -1,0 +1,133 @@
+library("XML", lib.loc="~/R/win-library/3.2")
+library("RCurl", lib.loc="~/R/win-library/3.2")
+library("httr", lib.loc="~/R/win-library/3.2")
+
+theurl<-"http://www.briefing.com/Investor/Calendars/upgrades-downgrades/Upgrades/2015/4/14"
+tables<-readHTMLTable(theurl)
+n.rows <- unlist(lapply(tables, function(t) dim(t)[1]))
+tables[[which.max(n.rows)]]
+****
+# build the URL
+url <- paste("http://sports.yahoo.com/nfl/stats/byposition?pos=QB",
+		"&conference=NFL&year=season_2009",
+		"&timeframe=Week1", sep="")
+
+# read the tables and select the one that has the most rows
+tables <- readHTMLTable(url)
+n.rows <- unlist(lapply(tables, function(t) dim(t)[1]))
+tables[[which.max(n.rows)]]
+
+# select the table we need - read as a dataframe
+my.table <- tables[[7]]
+
+# delete extra columns and keep data rows
+View(head(my.table, n=20))
+my.table <- my.table[3:nrow(my.table), c(1:3, 5:12, 14:18, 20:21, 23:24) ]
+
+# rename every column
+c.names <- c("Name", "Team", "G", "QBRat", "P_Comp", "P_Att", "P_Yds", "P_YpA", "P_Lng", "P_Int", "P_TD", "R_Att",
+		"R_Yds", "R_YpA", "R_Lng", "R_TD", "S_Sack", "S_SackYa", "F_Fum", "F_FumL")
+names(my.table) <- c.names
+
+# data get read in with wierd symbols - need to remove - initially stored as character factors
+# for the loops, I am manually telling the code which regex to use - assumes constant behavior
+# depending on where the wierd characters are -- is this an encoding?
+front <- c(1)
+back <- c(4:ncol(my.table))
+
+for(f in front) {
+	test.front <- as.character(my.table[, f])
+	tt.front <- str_sub(test.front, start=3)
+	my.table[,f] <- tt.front
+}
+
+for(b in back) {
+	test <- as.character(my.table[ ,b])
+	tt.back <- as.numeric(str_match(test, "\-*\d{1,3}[\.]*[0-9]*"))
+	my.table[, b] <- tt.back
+}
+
+str(my.table)
+View(my.table)
+
+# clear memory and quit R
+rm(list=ls())
+q()
+n
+****
+theurl <- "http://en.wikipedia.org/wiki/Brazil_national_football_team"
+webpage <- getURL(theurl)
+webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+
+pagetree <- htmlTreeParse(webpage, error=function(...){}, useInternalNodes = TRUE)
+
+# Extract table header and contents
+tablehead <- xpathSApply(pagetree, "//*/table[@class='wikitable sortable']/tr/th", xmlValue)
+results <- xpathSApply(pagetree, "//*/table[@class='wikitable sortable']/tr/td", xmlValue)
+
+# Convert character vector to dataframe
+content <- as.data.frame(matrix(results, ncol = 8, byrow = TRUE))
+
+# Clean up the results
+content[,1] <- gsub("Â ", "", content[,1])
+tablehead <- gsub("Â ", "", tablehead)
+names(content) <- tablehead
+***
+# Download page using RCurl
+# You may need to set proxy details, etc.,  in the call to getURL
+theurl <- "http://en.wikipedia.org/wiki/Brazil_national_football_team"
+webpage <- getURL(theurl)
+# Process escape characters
+webpage <- readLines(tc <- textConnection(webpage)); close(tc)
+
+# Parse the html tree, ignoring errors on the page
+pagetree <- htmlTreeParse(webpage, error=function(...){})
+
+# Navigate your way through the tree. It may be possible to do this more efficiently using getNodeSet
+body <- pagetree$children$html$children$body 
+divbodyContent <- body$children$div$children[[1]]$children$div$children[[4]]
+tables <- divbodyContent$children[names(divbodyContent)=="table"]
+
+#In this case, the required table is the only one with class "wikitable sortable"  
+tableclasses <- sapply(tables, function(x) x$attributes["class"])
+thetable  <- tables[which(tableclasses=="wikitable sortable")]$table
+
+#Get columns headers
+headers <- thetable$children[[1]]$children
+columnnames <- unname(sapply(headers, function(x) x$children$text$value))
+
+# Get rows from table
+content <- c()
+for(i in 2:length(thetable$children))
+{
+   tablerow <- thetable$children[[i]]$children
+   opponent <- tablerow[[1]]$children[[2]]$children$text$value
+   others <- unname(sapply(tablerow[-1], function(x) x$children$text$value)) 
+   content <- rbind(content, c(opponent, others))
+}
+************
+basePage <- "http://capitol.hawaii.gov"
+h <- handle(basePage)
+GET(handle = h)
+res <- GET(handle = h, path = "/advreports/advreport.aspx?year=2013&report=deadline&rpt_type=&measuretype=hb&title=House")
+# parse content for "Transmitted to Governor" text
+resXML <- htmlParse(content(res, as = "text"))
+resTable <- getNodeSet(resXML, '//*/table[@id ="GridViewReports"]/tr/td[3]')
+appRows <-sapply(resTable, xmlValue)
+include <- grepl("Transmitted to Governor", appRows)
+resUrls <- xpathSApply(resXML, '//*/table[@id ="GridViewReports"]/tr/td[2]//@href')
+appUrls <- resUrls[include]
+# look at just the first
+res <- GET(handle = h, path = appUrls[1])
+resXML <- htmlParse(content(res, as = "text"))
+xpathSApply(resXML, '//*[text()[contains(.,"Passed Final Reading")]]', xmlValue)
+ 
+ # get all the links returned as a list (will take sometime)
+ # print statement included for sanity
+ res <- lapply(appUrls, function(x){print(sprintf("Got url no. %d",which(appUrls%in%x)));
+                                   GET(handle = h, path = x)})
+ resXML <- lapply(res, function(x){htmlParse(content(x, as = "text"))})
+ appString <- sapply(resXML, function(x){
+                   xpathSApply(x, '//*[text()[contains(.,"Passed Final Reading")]]', xmlValue)
+                      })
+ head(appString) 
