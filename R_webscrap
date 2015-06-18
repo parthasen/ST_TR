@@ -4,10 +4,10 @@ library("httr", lib.loc="~/R/win-library/3.2")
 library("rvest", lib.loc="~/R/win-library/3.2")
 //https://github.com/pablobarbera/workshop
 //https://saysmymind.wordpress.com/2014/11/30/web-scraping-in-r-using-rvest/
+***
 theurl<-"http://www.briefing.com/Investor/Calendars/upgrades-downgrades/Upgrades/2015/4/14"
 tables<-readHTMLTable(theurl)
-n.rows <- unlist(lapply(tables, function(t) dim(t)[1]))
-tables[[which.max(n.rows)]]
+tables[[3]][2]
 ****
 # build the URL
 url <- paste("http://sports.yahoo.com/nfl/stats/byposition?pos=QB",
