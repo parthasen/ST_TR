@@ -12,16 +12,16 @@ http://economistatlarge.com/portfolio-theory/r-optimized-portfolio/r-code-graph-
 http://www.rinfinance.com/agenda/2012/workshop/Carl+Peterson.pdf
 http://systematicinvestor.github.io/
 https://systematicinvestor.wordpress.com/2014/08/
-port<-twsPortfolioValue(reqAccountUpdates(tws))
-write.csv(port,file="port.csv")# at working directory >this PC/Documents
-list<-twsPortfolioValue(reqAccountUpdates(tws))[1]
+stock <- read.csv("C:/DataExport/CPST.txt",sep=",", header=TRUE)//importing minute data
+tws <- twsConnect()
+port<-twsPortfolioValue(reqAccountUpdates(tws)) 
+write.csv(port,file="port.csv")# at working directory >this PC/Documents 
+list<-twsPortfolioValue(reqAccountUpdates(tws))[1] 
 //dataexport.afl
 library(stockPortfolio)
 library(quadprog)
 
 stocks <- c( "SPY", "EFA", "IWM", "VWO", "LQD", "HYG")
-
-
 
 afsi <- read.csv("C:/DataExport/AFSI.txt",header=T)
 akrx <- read.csv("C:/DataExport/AKRX.txt",header=T)
