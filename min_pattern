@@ -49,3 +49,13 @@ dim(ret)
 mu <- colMeans(ret)
 sigma <- cov(ret)
 library("PerformanceAnalytics")
+
+****Pattern***
+1. Clutter Volume
+quantile(AGIO$Volume)[4]>mean(AGIO$Volume)*1.2// high volume
+
+ 
+2. Range Bound
+An inside day is one in which the broad market is currently trading inside of the prior day’s range.  An outside day is the opposite where the market has managed to either make a new two day high or low and is trading outside of the prior day’s range.  This matters a lot.  Inside of the prior day’s range is usually a sign of a range bound market that is chopping around in fits and starts.  This will generally frustrate the average daytrader because he/she will find excellent setups but they won’t seem to get moving.  The trader will find that they will do better when the market has moved outside of the prior day’s range.
+
+AGIO$rng[2]<-(AGIO$HIgh[1]-AGIO$LOw[1])
