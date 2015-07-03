@@ -63,3 +63,7 @@ stock$liq[i]<-ifelse(quantile(stock$Volume[i-5:i])[4]<stock$Volume[i] & stock$Vo
 stock$rng[i]<-ifelse(stock$High[i-1]<stock$Open[i],"U",ifelse(stock$Open[i]<stock$Low[i-1],"D","R"))#R=range, U=upside and D=downside #Range
 stock$lvl[i]<-ifelse(stock$Close[i-1]>stock$Open[i-1] & stock$Close[i]>stock$Close[i-1],"UP","DN")
 }
+afsi <- read.csv("C:/Users/PARTHA/Desktop/AAN.txt",header=T)
+tail(afsi)
+head(afsi)
+summary(afsi)
