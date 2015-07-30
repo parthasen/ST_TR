@@ -4,3 +4,10 @@ down <- read.csv("C:/Users/PARTHA/Desktop/down.csv")
 
 write.csv(up[,2], file = "C:/Users/PARTHA/Desktop/uplist.csv",quote = FALSE,row.names = FALSE)
 write.csv(down[,2], file = "C:/Users/PARTHA/Desktop/downlist.csv",quote = FALSE,row.names = FALSE)
+
+###
+up <- read.csv("/home/tutun/Desktop/up.csv")
+down <- read.csv("/home/tutun/Desktop/down.csv")
+write.csv(up[,2], file = "/home/tutun/Desktop/uplist.csv",quote = FALSE,row.names = FALSE)
+write.csv(down[,2], file = "/home/tutun/Desktop/downlist.csv",quote = FALSE,row.names = FALSE)
+
