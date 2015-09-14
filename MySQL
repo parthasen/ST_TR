@@ -1,0 +1,36 @@
+sudo apt-get install mysql-server-5.6
+
+mysql -u root -p
+select version();
+http://dev.mysql.com/doc/refman/5.6/en/tutorial.html
+http://www.mysqltutorial.org/mysql-primary-key/
+
+hostname -f
+CREATE DATABASE stock_price;
+
+CREATE TABLE quotes (Ticker VARCHAR(20) NOT NULL,Date DATE NOT NULL,Time TIME NOT NULL,Open DECIMAL(8,4) NOT NULL,High DECIMAL(8,4) NOT NULL,Low DECIMAL(8,4) NOT NULL,CLose DECIMAL(8,4) NOT NULL,Volume DECIMAL(8,4) NOT NULL,PRIMARY KEY (Ticker,Date,Time) );
+
+LOAD DATA LOCAL INFILE '/home/octo/Desktop/DataExport/$NDX.txt' INTO TABLE quotes COLUMNS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS;
+
+SHOW DATABASES;
+DESCRIBE quotes;
+SELECT * FROM quotes;
+
+DROP TABLE quotes ;
+
+
+http://www.mysqltutorial.org/import-csv-file-mysql-table/
+https://dev.mysql.com/doc/refman/5.1/en/load-data.html
+
+
+UPDATE `potluck` 
+SET 
+`confirmed` = 'Y' 
+WHERE `potluck`.`name` ='Sandy';
+
+ALTER TABLE potluck ADD email VARCHAR(40);
+ALTER TABLE potluck ADD email VARCHAR(40) AFTER name; 
+ALTER TABLE potluck DROP email;
+
+DELETE from [table name] where [column name]=[field text];
+DELETE from potluck  where name='Sandy';
