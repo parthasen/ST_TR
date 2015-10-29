@@ -1,0 +1,8 @@
+jar xf unicmacosx_latest.jar     
+## octo@octo:~$ sudo jar xf /home/octo/IBJts/unixmacosx_latest.jar
+cd IBJts                        
+##octo@octo:~$ cd IBJts
+java -cp jts.jar:total.2013.jar -Dsun.java2d.noddraw=true -Xmx512M ibgateway.GWClient
+##octo@octo:~/IBJts$ sudo java -cp jts.jar:total.2013.jar -Dsun.java2d.noddraw=true -Xmx512M ibgateway.GWClient
+***login and PWD to IB
+
