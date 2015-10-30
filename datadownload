@@ -224,7 +224,7 @@ private void jButton63ActionPerformed(java.awt.event.ActionEvent evt) {
             System.out.println(e.toString());
         }
     }  
-***Quandle***
+***Quandl***
 
 
 
