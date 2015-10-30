@@ -225,6 +225,10 @@ private void jButton63ActionPerformed(java.awt.event.ActionEvent evt) {
         }
     }  
 ***Quandl***
+https://s3.amazonaws.com/quandl-static-content/Documents/Quandl+-+R+Cheat+Sheet.pdf
+mydata = Quandl("FRED/GDP")
+mydata = Quandl("NSE/OIL", start_date="yyyy-mm-dd", end_date="yyyy-mm-dd")
+mytimeseries = Quandl("NSE/OIL", type="ts")#data frame ("raw"), ts ("ts"), zoo ("zoo") and xts ("xts")
 
 
 
