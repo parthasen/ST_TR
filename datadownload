@@ -1,3 +1,7 @@
+ .libPaths("/home/octo/R/i686-pc-linux-gnu-library/3.2")
+install.packages("quantmod")
+library("quantmod", lib.loc="~/R/i686-pc-linux-gnu-library/3.2")
+
 ##1##. FROM YAHOO ********************
 ABC<-get.hist.quote(instrument="a", start="2008-01-01", end="2014-02-01", quote="AdjClose", provider="yahoo", origin="1970-01-01", compression="d", retclass="zoo")
 ********************
@@ -182,8 +186,45 @@ write.csv(HPQ$CF$A,"HPQ_Cash_Flow(Annual).csv")
 write.csv(HPQ$IS$Q,"HPQ_Income_Statement(Quarterly).csv")
 write.csv(HPQ$BS$Q,"HPQ_Balance_Sheet(Quarterly).csv")
 write.csv(HPQ$CF$Q,"HPQ_Cash_Flow(Quarterly).csv")
+********Google for Java-R****
+private void jButton62ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        try {
+            RCaller caller = new RCaller();
+            caller.setRscriptExecutable("/usr/bin/Rscript");
+            RCode code = new RCode();
+            code.clear();
+            code.R_require("quantmod");
+            code.addRCode("symbol<-'SENSEX'");
+            code.addRCode("dirPath<-'/home/octo/DATA/min/'");
+            code.addRCode("fileName<-paste(dirPath,symbol,'.csv',sep='')");
+            code.addRCode("download.file(paste('http://www.google.com/finance/getprices?q=',symbol,'&x=INDEXBOM&i=',60,\"&p=\",15,\"d&f=d,o,h,l,c,v,t\",sep=\"\"), fileName)");
+            caller.setRCode(code);
+            caller.runOnly();
+            code.clear();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }   
 
 
+******yahoo for Java-R
+private void jButton63ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        try {
+            RCaller caller = new RCaller();
+            caller.setRscriptExecutable("/usr/bin/Rscript");
+            RCode code = new RCode();
+            code.clear();
+            code.R_require("quantmod");
+            code.addRCode("getSymbols(\"^BSESN\")");
+            code.addRCode("write.zoo(BSESN, file = \"/home/octo/DATA/eod/SENSEX.csv\",quote = FALSE,row.names = FALSE)");
+            caller.setRCode(code);
+            caller.runOnly();
+            code.clear();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }  
+***Quandle***
 
 
 
