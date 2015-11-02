@@ -229,7 +229,7 @@ https://s3.amazonaws.com/quandl-static-content/Documents/Quandl+-+R+Cheat+Sheet.
 mydata = Quandl("FRED/GDP")
 mydata = Quandl("NSE/OIL", start_date="yyyy-mm-dd", end_date="yyyy-mm-dd")
 mytimeseries = Quandl("NSE/OIL", type="ts")#data frame ("raw"), ts ("ts"), zoo ("zoo") and xts ("xts")
-
+ECI: FRED/ECICOM
 
 
 
