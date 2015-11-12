@@ -1,0 +1,72 @@
+##
+install.packages("pdfetch")
+library("pdfetch", lib.loc="~/R/win-library/3.2")
+
+###
+getFinancials('AAPL')
+viewFinancials(AAPL.f, type = 'BS', period = 'A')
+####
+getSymbols('USD/CNY', src = 'oanda', from = '2015-10-10')
+####
+getSymbols('GDPC96', src = 'FRED') # us real gdp
+
+install.packages("xtable")
+library("xtable", lib.loc="~/R/win-library/3.2")
+install.packages("g.data")
+
+
+base <- 'http://research.stlouisfed.org/fred2/series/'
+seriesID <- 'GDPC96'
+URL <- paste0(base, seriesID, '/downloaddata/', seriesID, '.xls')
+tmp <- tempfile()
+download.file(url = URL, destfile = tmp)
+require('g.data')
+gdpmetadata <- read.xls(tmp, nrows = 11, header = FALSE)
+unlink(tmp)
+require('xtable')
+print(xtable(gdpmetadata, caption = 'Table 3: FRED metadata for GDPC96', 
+             align = rep('l', 3)), 
+      type = 'html', caption.placement = 'top', include.rownames = FALSE,
+      include.colnames = FALSE)
+
+
+####
+install.packages("WDI")
+library("WDI", lib.loc="~/R/win-library/3.2")
+WDIsearch(string = 'market capitalization')
+mc <- WDI(indicator = 'CM.MKT.LCAP.GD.ZS',
+          country = c('CN', 'US', 'GB', 'JP', 'IN'),
+          start = 2000, end = 2012)
+mc[mc$iso2c == 'CN', ]
+indicator	name
+AG.LND.ARBL.HA.PC	arable land (hectares per person)
+AG.LND.ARBL.ZS	arable land (% of land area)
+AG.LND.FRST.ZS	forest area (% of land area)
+SP.RUR.TOTL.ZS	rural population (% of total population)
+EN.ATM.CO2E.PC	CO2 emissions (metric tons per capita)
+EN.ATM.CO2E.PP.GD	CO2 emissions (kg per PPP $ of GDP)
+NY.GDP.MKTP.KD	GDP (constant 2000 US$)
+NY.GDP.PCAP.KD	GDP per capita (constant 2000 US$)
+NY.GDP.DEFL.KD.ZG	Inflation, GDP deflator (annual %)
+NY.GDP.MKTP.CD.XD	GDP deflator, index (2000=100; US$ series)
+GC.TAX.TOTL.GD.ZS	tax revenue (% of GDP)
+SE.XPD.TOTL.GD.ZS	Public spending on education, total (% of GDP)
+SL.UEM.TOTL.ZS	unemployment, total (% of total labor force)
+CM.MKT.LCAP.GD.ZS	market capitalization of listed companies (% of GDP)
+CM.MKT.TRNR	stocks traded, turnover ratio (%)
+FR.INR.LNDP	interest rate spread (lending rate minus deposit rate)
+SP.POP.65UP.TO.ZS	population ages 65 and above (% of total)
+IT.NET.USER.P3	internet users (per 1,000 people)
+IS.VEH.NVEH.P3	motor vehicles (per 1,000 people)
+SI.DST.10TH.10	income share held by highest 10%
+SI.DST.FRST.10	Income share held by lowest 10%
+MS.MIL.XPND.GD.ZS	ilitary expenditure (% of GDP)
+GB.XPD.RSDV.GD.ZS	research and development expenditure (% of GDP)
+TX.VAL.TECH.MF.ZS	high-technology exports (% of manufactured exports)
+
+###
+install.packages("Quandl")
+library("Quandl", lib.loc="~/R/win-library/3.2")
+Quandl.search(query = 'China crude oil consumption')
+oilCons <- Quandl('INDEXMUNDI/ENERGY_CHINA_CRUDEOIL', type = 'xts',
+                  start_date = '2005-01-01', end_date = '2013-12-31')
