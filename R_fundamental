@@ -1,1 +1,32 @@
+http://allthingsr.blogspot.in/2012/10/pull-yahoo-finance-key-statistics.html
+require(quantmod)
+require("plyr")
+what_metrics <- yahooQF(c("Price/Sales", 
+                          "P/E Ratio",
+                          "Price/EPS Estimate Next Year",
+                          "PEG Ratio",
+                          "Dividend Yield", 
+                          "Market Capitalization"))
 
+tickers <- c("AAPL", "FB", "GOOG", "HPQ", "IBM", "MSFT", "ORCL", "SAP")
+# Not all the metrics are returned by Yahoo.
+metrics <- getQuote(paste(tickers, sep="", collapse=";"), what=what_metrics)
+
+#Add tickers as the first column and remove the first column which had date stamps
+metrics <- data.frame(Symbol=tickers, metrics[,2:length(metrics)]) 
+
+#Change colnames
+colnames(metrics) <- c("Symbol", "Revenue Multiple", "Earnings Multiple", 
+                       "Earnings Multiple (Forward)", "Price-to-Earnings-Growth", "Div Yield", "Market Cap")
+##write.csv(metrics, "FinancialMetrics.csv", row.names=FALSE)
+
+***********
+
+HPQ<-getFinancials("HPQ",src="google",auto.assign=FALSE)
+viewFin(HPQ)
+write.csv(HPQ$IS$A,"HPQ_Income_Statement(Annual).csv")
+write.csv(HPQ$BS$A,"HPQ_Balance_Sheet(Annual).csv")
+write.csv(HPQ$CF$A,"HPQ_Cash_Flow(Annual).csv")
+write.csv(HPQ$IS$Q,"HPQ_Income_Statement(Quarterly).csv")
+write.csv(HPQ$BS$Q,"HPQ_Balance_Sheet(Quarterly).csv")
+write.csv(HPQ$CF$Q,"HPQ_Cash_Flow(Quarterly).csv")
