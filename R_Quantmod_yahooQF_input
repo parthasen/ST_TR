@@ -1,0 +1,87 @@
+#getQuote("VOD", what = yahooQF("Market Cap (Real-time)"))
+## yahooQF input use string not number, not 4 but Bid
+ 1:   Ask
+ 2:   Average Daily Volume
+ 3:   Ask Size
+ 4:   Bid
+ 5:   Ask (Real-time)
+ 6:   Bid (Real-time)
+ 7:   Book Value
+ 8:   Bid Size
+ 9:   Change & Percent Change
+10:   Change
+11:   Commission
+12:   Change (Real-time)
+13:   After Hours Change (Real-time)
+14:   Dividend/Share
+15:   Last Trade Date
+16:   Trade Date
+17:   Earnings/Share
+18:   Error Indication (returned for symbol changed / invalid)
+19:   EPS Estimate Current Year
+20:   EPS Estimate Next Year
+21:   EPS Estimate Next Quarter
+22:   Float Shares
+23:   Days Low
+24:   Days High
+25:   52-week Low
+26:   52-week High
+27:   Holdings Gain Percent
+28:   Annualized Gain
+29:   Holdings Gain
+30:   Holdings Gain Percent (Real-time)
+31:   Holdings Gain (Real-time)
+32:   More Info
+33:   Order Book (Real-time)
+34:   Market Capitalization
+35:   Market Cap (Real-time)
+36:   EBITDA
+37:   Change From 52-week Low
+38:   Percent Change From 52-week Low
+39:   Last Trade (Real-time) With Time
+40:   Change Percent (Real-time)
+41:   Last Trade Size
+42:   Change From 52-week High
+43:   Percent Change From 52-week High
+44:   Last Trade (With Time)
+45:   Last Trade (Price Only)
+46:   High Limit
+47:   Low Limit
+48:   Days Range
+49:   Days Range (Real-time)
+50:   50-day Moving Average
+51:   200-day Moving Average
+52:   Change From 200-day Moving Average
+53:   Percent Change From 200-day Moving Average
+54:   Change From 50-day Moving Average
+55:   Percent Change From 50-day Moving Average
+56:   Name
+57:   Notes
+58:   Open
+59:   Previous Close
+60:   Price Paid
+61:   Change in Percent
+62:   Price/Sales
+63:   Price/Book
+64:   Ex-Dividend Date
+65:   P/E Ratio
+66:   Dividend Pay Date
+67:   P/E Ratio (Real-time)
+68:   PEG Ratio
+69:   Price/EPS Estimate Current Year
+70:   Price/EPS Estimate Next Year
+71:   Symbol
+72:   Shares Owned
+73:   Short Ratio
+74:   Last Trade Time
+75:   Trade Links
+76:   Ticker Trend
+77:   1 yr Target Price
+78:   Volume
+79:   Holdings Value
+80:   Holdings Value (Real-time)
+81:   52-week Range
+82:   Days Value Change
+83:   Days Value Change (Real-time)
+84:   Stock Exchange
+85:   Dividend Yield
