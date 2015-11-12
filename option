@@ -108,4 +108,189 @@ trying URL 'http://chart.yahoo.com/table.csv?s=rht&a=5&b=18&c=2011&d=9&e=23&f=20
 > pop('rht', 50, 30, 0.001)
 trying URL 'http://chart.yahoo.com/table.csv?s=rht&a=5&b=18&c=2011&d=9&e=23&f=2011&g=d&q=q&y=0&z=rht&x=.csv'
 
+####GETTING OPTION CHAIN
+##https://www.google.com/finance/option_chain?q=NASDAQ:TQQQ
+##http://www.nasdaq.com/symbol/sqqq/option-chain
+##https://finance.yahoo.com/q/op?s=AAPL
+
+
+library("RCurl", lib.loc="~/R/win-library/3.2")
+library("jsonlite", lib.loc="~/R/win-library/3.2")
+library("plyr", lib.loc="~/R/win-library/3.2")
+install.packages("rjson")
+library("rjson", lib.loc="~/R/win-library/3.2")
+
+##
+library("quantmod", lib.loc="~/R/win-library/3.2")
+#Download from yahoo aapl.12<-getOptionChain("AAPL","2015-12",src='yahoo')
+aapl.12<-getOptionChain("AAPL","2015-12")#12 for month Dec, change month to get all quotes in that month
+aapl.12$Dec.18.2015$puts$Vol
+AAPL.2015 <- getOptionChain("AAPL", "2015/2016")
+
+##
+### 
+getOptionQuote <- function(symbol){
+    output = list()
+    url = paste('http://www.google.com/finance/option_chain?q=', symbol, '&output=json', sep = "")
+    x = getURL(url)
+    fix = fixJSON(x)
+    json = fromJSON(fix)
+    numExp = dim(json$expirations)[1]
+    for(i in 1:numExp){
+        # download each expirations data
+        y = json$expirations[i,]$y
+        m = json$expirations[i,]$m
+        d = json$expirations[i,]$d
+        expName = paste(y, m, d, sep = "_")
+        if (i > 1){
+            url = paste('http://www.google.com/finance/option_chain?q=', symbol, '&output=json&expy=', y, '&expm=', m, '&expd=', d, sep = "")
+            json = fromJSON(fixJSON(getURL(url)))
+        }
+        output[[paste(expName, "calls", sep = "_")]] = json$calls
+        output[[paste(expName, "puts", sep = "_")]] = json$puts
+    }
+    return(output)
+}
+ 
+fixJSON <- function(json_str){
+    stuff = c('cid','cp','s','cs','vol','expiry','underlying_id','underlying_price',
+     'p','c','oi','e','b','strike','a','name','puts','calls','expirations',
+     'y','m','d')
+ 
+     for(i in 1:length(stuff)){
+        replacement1 = paste(',"', stuff[i], '":', sep = "")
+        replacement2 = paste('\\{"', stuff[i], '":', sep = "")
+        regex1 = paste(',', stuff[i], ':', sep = "")
+        regex2 = paste('\\{', stuff[i], ':', sep = "")
+        json_str = gsub(regex1, replacement1, json_str)
+        json_str = gsub(regex2, replacement2, json_str)
+     }
+     return(json_str)
+}
+
+aapl_opt<-getOptionQuote("AAPL")
+aapl_opt$`2015_12_4_calls`$strike
+aapl_opt$`2015_12_4_calls`$vol
+plot(aapl_opt$"2015_12_4_puts"$strike, aapl_opt$"2015_12_4_puts"$oi, type = "s", main = "Open Interest by Strike")
+
+### NOt working
+fixJSON <- function(json){gsub('([^,{:]+):', '"\1":', json)}
+URL1<-'http://www.google.com/finance/option_chain?q=%s&output=json'
+URL2<-'http://www.google.com/finance/option_chain?q=%s&output=json&expy=%d&expm=%d&expd=%d'
+getOptionQuotes <- function(symbol){
+url<-sprintf(URL1, symbol)
+chain<-fromJSON(fixJSON(getURL(url)))
+options<-mlply(chain$expirations, function(y, m, d) {
+url<-sprintf(URL2, symbol, y, m, d)
+expiry<-fromJSON(fixJSON(getURL(url)))
+expiry$calls$type<-"Call"
+expiry$puts$type<-"Put"
+prices<-rbind(expiry$calls, expiry$puts)
+prices$expiry<-sprintf("%4d-%02d-%02d", y, m, d)
+prices$underlying.price<-expiry$underlying_price
+prices})
+options<-cbind(data.frame(symbol), rbind.fill(options))
+names(options)<-c("price", "bid", "ask", "open.interest")
+for (col in c("strike", "price", "bid", "ask")) options[, col] = as.numeric(options[, col])
+   options[, "open.interest"] = suppressWarnings(as.integer(options[, "open.interest"]))
+   options[, c(1, 16, 15, 6, 10, 11, 17, 14, 12)]
+ }
+
+
+#### not working
+
+library(rjson)
+library(plyr)
+
+getOptionChain <- function (symbol,exp = 14, type = "calls") {
+        # symbol = "WMT"
+        if( ! any(grepl(type, c("puts", "calls") ))){
+                stop("ERROR: Third argument must be either 'calls' or 'puts'. Defaults to 'calls'.")
+        }
+
+        url <- "https://www.google.com/finance/option_chain?q="
+        # url <- paste(url, symbol, "&expd=15&expm=01&expy=2016&output=json", sep="")
+        url <- paste(url, symbol, "&output=json", sep="")
+
+        #google.options.json <- readLines(url, warn = FALSE, )
+        outfile = paste0(symbol, ".json")
+        rv <- download.file(url, destfile = outfile, method="curl")
+        warning(paste0("fetching url 1: ", url))
+
+        google.options.json <-  readLines(outfile, warn = FALSE)
+        options.json <- google.options.json
+        options.json <- gsub("[{]", "{\"", options.json)
+        options.json <- gsub("[:]", "\":", options.json)
+        options.json <- gsub("[,] ", "$$$", options.json)
+        options.json <- gsub("[,]", ",\"", options.json)
+        options.json <- gsub("[,]\"[{]", ",{", options.json)
+        options.json <- gsub("[$][$][$]", ", ", options.json)
+
+        options.list <- fromJSON(options.json)
+
+        #get the options chain without an expiry date and then determine longest option
+
+        last.expiration <- length(options.list[["expirations"]])
+        if ( exp>0 && exp< last.expiration) {
+                last.expiration <-exp
+        }
+        month <- sprintf("%02d", options.list[["expirations"]][[last.expiration]]$m)
+        day <- sprintf("%02d", options.list[["expirations"]][[last.expiration]]$d )
+        year <- options.list[["expirations"]][[last.expiration]]$y
+
+        #now request option chain for the longest expiry
+
+        url <- "https://www.google.com/finance/option_chain?q="
+        url <- paste(url, symbol, "&expd=", day, "&expm=", month, "&expy=", year, "&output=json", sep="")
+        warning(paste0("fetching url 2: ", url))
+        outfile2 = paste0(symbol, ".longest-expiry.json")
+        rv <- download.file(url, destfile = outfile2, method="curl")
+
+        google.options.json <- readLines(outfile2, warn = FALSE)
+
+        options.json <- google.options.json
+        options.json <- gsub("[{]", "{\"", options.json)
+        options.json <- gsub("[:]", "\":", options.json)
+        options.json <- gsub("[,] ", "$$$", options.json)
+        options.json <- gsub("[,]", ",\"", options.json)
+        options.json <- gsub("[,]\"[{]", ",{", options.json)
+        options.json <- gsub("[$][$][$]", ", ", options.json)
+
+        options.list <- fromJSON(options.json)
+
+        options <- ldply (options.list[[type]], data.frame)
+        options <- rename(options, c("s" = "contract.name",
+                                     "p" = "price",
+                                     "b" = "bid",
+                                     "a" = "ask",
+                                     "c" = "change",
+                                     "cp" = "change.percentage",
+                                     "oi" = "open.interest",
+                                     "vol" = "volume"))
+        options <- options[c( "contract.name",
+                              "strike",
+                              "price",
+                              "change",
+                              "change.percentage",
+                              "bid",
+                              "ask",
+                              "volume",
+                              "open.interest")]
+
+
+        options$expiry <- paste(options.list[["expiry"]]$m, options.list[["expiry"]]$d, options.list[["expiry"]]$y, sep = "/")
+
+        last.expiration <- length(options.list[["expirations"]])
+        options$longest.available.expiry <- paste(options.list[["expirations"]][[last.expiration]]$m,
+                                                  options.list[["expirations"]][[last.expiration]]$d,
+                                                  options.list[["expirations"]][[last.expiration]]$y, sep = "/")
+
+        options$underlying.price <- options.list[["underlying_price"]]
+
+        return(options)
+}
+
+
+calls <- getOptionChain("GOOG", 12, "calls")
+puts <- getOptionChain("GOOG", 12, "puts")
 
