@@ -68,3 +68,44 @@ stockProb <- function(v0,vt,yt,sigma,kappa,rho,delT)
   ps <- c(pu,pm,pd)
   ps
 }
+
+
+###OPTION price calculation 
+## Black-Scholes Call Option Price (No Dividend)
+cop <- function(s,x,t,r){ 
+sp <- get.hist.quote(instrument = s,start=(Sys.Date()-128), quote="Close")
+sp <- ts(sp)
+sp1 <- sp[1:(length(sp)-1)] 
+sp2 <- sp[2: length(sp)]
+s.ret <- log(sp2/sp1)
+sd <- sd(s.ret)
+sigma <- sd*sqrt(252)
+d1 <- (log((sp[length(sp),])/x) + (r + (sigma^2)/2)*(t/252))/(sigma*sqrt((t/252)))
+d2 <- (log((sp[length(sp),])/x) + (r - (sigma^2)/2)*(t/252))/(sigma*sqrt((t/252)))
+op <- sp[length(sp),]*pnorm(d1) - x*exp(-r*(t/252))*pnorm(d2)
+op }
+
+ ## Black-Scholes Put Option Price (No Dividend) 
+pop <- function(s,x,t,r){
+sp <- get.hist.quote(instrument = s,start=(Sys.Date()-128), quote="Close")
+sp <- ts(sp)
+sp1 <- sp[1:(length(sp)-1)]
+sp2 <- sp[2: length(sp)]
+s.ret <- log(sp2/sp1)
+sd <- sd(s.ret)
+sigma <- sd*sqrt(252)
+d1 <- (log((sp[length(sp),])/x) + (r + (sigma^2)/2)*(t/252))/(sigma*sqrt((t/252)))
+d2 <- (log((sp[length(sp),])/x) + (r - (sigma^2)/2)*(t/252))/(sigma*sqrt((t/252)))
+op <- sp[length(sp),]*pnorm(d1) - x*exp(-r*(t/252))*pnorm(d2)
+po <- op + x*exp(-r*(t/252)) - sp[length(sp),]
+po }
+
+To calculate prices for 50 strike price call and put options on RHT, with 30 days to maturity, and a 0.1% risk free rate.
+
+> cop('rht', 50, 30, 0.001)
+trying URL 'http://chart.yahoo.com/table.csv?s=rht&a=5&b=18&c=2011&d=9&e=23&f=2011&g=d&q=q&y=0&z=rht&x=.csv'
+
+> pop('rht', 50, 30, 0.001)
+trying URL 'http://chart.yahoo.com/table.csv?s=rht&a=5&b=18&c=2011&d=9&e=23&f=2011&g=d&q=q&y=0&z=rht&x=.csv'
+
+
