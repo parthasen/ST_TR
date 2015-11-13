@@ -134,3 +134,23 @@ xpathSApply(resXML, '//*[text()[contains(.,"Passed Final Reading")]]', xmlValue)
                       })
  head(appString) 
 ******
+ECONOMICS EVENT
+**********
+http://biz.yahoo.com/c/e.html
+http://www.briefing.com/investor/calendars/economic
+**********
+eco<-read_html("http://biz.yahoo.com/c/e.html")
+ecotable<-eco %>%
+    html_nodes("table") %>%
+    .[[6]] %>%
+    html_table()
+ecotable[3]
+ecotable[18,3]
+ecotable[18,]
+
+eco<-read_html("eco<-read_html("http://www.briefing.com/investor/calendars/economic/2015/11/09-13")")
+ecotable<-eco %>%
+    html_nodes("table") %>%
+    html_table()
+
+http://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/    
