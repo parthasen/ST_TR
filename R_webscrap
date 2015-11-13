@@ -145,6 +145,7 @@ ECONOMICS EVENT
 http://biz.yahoo.com/c/e.html
 http://www.briefing.com/investor/calendars/economic
 http://www.nasdaq.com/markets/us-economic-calendar.aspx
+http://online.wsj.com/mdc/public/page/2_3063-economicCalendar.html
 **********
 eco<-read_html("http://biz.yahoo.com/c/e.html")
 ecotable<-eco %>%
