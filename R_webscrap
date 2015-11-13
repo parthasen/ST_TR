@@ -160,6 +160,9 @@ theurl<-"http://www.briefing.com/investor/calendars/economic/2015/11/09-13"#need
 tables<-readHTMLTable(theurl)
 tables[3]
 
+theurl<-"http://www.marketwatch.com/Economy-Politics/Calendars/Economic"
+tables<-readHTMLTable(theurl)
+tables
 
 
 http://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/    
