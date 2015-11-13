@@ -1,7 +1,13 @@
-library("XML", lib.loc="~/R/win-library/3.2")
-library("RCurl", lib.loc="~/R/win-library/3.2")
 library("httr", lib.loc="~/R/win-library/3.2")
+install.packages("XML")
+library("XML", lib.loc="~/R/win-library/3.2")
+install.packages("RHTMLForms", repos = "http://www.omegahat.org/R", type = "source")
+library("RHTMLForms", lib.loc="~/R/win-library/3.2")
+install.packages("RCurl")
+library("RCurl", lib.loc="~/R/win-library/3.2")
+install.packages("rvest")
 library("rvest", lib.loc="~/R/win-library/3.2")
+
 //https://github.com/pablobarbera/workshop
 //https://saysmymind.wordpress.com/2014/11/30/web-scraping-in-r-using-rvest/
 ***
@@ -138,6 +144,7 @@ ECONOMICS EVENT
 **********
 http://biz.yahoo.com/c/e.html
 http://www.briefing.com/investor/calendars/economic
+http://www.nasdaq.com/markets/us-economic-calendar.aspx
 **********
 eco<-read_html("http://biz.yahoo.com/c/e.html")
 ecotable<-eco %>%
@@ -148,9 +155,10 @@ ecotable[3]
 ecotable[18,3]
 ecotable[18,]
 
-eco<-read_html("eco<-read_html("http://www.briefing.com/investor/calendars/economic/2015/11/09-13")")
-ecotable<-eco %>%
-    html_nodes("table") %>%
-    html_table()
+theurl<-"http://www.briefing.com/investor/calendars/economic/2015/11/09-13"#need to change /11/09-13
+tables<-readHTMLTable(theurl)
+tables[3]
+
+
 
 http://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/    
