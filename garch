@@ -1,0 +1,29 @@
+install.packages("fGarch")
+library(fGarch)
+getSymbols("TATASTEEL.NS", from="1900-01-01")
+rets = na.trim( ROC( Cl( TATASTEEL.NS) ) )
+ ss = rets["2009/2014"]
+ss.v <- as.vector(ss)
+ outOfSample = NROW(ss["2014"])
+set.seed(123)
+   fit = garchFit(~ garch(1, 1), data = ss, trace = FALSE)
+   fit
+ predict(fit, n.ahead = 1)
+predict(fit, n.ahead = 1, plot=TRUE, crit_val=2)
+set.seed(321)
+fit2 = garchFit(~ garch(1, 1), data = ss, trace = FALSE, cond.dist="sged")
+predict(fit2,n.ahead=1,plot=TRUE)
+set.seed(444)
+ fit3 = garchFit(~ garch(1, 1), data = ss, trace = FALSE, cond.dist="QMLE")
+p<-predict(fit3,n.ahead=1,plot=TRUE,conf=.9,nx=100) 
+
+#if p[1,1] less than p[1,4] or greater than then buy or sell
+
+http://statistics.unl.edu/faculty/bilder/ts/r/garch_docum_example.r
+http://finzi.psych.upenn.edu/library/fGarch/html/methods-predict.html
+http://www.r-bloggers.com/a-practical-introduction-to-garch-modeling/
+http://www.r-bloggers.com/variability-of-garch-predictions/
+http://www.unstarched.net/wp-content/uploads/2013/06/an-example-in-rugarch.pdf
+http://www.stat.nthu.edu.tw/~njhsu/Nonlinear%20Time%20Series/R%20functions%20for%20GARCH%20modeling.pdf
+http://yunus.hacettepe.edu.tr/~iozkan/eco665/archgarch.html
+http://faculty.washington.edu/ezivot/econ589/ch18-garch.pdf
