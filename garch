@@ -49,10 +49,32 @@ coef(gfit.ts)
 plot(sqrt(252) * gfit.ts$fitted.values[, 1], type="l")# plot in-sample volatility estimates
 ****
 library("rugarch")
+library("rugarch", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
 gspec.ru <- ugarchspec(mean.model=list(armaOrder=c(0,0)),distribution="std")
-> gfit.ru <- ugarchfit(gspec.ru,retTQQQ)
-> coef(gfit.ru)
-
+gfit.ru <- ugarchfit(gspec.ru,retTQQQ)
+coef(gfit.ru)
+class(gfit.ru)
+str(gfit.ru)
+coef(gfit.ru)
+infocriteria(gfit.ru)
+sigma(gfit.ru)
+fitted(gfit.ru)
+plot(fitted(gfit.ru))
+plot(retTQQQ)
+sp<-fitted(gfit.ru)-retTQQQ
+plot(sp["2015"])
+residuals(gfit.ru)
+plot(residuals(gfit.ru)["2015-10/2015-11"])
+VaR<-quantile(gfit.ru,0.01)#n-sample VaR
+VaR<-gfit.ru@fit$sigma*qnorm(0.01)+gfit.ru@fit$fitted.values#n-sample VaR
+#FORECASTING
+model.ru<-ugarchforecast(gfit.ru, data = NULL, n.ahead =5, n.roll
+= 0, out.sample = 0)
+plot(model.ru)
+slotNames(model.ru)
+fitted(model.ru)
+plot(model.ru@forecast$seriesFor)
+##ROLLING
 
 http://statistics.unl.edu/faculty/bilder/ts/r/garch_docum_example.r
 http://finzi.psych.upenn.edu/library/fGarch/html/methods-predict.html
