@@ -18,6 +18,41 @@ set.seed(444)
 p<-predict(fit3,n.ahead=1,plot=TRUE,conf=.9,nx=100) 
 
 #if p[1,1] less than p[1,4] or greater than then buy or sell
+************
+****
+getSymbols("TQQQ")
+retTQQQ<-na.trim( ROC( Cl(TQQQ) ) )
+#retTQQQ<-na.trim(diff(log(TQQQ)))
+retTQQQ.v <- as.vector(retTQQQ)
+#test<-retTQQQ["2011/2014"]
+#train<-retTQQQ["2015"]
+****
+set.seed(123)
+fit<-garchFit(~ garch(1, 1), data =retTQQQ, trace = FALSE)
+summary(fit)
+coef(fit)
+predict(fit, n.ahead = 1, plot=TRUE, crit_val=2)
+plot(sqrt(252) * fit@sigma.t, type="l")
+***
+install.packages("betategarch")
+library("betategarch", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+gest.te <- tegarch.est(retTQQQ)
+gest.te
+****
+library("bayesGARCH", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+gbayes <- bayesGARCH(retTQQQ.v)
+gbayes
+****
+library("tseries", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+gfit.ts <- garch(retTQQQ)
+coef(gfit.ts)
+plot(sqrt(252) * gfit.ts$fitted.values[, 1], type="l")# plot in-sample volatility estimates
+****
+library("rugarch")
+gspec.ru <- ugarchspec(mean.model=list(armaOrder=c(0,0)),distribution="std")
+> gfit.ru <- ugarchfit(gspec.ru,retTQQQ)
+> coef(gfit.ru)
+
 
 http://statistics.unl.edu/faculty/bilder/ts/r/garch_docum_example.r
 http://finzi.psych.upenn.edu/library/fGarch/html/methods-predict.html
