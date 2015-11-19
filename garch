@@ -75,6 +75,19 @@ slotNames(model.ru)
 fitted(model.ru)
 plot(model.ru@forecast$seriesFor)
 ##ROLLING
+ug.roll.model<-ugarchspec (
+variance.model = list(model = "sGARCH", garchOrder = c(1, 1)),
+mean.model = list(armaOrder = c(0, 0)),
+distribution.model = "norm")
+ug.roll.modelfit<-ugarchfit(ug.roll.model,data=retTQQQ,out.sample=2)
+ug.roll.modelfit@model$modeldata$T
+ug.roll.modelfor<-ugarchforecast(ug.roll.modelfit, data = NULL, n.ahead = 1, n.roll= 2, out.sample = 2)
+sigma(ug.roll.modelfor)
+fitted(ug.roll.modelfor)
+mu<-coef(ug.roll.modelfit)["mu"]
+VaR<-quantile(ug.roll.modelfor,0.05)
+## ROLLING WITH training data set
+
 
 http://statistics.unl.edu/faculty/bilder/ts/r/garch_docum_example.r
 http://finzi.psych.upenn.edu/library/fGarch/html/methods-predict.html
