@@ -2,13 +2,14 @@ install.packages("fGarch")
 library(fGarch)
 getSymbols("TATASTEEL.NS", from="1900-01-01")
 rets = na.trim( ROC( Cl( TATASTEEL.NS) ) )
- ss = rets["2009/2014"]
+ss = rets["2009/2014"]
 ss.v <- as.vector(ss)
  outOfSample = NROW(ss["2014"])
 set.seed(123)
    fit = garchFit(~ garch(1, 1), data = ss, trace = FALSE)
    fit
- predict(fit, n.ahead = 1)
+plot(sqrt(252) * fit@sigma.t, type="l")  
+predict(fit, n.ahead = 1)
 predict(fit, n.ahead = 1, plot=TRUE, crit_val=2)
 set.seed(321)
 fit2 = garchFit(~ garch(1, 1), data = ss, trace = FALSE, cond.dist="sged")
@@ -38,10 +39,25 @@ install.packages("betategarch")
 library("betategarch", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
 gest.te <- tegarch.est(retTQQQ)
 gest.te
+gest.te$par
+gfit.te <- tegarch.fit(retTQQQ, gest.te$par)
+pp.timeplot(sqrt(252) * gfit.te[, "sigma"] * sd(gfit.te[,"epsilon"]))
+Volatility  as estimated by a garch(1,1) model (blue) and by the beta-t EGARCH model (gold). 
 ****
 library("bayesGARCH", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
 gbayes <- bayesGARCH(retTQQQ.v)
 gbayes
+gbayes <- bayesGARCH(retTQQQ.v*100)#in percentage
+The bayesGARCH function, though, doesn’t give us an estimate.  It gives us a matrix with columns corresponding to the parameters and rows corresponding to the visits of a Markov Chain Monte Carlo. 
+This is, sort of, a sample from the (posterior) distribution of the parameters.We can get a more useful analysis if we impose a constraint on the persistence.  
+persistenceCons
+function(psi)
+    {
+      psi[2] + psi[3] < .9986
+    }
+gbayes.con<- bayesGARCH(retTQQQ.v* 100,control=list(addPriorConditions=persistenceCons))  
+gbayesChain<- gbayes.com$chain1[-1:-2500,][c(TRUE,FALSE),]
+gbayesHalflife <- log(.5)/log(rowSums(gbayesChain[,c("alpha1", "beta")]))
 ****
 library("tseries", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
 gfit.ts <- garch(retTQQQ)
@@ -53,6 +69,7 @@ library("rugarch", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
 gspec.ru <- ugarchspec(mean.model=list(armaOrder=c(0,0)),distribution="std")
 gfit.ru <- ugarchfit(gspec.ru,retTQQQ)
 coef(gfit.ru)
+plot(sqrt(252) * gfit.ru@fit$sigma, type='l')
 class(gfit.ru)
 str(gfit.ru)
 coef(gfit.ru)
