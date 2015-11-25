@@ -287,3 +287,43 @@ http://www.stat.pitt.edu/stoffer/tsa2/textRcode.htm
 http://www.financialriskforecasting.com/code/3.html
 https://gist.github.com/ivannp/5198580
 http://people.orie.cornell.edu/davidr/SDAFE2/Rscripts/garch.R
+
+http://www.investopedia.com/stock-analysis/2012/4-ways-to-trade-the-vix-vxx-vxz-tvix-xxv-xiv0321.aspx
+http://www.investopedia.com/articles/optioninvestor/03/091003.asp
+http://www.investopedia.com/terms/p/putcallratio.asp
+http://www.investopedia.com/terms/m/marketsentiment.asp
+http://www.sheridanmentoring.com/vix-options-strategies/
+
+googling : vix option strategies
+
+
+
+
+
+If the volatility clustering is properly explained by the model, then there will be no autocorrelation in the squared standardized residuals.  It is common to do a Ljung-Box test to test for this autocorrelation,on a fit assuming a normal distribution on returns.
+Persistence
+The persistence of a garch model has to do with how fast large volatilities decay after a shock. For the garch(1,1) model the key statistic is the sum of the two main parameters (alpha1 and beta1, in the notation we are using here).
+The sum of alpha1 and beta1 should be less than 1.  If the sum is greater than 1, then the predictions of volatility are explosive — we’re unlikely to believe that.  If the sum is equal to 1, then we have an exponential decay model.
+It is possible to express the persistence as a half-life.  The half-life is log(0.5)/log(alpha1 + beta1), where the units will be the frequency of the returns.  When alpha1+beta1 hits 1, the half-life becomes infinite.
+Prediction
+The persistence of the model is a key driver of the predictions — it determines how fast the predictions go to the unconditional volatility.  If there really is a lot of persistence in the volatility and your model accurately captures the persistence, then you will get good predictions far ahead.
+
+    the volatility at each time point of the prediction period
+    the average volatility from the start of the period to each time point in the period (often called the term structure)
+For example, the volatility that goes into an option price is the average volatility until expiry, not the volatility on the expiry date.
+Simulation
+A garch simulation needs:
+
+    a garch model (including the parameter values)
+    a volatility state for the model
+    a distribution of standardized (variance 1) innovation values
+
+Almost always the volatility state that we want is the state at the end of the data.  That is, now.  We want to use the current state of volatility and peek into the future.
+
+Using the empirical distribution — the standardized residuals from the fitted model — is often the best choice for the innovations.   The assumption of the distribution when fitting the model does have an influence even when using the empirical distribution.
+
+The estimation procedure “tries” to make the residuals conform to the hypothesized distribution.  The standardized residuals from a model assuming a normal distribution will be closer to normally distributed than the residuals from a model on the same data assuming a t distribution.
+
+Simulation is dependent on the estimated parameters, but not as seriously as with prediction.  Model errors compound as we simulate farther into the future, but they compound with a vengeance when we predict far into the future.
+
+
