@@ -1,0 +1,39 @@
+
+library("nnet", lib.loc="/usr/lib/R/library")
+library("foreign", lib.loc="/usr/lib/R/library")
+library("ggplot2", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+library("reshape2", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+
+TM<-read.csv("/home/octo/Desktop/TM.csv")
+TM[[1,28]]
+TM[1,]
+rownames(TM)<-TM$TM_return
+TM[1]<-NULL
+TM_t<-t(TM)
+TM_t_r<-round(TM_t,1)
+xtabs(~TM_t_r[,1] + TM_t_r[,28] , data = TM_t_r)
+tm<-as.data.frame(TM_t_r)
+logit1 <- glm(tm[,29] ~ TM_t_r[,23] + TM_t_r[,25], data =tm, family = "binomial")
+for(i in 1:9){tm$return[i]<-ifelse(tm[i,28]<0,0,1)}
+for(i in 1:9){tm$GM[i]<-ifelse(tm[i,1]<0,0,1)}
+
+logit1 <- glm(tm[,29] ~ tm[,23] + tm[,25], data =tm, family = "binomial")
+logit2 <- glm(tm$return ~ tm$GM, data =tm, family = "binomial")
+
+summary(logit1)
+with(tm, table(return, GM))
+xtabs(~GM+return,data=tm)
+with(tm, do.call(rbind, tapply(tm[,2],return, function(x) c(M = mean(x), SD = sd(x)))))
+logit3<-multinom(GM ~ return + tm[,2], data = tm)#Multinomial logistic regression
+summary(logit3)
+z <- summary(logit3)$coefficients/summary(logit3)$standard.errors
+p <- (1 - pnorm(abs(z), 0, 1)) * 2
+exp(coef(logit3))
+head(pp <- fitted(logit3))
+glm.out$coef, glm.out$fitted, glm.out$resid, glm.out$effects, and anova(glm.out)
+
+http://www.ats.ucla.edu/stat/r/dae/mlogit.htm
+http://nlp.stanford.edu/manning/courses/ling289/logistic.pdf
+http://data.princeton.edu/R/glms.html
+http://ww2.coastal.edu/kingw/statistics/R-tutorials/logistic.html
+http://www.ats.ucla.edu/stat/r/dae/logit.htm
