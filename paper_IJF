@@ -46,4 +46,18 @@ for(i in 1:45){all$Rev[i]<-ifelse(all[i,1]>summary(all$Revenue)[5],1,ifelse(all[
 for(i in 1:45){all$GM[i]<-ifelse(all[i,2]>summary(all$Gross.Margin..)[5],1,ifelse(all[i,2]<summary(all$Gross.Margin..)[2],-1,0))}
 for(i in 1:45){all$OM[i]<-ifelse(all[i,3]>summary(all$Operating.Margin..)[5],1,ifelse(all[i,3]<summary(all$Operating.Margin..)[2],-1,0))}
 for(i in 1:45){all$NI[i]<-ifelse(all[i,4]>summary(all$Net.Income.INR.Mil)[5],1,ifelse(all[i,4]<summary(all$Net.Income.INR.Mil)[2],-1,0))}
-for(i in 1:45){all$NI[i]<-ifelse(all[i,4]>summary(all$Net.Income.INR.Mil)[5],1,ifelse(all[i,4]<summary(all$Net.Income.INR.Mil)[2],-1,0))}
+for(i in 1:45){all$EPS[i]<-ifelse(all[i,5]>summary(all$Earnings.Per.Share.INR)[5],1,ifelse(all[i,5]<summary(all$Earnings.Per.Share.INR)[2],-1,0))}
+for(i in 1:45){all$BV[i]<-ifelse(all[i,6]>summary(all$Book.Value.Per.Share.INR)[5],1,ifelse(all[i,6]<summary(all$Book.Value.Per.Share.INR)[2],-1,0))}
+for(i in 1:45){all$NM[i]<-ifelse(all[i,7]>summary(all$Net.Margin..)[5],1,ifelse(all[i,7]<summary(all$Net.Margin..)[2],-1,0))}
+for(i in 1:45){all$AT[i]<-ifelse(all[i,8]>summary(all$Asset.Turnover..Average.)[5],1,ifelse(all[i,8]<summary(all$Asset.Turnover..Average.)[2],-1,0))}
+for(i in 1:45){all$ROA[i]<-ifelse(all[i,9]>summary(all$Return.on.Assets..)[5],1,ifelse(all[i,9]<summary(all$Return.on.Assets..)[2],-1,0))}
+for(i in 1:45){all$FL[i]<-ifelse(all[i,10]>summary(all$Financial.Leverage..Average.)[5],1,ifelse(all[i,10]<summary(all$Financial.Leverage..Average.)[2],-1,0))}
+for(i in 1:45){all$ROE[i]<-ifelse(all[i,11]>summary(all$Return.on.Equity..)[5],1,ifelse(all[i,11]<summary(all$Return.on.Equity..)[2],-1,0))}
+for(i in 1:45){all$ROIC[i]<-ifelse(all[i,12]>summary(all$Return.on.Invested.Capital..)[5],1,ifelse(all[i,12]<summary(all$Return.on.Invested.Capital..)[2],-1,0))}
+for(i in 1:45){all$OCF[i]<-ifelse(all[i,13]>summary(all$Operating.Cash.Flow.Growth...YOY)[5],1,ifelse(all[i,13]<summary(all$Operating.Cash.Flow.Growth...YOY)[2],-1,0))}
+for(i in 1:45){all$CapEx[i]<-ifelse(all[i,14]>summary(all$Cap.Ex.as.a...of.Sales)[5],1,ifelse(all[i,14]<summary(all$Cap.Ex.as.a...of.Sales)[2],-1,0))}
+for(i in 1:45){all$FCFs[i]<-ifelse(all[i,15]>summary(all$Free.Cash.Flow.Sales..)[5],1,ifelse(all[i,15]<summary(all$Free.Cash.Flow.Sales..)[2],-1,0))}
+for(i in 1:45){all$FCFni[i]<-ifelse(all[i,16]>summary(all$Free.Cash.Flow.Net.Income)[5],1,ifelse(all[i,16]<summary(all$Free.Cash.Flow.Net.Income)[2],-1,0))}
+for(i in 1:45){all$TL[i]<-ifelse(all[i,17]>summary(all$Total.Liabilities Total.Stockholders..)[5],1,ifelse(all[i,17]<summary(all$Total.Liabilities Total.Stockholders..)[2],-1,0))}
+for(i in 1:45){all$EPP[i]<-ifelse(all[i,18]>summary(all$Equity Payables.Period)[5],1,ifelse(all[i,18]<summary(all$Equity Payables.Period)[2],-1,0))}
+
