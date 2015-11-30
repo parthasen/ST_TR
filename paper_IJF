@@ -50,9 +50,9 @@ for(i in 1:45){all$NI[i]<-ifelse(all[i,4]>summary(all[4])[5],1,ifelse(all[i,4]<s
 for(i in 1:45){all$EPS[i]<-ifelse(all[i,5]>summary(all[5])[5],1,ifelse(all[i,5]<summary(all[5])[2],-1,0))}
 for(i in 1:45){all$BV[i]<-ifelse(all[i,6]>summary(all[6])[5],1,ifelse(all[i,6]<summary(all)[2],-1,0))}
 for(i in 1:45){all$NM[i]<-ifelse(all[i,7]>summary(all[7])[5],1,ifelse(all[i,7]<summary(all[7])[2],-1,0))}
-for(i in 1:45){all$AT[i]<-ifelse(all[i,8]>summary(all[8])[5],1,ifelse(all[i,8]<summary(all[8])[2],-1,0))}
+for(i in 1:45){all$ATa[i]<-ifelse(all[i,8]>summary(all[8])[5],1,ifelse(all[i,8]<summary(all[8])[2],-1,0))}
 for(i in 1:45){all$ROA[i]<-ifelse(all[i,9]>summary(all[9])[5],1,ifelse(all[i,9]<summary(all[9])[2],-1,0))}
-for(i in 1:45){all$FL[i]<-ifelse(all[i,10]>summary(all[10])[5],1,ifelse(all[i,10]<summary(all[10])[2],-1,0))}
+for(i in 1:45){all$FLa[i]<-ifelse(all[i,10]>summary(all[10])[5],1,ifelse(all[i,10]<summary(all[10])[2],-1,0))}
 for(i in 1:45){all$ROE[i]<-ifelse(all[i,11]>summary(all[11])[5],1,ifelse(all[i,11]<summary(all[11])[2],-1,0))}
 for(i in 1:45){all$ROIC[i]<-ifelse(all[i,12]>summary(all[12])[5],1,ifelse(all[i,12]<summary(all[12])[2],-1,0))}
 for(i in 1:45){all$OCF[i]<-ifelse(all[i,13]>summary(all[13])[5],1,ifelse(all[i,13]<summary(all[13])[2],-1,0))}
