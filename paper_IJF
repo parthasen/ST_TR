@@ -39,9 +39,11 @@ http://ww2.coastal.edu/kingw/statistics/R-tutorials/logistic.html
 http://www.ats.ucla.edu/stat/r/dae/logit.htm
 ####
 all<-read.csv("/home/octo/Desktop/ALL.csv",header = TRUE)
+all <- read.csv("C:/Users/PS/Desktop/all.csv") 
 summary(all)
 all<-round(all,1)
 all[1]<-NULL
+
 for(i in 1:45){all$Rev[i]<-ifelse(all[i,1]>summary(all$Revenue)[5],1,ifelse(all[i,1]<summary(all$Revenue)[2],-1,0))}
 for(i in 1:45){all$GM[i]<-ifelse(all[i,2]>summary(all$Gross.Margin..)[5],1,ifelse(all[i,2]<summary(all$Gross.Margin..)[2],-1,0))}
 for(i in 1:45){all$OM[i]<-ifelse(all[i,3]>summary(all$Operating.Margin..)[5],1,ifelse(all[i,3]<summary(all$Operating.Margin..)[2],-1,0))}
@@ -58,6 +60,18 @@ for(i in 1:45){all$OCF[i]<-ifelse(all[i,13]>summary(all$Operating.Cash.Flow.Grow
 for(i in 1:45){all$CapEx[i]<-ifelse(all[i,14]>summary(all$Cap.Ex.as.a...of.Sales)[5],1,ifelse(all[i,14]<summary(all$Cap.Ex.as.a...of.Sales)[2],-1,0))}
 for(i in 1:45){all$FCFs[i]<-ifelse(all[i,15]>summary(all$Free.Cash.Flow.Sales..)[5],1,ifelse(all[i,15]<summary(all$Free.Cash.Flow.Sales..)[2],-1,0))}
 for(i in 1:45){all$FCFni[i]<-ifelse(all[i,16]>summary(all$Free.Cash.Flow.Net.Income)[5],1,ifelse(all[i,16]<summary(all$Free.Cash.Flow.Net.Income)[2],-1,0))}
-for(i in 1:45){all$TL[i]<-ifelse(all[i,17]>summary(all$Total.Liabilities Total.Stockholders..)[5],1,ifelse(all[i,17]<summary(all$Total.Liabilities Total.Stockholders..)[2],-1,0))}
-for(i in 1:45){all$EPP[i]<-ifelse(all[i,18]>summary(all$Equity Payables.Period)[5],1,ifelse(all[i,18]<summary(all$Equity Payables.Period)[2],-1,0))}
+for(i in 1:45){all$TL[i]<-ifelse(all[i,17]>summary(all$Total.Liabilities)[5],1,ifelse(all[i,17]<summary(all$Total.Liabilities)[2],-1,0))}
+for(i in 1:45){all$TE[i]<-ifelse(all[i,18]>summary(all$Total.Stockholders..Equity)[5],1,ifelse(all[i,18]<summary(all$Total.Stockholders..Equity)[2],-1,0))}
+for(i in 1:45){all$PP[i]<-ifelse(all[i,19]>summary(all$Payables.Period)[5],1,ifelse(all[i,19]<summary(all$Payables.Period)[2],-1,0))}
+for(i in 1:45){all$CCC[i]<-ifelse(all[i,20]>summary(all$Cash.Conversion.Cycle)[5],1,ifelse(all[i,20]<summary(all$Cash.Conversion.Cycle)[2],-1,0))}
+for(i in 1:45){all$RT[i]<-ifelse(all[i,21]>summary(all$Receivables.Turnover)[5],1,ifelse(all[i,21]<summary(all$Receivables.Turnover)[2],-1,0))}
+for(i in 1:45){all$IT[i]<-ifelse(all[i,22]>summary(all$Inventory.Turnover)[5],1,ifelse(all[i,22]<summary(all$Inventory.Turnover)[2],-1,0))}
+for(i in 1:45){all$FAT[i]<-ifelse(all[i,23]>summary(all$Fixed.Assets.Turnover)[5],1,ifelse(all[i,23]<summary(all$Fixed.Assets.Turnover)[2],-1,0))}
+for(i in 1:45){all$AT[i]<-ifelse(all[i,24]>summary(all$Assets.Turnover)[5],1,ifelse(all[i,24]<summary(all$Assets.Turnover)[2],-1,0))}
+for(i in 1:45){all$CR[i]<-ifelse(all[i,25]>summary(all$Current.Ratio)[5],1,ifelse(all[i,25]<summary(all$Current.Ratio)[2],-1,0))}
+for(i in 1:45){all$QR[i]<-ifelse(all[i,26]>summary(all$Quick.Ratio)[5],1,ifelse(all[i,26]<summary(all$Quick.Ratio)[2],-1,0))}
+for(i in 1:45){all$FL[i]<-ifelse(all[i,27]>summary(all$Financial.Leverage)[5],1,ifelse(all[i,27]<summary(all$Financial.Leverage)[2],-1,0))}
+for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>summary(all$Debt.Equity)[5],1,ifelse(all[i,28]<summary(all$Debt.Equity)[2],-1,0))}
+for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.002,1,ifelse(all[i,29]<-0.002,-1,0))}
 
+for(i in 1:24){all[i]<-NULL}
