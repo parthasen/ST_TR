@@ -74,4 +74,4 @@ for(i in 1:45){all$FL[i]<-ifelse(all[i,27]>summary(all$Financial.Leverage)[5],1,
 for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>summary(all$Debt.Equity)[5],1,ifelse(all[i,28]<summary(all$Debt.Equity)[2],-1,0))}
 for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.002,1,ifelse(all[i,29]<-0.002,-1,0))}
 
-for(i in 1:24){all[i]<-NULL}
+for(i in 1:24){all[1]<-NULL}
