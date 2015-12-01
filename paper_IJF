@@ -73,3 +73,7 @@ for(i in 1:45){all$FL[i]<-ifelse(all[i,27]>summary(all[27])[5],1,ifelse(all[i,27
 for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>summary(all[28])[5],1,ifelse(all[i,28]<summary(all[28])[2],-1,0))}
 for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0)}
 for(i in 1:28){all[1]<-NULL}# Price column will be kept
+
+xtabs(~all[,1] + all[,29] , data =all)
+logit1 <- glm(all[,29] ~all[,23] + all[,25], data =all, family = "binomial")
+for(i in 1:9){tm$return[i]<-ifelse(tm[i,28]<0,0,1)}
