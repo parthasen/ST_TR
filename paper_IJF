@@ -72,4 +72,4 @@ for(i in 1:45){all$QR[i]<-ifelse(all[i,26]>summary(all[26])[5],1,ifelse(all[i,26
 for(i in 1:45){all$FL[i]<-ifelse(all[i,27]>summary(all[27])[5],1,ifelse(all[i,27]<summary(all[27])[2],-1,0))}
 for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>summary(all[28])[5],1,ifelse(all[i,28]<summary(all[28])[2],-1,0))}
 for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0))}
-for(i in 1:29){all[1]<-NULL}
+for(i in 1:28){all[1]<-NULL}# Price column will be kept
