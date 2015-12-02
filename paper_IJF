@@ -77,3 +77,27 @@ for(i in 1:28){all[1]<-NULL}# Price column will be kept
 xtabs(~all[,1] + all[,29] , data =all)
 logit1 <- glm(all[,29] ~all[,23] + all[,25], data =all, family = "binomial")
 for(i in 1:9){tm$return[i]<-ifelse(tm[i,28]<0,0,1)}
+********
+all <- read.csv("C:/Users/PS/Desktop/all.csv") 
+summary(all)
+all<-round(all,1)
+all[1]<-NULL
+for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0)}
+with(all, table(ChD,Revenue)
+##xtabs(~ChD + Revenue, data =all)
+##all_d<-as.data.frame(all)
+logit1 <- glm(ChD ~  Revenue+Gross.Margin..+ Operating.Margin.., data=all, family = "binomial")
+logit2<-multinom(ChD ~ Revenue+Gross.Margin..+ Operating.Margin.., data = all)#Multinomial logistic regression
+summary(logit3)
+
+logit1 <- glm(ChD ~Revenue+Book.Value.Per.ShareÂ.INR +Earnings.Per.ShareÂ.INR+Net.Margin..+Return.on.Assets..+Cap.Ex.as.a...of.Sales+Financial.Leverage+Current.Ratio+Fixed.Assets.Turnover+Fixed.Assets.Turnover, data=all, family = "binomial")
+logit1 <- glm(ChD ~ Earnings.Per.ShareÂ.INR, data=all, family = "binomial")
+logit1 <- glm(ChD ~  Revenue, data=all, family = "binomial")
+logit1 <- glm(ChD ~  Net.Margin.., data=all, family = "binomial")
+logit1 <- glm(ChD ~  Return.on.Assets.., data=all, family = "binomial")
+logit1 <- glm(ChD ~ Cap.Ex.as.a...of.Sales, data=all, family = "binomial")
+logit1 <- glm(ChD ~ Financial.Leverage, data=all, family = "binomial")
+logit1 <- glm(ChD ~Current.Ratio, data=all, family = "binomial")
+logit1 <- glm(ChD ~Fixed.Assets.Turnover, data=all, family = "binomial")
+logit1 <- glm(ChD ~Total.Stockholders..Equity, data=all, family = "binomial")
+
