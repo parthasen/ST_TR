@@ -101,3 +101,24 @@ logit1 <- glm(ChD ~Current.Ratio, data=all, family = "binomial")
 logit1 <- glm(ChD ~Fixed.Assets.Turnover, data=all, family = "binomial")
 logit1 <- glm(ChD ~Total.Stockholders..Equity, data=all, family = "binomial")
 
+****
+sum(ifelse(logit1$fitted.values<0.5,0,1) !=ChD)/length(ChD)
+
+library(gam)
+> gam.1 = gam(y.1~lo(x[,1])+lo(x[,2]),family="binomial")
+> gam.1
+Call:
+gam(formula = y.1 ~ lo(x[, 1]) + lo(x[, 2]), family = "binomial")
+
+https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=9&cad=rja&uact=8&ved=0ahUKEwiNtpPLtb3JAhXGWz4KHX-2B1AQFgg_MAg&url=http%3A%2F%2Fwww.stat.cmu.edu%2F~cshalizi%2FuADA%2F12%2Flectures%2Fch12.pdf&usg=AFQjCNGclclX1gLCJBII5eGX4ySyub96cA
+
+exp(coef(mylogit))
+
+exp(coef(mylogit))
+
+newdata1$rankP <- predict(mylogit, newdata = newdata1, type = "response")
+
+http://www.ats.ucla.edu/stat/r/dae/logit.htm
+
+http://www.utstat.toronto.edu/~brunner/oldclass/312f12/lectures/312f12LogisticRegressionWithR1.pdf
+
