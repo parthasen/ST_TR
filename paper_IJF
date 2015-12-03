@@ -1,37 +1,8 @@
-
 library("nnet", lib.loc="/usr/lib/R/library")
 library("foreign", lib.loc="/usr/lib/R/library")
 library("ggplot2", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
 library("reshape2", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
-
-TM<-read.csv("/home/octo/Desktop/TM.csv")
-TM[[1,28]]
-TM[1,]
-rownames(TM)<-TM$TM_return
-TM[1]<-NULL
-TM_t<-t(TM)
-TM_t_r<-round(TM_t,1)
-xtabs(~TM_t_r[,1] + TM_t_r[,28] , data = TM_t_r)
-tm<-as.data.frame(TM_t_r)
-logit1 <- glm(tm[,29] ~ TM_t_r[,23] + TM_t_r[,25], data =tm, family = "binomial")
-for(i in 1:9){tm$return[i]<-ifelse(tm[i,28]<0,0,1)}
-for(i in 1:9){tm$GM[i]<-ifelse(tm[i,1]<0,0,1)}
-
-logit1 <- glm(tm[,29] ~ tm[,23] + tm[,25], data =tm, family = "binomial")
-logit2 <- glm(tm$return ~ tm$GM, data =tm, family = "binomial")
-
-summary(logit1)
-with(tm, table(return, GM))
-xtabs(~GM+return,data=tm)
-with(tm, do.call(rbind, tapply(tm[,2],return, function(x) c(M = mean(x), SD = sd(x)))))
-logit3<-multinom(GM ~ return + tm[,2], data = tm)#Multinomial logistic regression
-summary(logit3)
-z <- summary(logit3)$coefficients/summary(logit3)$standard.errors
-p <- (1 - pnorm(abs(z), 0, 1)) * 2
-exp(coef(logit3))
-head(pp <- fitted(logit3))
-glm.out$coef, glm.out$fitted, glm.out$resid, glm.out$effects, and anova(glm.out)
-
+****
 http://www.ats.ucla.edu/stat/r/dae/mlogit.htm
 http://nlp.stanford.edu/manning/courses/ling289/logistic.pdf
 http://data.princeton.edu/R/glms.html
@@ -40,9 +11,52 @@ http://www.ats.ucla.edu/stat/r/dae/logit.htm
 ####
 all<-read.csv("/home/octo/Desktop/ALL.csv",header = TRUE)
 all <- read.csv("C:/Users/PS/Desktop/all.csv") 
+********
+all <- read.csv("C:/Users/PS/Desktop/all.csv") 
 summary(all)
-all<-round(all,1)
 all[1]<-NULL
+for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0)}
+#logit1 <- glm(ChD ~Revenue+Gross.Margin..+Operating.Margin..+Net.Income.INR.Mil+Earnings.Per.Share.INR+Book.Value.Per.Share.INR+Net.Margin..+Return.on.Assets..+Return.on.Equity..+Return.on.Invested.Capital..+              Operating.Cash.Flow.Growth...YOY+Cap.Ex.as.a...of.Sales+Free.Cash.Flow.Sales..+                  Free.Cash.Flow.Net.Income+Total.Liabilities+Total.Stockholders..Equity+Payables.Period+ Cash.Conversion.Cycle+Receivables.Turnover+Inventory.Turnover+Fixed.Assets.Turnover+Asset.Turnover+Current.Ratio+Quick.Ratio+Financial.Leverage+Debt.Equity+Price, data=all, family = "binomial")
+logit2<- glm(ChD ~Revenue+Fixed.Assets.Turnover, data=all, family = "binomial")
+logit3<-multinom(ChD ~ Revenue+Fixed.Assets.Turnover, data = all)#Multinomial logistic regression
+summary(logit3)
+z <- summary(logit3)$coefficients/summary(logit3)$standard.errors
+p <- (1 - pnorm(abs(z), 0, 1)) * 2
+exp(coef(logit3))
+head(pp <- fitted(logit3))
+glm.out$coef, glm.out$fitted, glm.out$resid, glm.out$effects, and anova(glm.out)
+
+*****
+for(i in 1:45){all$Rev[i]<-ifelse(all[i,1]>0,1,0)}
+for(i in 1:45){all$GM[i]<-ifelse(all[i,2]>0,1,0)}
+for(i in 1:45){all$OM[i]<-ifelse(all[i,3]>0,1,0)}
+for(i in 1:45){all$NI[i]<-ifelse(all[i,4]>0,1,0)}
+for(i in 1:45){all$EPS[i]<-ifelse(all[i,5]>0,1,0)}
+for(i in 1:45){all$BV[i]<-ifelse(all[i,6]>0,1,0)}
+for(i in 1:45){all$NM[i]<-ifelse(all[i,7]>0,1,0)}
+for(i in 1:45){all$ATa[i]<-ifelse(all[i,8]>0,1,0)}
+for(i in 1:45){all$ROA[i]<-ifelse(all[i,9]>0,1,0)}
+for(i in 1:45){all$FLa[i]<-ifelse(all[i,10]>0,1,0)}
+for(i in 1:45){all$ROE[i]<-ifelse(all[i,11]>0,1,0)}
+for(i in 1:45){all$ROIC[i]<-ifelse(all[i,12]>0,1,0)}
+for(i in 1:45){all$OCF[i]<-ifelse(all[i,13]>0,1,0)}
+for(i in 1:45){all$CapEx[i]<-ifelse(all[i,14]>0,1,0)}
+for(i in 1:45){all$FCFs[i]<-ifelse(all[i,15]>0,1,0)}
+for(i in 1:45){all$FCFni[i]<-ifelse(all[i,16]>0,1,0)}
+for(i in 1:45){all$TL[i]<-ifelse(all[i,17]>0,1,0)}
+for(i in 1:45){all$TE[i]<-ifelse(all[i,18]>0,1,0)}
+for(i in 1:45){all$PP[i]<-ifelse(all[i,19]>0,1,0)}
+for(i in 1:45){all$CCC[i]<-ifelse(all[i,20]>0,1,0)}
+for(i in 1:45){all$RT[i]<-ifelse(all[i,21]>0,1,0)}
+for(i in 1:45){all$IT[i]<-ifelse(all[i,22]>0,1,0)}
+for(i in 1:45){all$FAT[i]<-ifelse(all[i,23]>0,1,0)}
+for(i in 1:45){all$AT[i]<-ifelse(all[i,24]>0,1,0)}
+for(i in 1:45){all$CR[i]<-ifelse(all[i,25]>0,1,0)}
+for(i in 1:45){all$QR[i]<-ifelse(all[i,26]>0,1,0)}
+for(i in 1:45){all$FL[i]<-ifelse(all[i,27]>0,1,0)}
+for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>0,1,0)}
+
+***
 for(i in 1:45){all$Rev[i]<-ifelse(all[i,1]>summary(all[1])[5],1,ifelse(all[i,1]<summary(all[1])[2],-1,0))}
 for(i in 1:45){all$GM[i]<-ifelse(all[i,2]>summary(all[2])[5],1,ifelse(all[i,2]<summary(all[2])[2],-1,0))}
 for(i in 1:45){all$OM[i]<-ifelse(all[i,3]>summary(all[3])[5],1,ifelse(all[i,3]<summary(all[3])[2],-1,0))}
@@ -71,37 +85,11 @@ for(i in 1:45){all$CR[i]<-ifelse(all[i,25]>summary(all[25])[5],1,ifelse(all[i,25
 for(i in 1:45){all$QR[i]<-ifelse(all[i,26]>summary(all[26])[5],1,ifelse(all[i,26]<summary(all[26])[2],-1,0))}
 for(i in 1:45){all$FL[i]<-ifelse(all[i,27]>summary(all[27])[5],1,ifelse(all[i,27]<summary(all[27])[2],-1,0))}
 for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>summary(all[28])[5],1,ifelse(all[i,28]<summary(all[28])[2],-1,0))}
-for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0)}
-for(i in 1:28){all[1]<-NULL}# Price column will be kept
-
-xtabs(~all[,1] + all[,29] , data =all)
-logit1 <- glm(all[,29] ~all[,23] + all[,25], data =all, family = "binomial")
-for(i in 1:9){tm$return[i]<-ifelse(tm[i,28]<0,0,1)}
-********
-all <- read.csv("C:/Users/PS/Desktop/all.csv") 
-summary(all)
-all<-round(all,1)
-all[1]<-NULL
-for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0)}
-with(all, table(ChD,Revenue)
-##xtabs(~ChD + Revenue, data =all)
-##all_d<-as.data.frame(all)
-logit1 <- glm(ChD ~  Revenue+Gross.Margin..+ Operating.Margin.., data=all, family = "binomial")
-logit2<-multinom(ChD ~ Revenue+Gross.Margin..+ Operating.Margin.., data = all)#Multinomial logistic regression
-summary(logit3)
-
-logit1 <- glm(ChD ~Revenue+Book.Value.Per.ShareÂ.INR +Earnings.Per.ShareÂ.INR+Net.Margin..+Return.on.Assets..+Cap.Ex.as.a...of.Sales+Financial.Leverage+Current.Ratio+Fixed.Assets.Turnover+Fixed.Assets.Turnover, data=all, family = "binomial")
-logit1 <- glm(ChD ~ Earnings.Per.ShareÂ.INR, data=all, family = "binomial")
-logit1 <- glm(ChD ~  Revenue, data=all, family = "binomial")
-logit1 <- glm(ChD ~  Net.Margin.., data=all, family = "binomial")
-logit1 <- glm(ChD ~  Return.on.Assets.., data=all, family = "binomial")
-logit1 <- glm(ChD ~ Cap.Ex.as.a...of.Sales, data=all, family = "binomial")
-logit1 <- glm(ChD ~ Financial.Leverage, data=all, family = "binomial")
-logit1 <- glm(ChD ~Current.Ratio, data=all, family = "binomial")
-logit1 <- glm(ChD ~Fixed.Assets.Turnover, data=all, family = "binomial")
-logit1 <- glm(ChD ~Total.Stockholders..Equity, data=all, family = "binomial")
-
+#for(i in 1:28){all[1]<-NULL}# Price column will be kept
 ****
+all<-round(all,1)
+with(all, table(ChD,Revenue+Fixed.Assets.Turnover))##xtabs(~ChD + Revenue, data =all)
+***
 sum(ifelse(logit1$fitted.values<0.5,0,1) !=ChD)/length(ChD)
 
 library(gam)
@@ -121,4 +109,5 @@ newdata1$rankP <- predict(mylogit, newdata = newdata1, type = "response")
 http://www.ats.ucla.edu/stat/r/dae/logit.htm
 
 http://www.utstat.toronto.edu/~brunner/oldclass/312f12/lectures/312f12LogisticRegressionWithR1.pdf
+****
 
