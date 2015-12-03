@@ -116,6 +116,10 @@ logit4$effects
 anova(logit3,logit4)
 anova(logit4,test="Chisq")
 sum(ifelse(logit4$fitted.values<0.5,0,1) !=all$ChD)/length(all$ChD)
+#predict(logit4, newdata = all, "probs")
+predlogit<-predict(logit4,type="response")
+summary(predlogit)
+tapply(predlogit,all$ChD,mean)
 
 library(gam)
 > gam.1 = gam(y.1~lo(x[,1])+lo(x[,2]),family="binomial")
