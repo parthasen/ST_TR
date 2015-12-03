@@ -18,14 +18,6 @@ all[1]<-NULL
 for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0)}
 #logit1 <- glm(ChD ~Revenue+Gross.Margin..+Operating.Margin..+Net.Income.INR.Mil+Earnings.Per.Share.INR+Book.Value.Per.Share.INR+Net.Margin..+Return.on.Assets..+Return.on.Equity..+Return.on.Invested.Capital..+              Operating.Cash.Flow.Growth...YOY+Cap.Ex.as.a...of.Sales+Free.Cash.Flow.Sales..+                  Free.Cash.Flow.Net.Income+Total.Liabilities+Total.Stockholders..Equity+Payables.Period+ Cash.Conversion.Cycle+Receivables.Turnover+Inventory.Turnover+Fixed.Assets.Turnover+Asset.Turnover+Current.Ratio+Quick.Ratio+Financial.Leverage+Debt.Equity+Price, data=all, family = "binomial")
 logit2<- glm(ChD ~Revenue+Fixed.Assets.Turnover, data=all, family = "binomial")
-logit3<-multinom(ChD ~ Revenue+Fixed.Assets.Turnover, data = all)#Multinomial logistic regression
-summary(logit3)
-z <- summary(logit3)$coefficients/summary(logit3)$standard.errors
-p <- (1 - pnorm(abs(z), 0, 1)) * 2
-exp(coef(logit3))
-head(pp <- fitted(logit3))
-glm.out$coef, glm.out$fitted, glm.out$resid, glm.out$effects, and anova(glm.out)
-
 *****
 for(i in 1:45){all$Rev[i]<-ifelse(all[i,1]>0,1,0)}
 for(i in 1:45){all$GM[i]<-ifelse(all[i,2]>0,1,0)}
@@ -90,7 +82,39 @@ for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>summary(all[28])[5],1,ifelse(all[i,28
 all<-round(all,1)
 with(all, table(ChD,Revenue+Fixed.Assets.Turnover))##xtabs(~ChD + Revenue, data =all)
 ***
-sum(ifelse(logit1$fitted.values<0.5,0,1) !=ChD)/length(ChD)
+CORRELATION
+**
+cor(all$ChD,all$OM)# 0.2226997#left NM considered
+cor(all$ChD,all$BV)#0.164399#not taken all[,6] taken
+cor(all$ChD,all$NM)#0.2226997
+cor(all$ChD,all$FL)#-0.2268713
+cor(all$ChD,all$ROIC)#0.1697111
+cor(all$ChD,all$CapEx)#-0.3198011
+cor(all$ChD,all$FCFs)#0.1924501
+cor(all$ChD,all$CR)#0.2514778
+cor(all$ChD,all$QR)#0.1889822#not significant
+cor(all$ChD,all$DE)#-0.2834734
+cor(all$Price,all[24])# Asset.Turnover 0.2336682
+cor(all$Price,all[20])# Cash.Conversion.Cycle  0.2444581
+cor(all$Price,all[19])#Payables.Period  0.2743614#
+cor(all$Price,all[18])#Total.Stockholders..Equity 0.443649
+cor(all$Price,all[17])#Total.Liabilities -0.1724254
+cor(all$Price,all[6])Book.Value.Per.Share.INR 0.5070956
+****
+logit4<- glm(ChD ~CapEx+FCFs+CR+DE+all[,20], data=all, family = "binomial")
+logit3<- glm(ChD ~FCFs+CR+DE+all[,20], data=all, family = "binomial")
+logit4<-multinom(ChD ~FCFs+CR+DE+all[,20], data = all)#Multinomial logistic regression
+summary(logit3)
+z <- summary(logit4)$coefficients/summary(logit4)$standard.errors
+p <- (1 - pnorm(abs(z), 0, 1)) * 2
+exp(coef(logit4))
+head(pp <- fitted(logit4))
+logit4$coef
+logit4$fitted
+logit4$resid
+logit4$effects 
+anova(logit4)
+sum(ifelse(logit4$fitted.values<0.5,0,1) !=all$ChD)/length(all$ChD)
 
 library(gam)
 > gam.1 = gam(y.1~lo(x[,1])+lo(x[,2]),family="binomial")
