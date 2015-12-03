@@ -113,7 +113,7 @@ logit4$coef
 logit4$fitted
 logit4$resid
 logit4$effects 
-anova(logit4)
+anova(logit3,logit4)
 sum(ifelse(logit4$fitted.values<0.5,0,1) !=all$ChD)/length(all$ChD)
 
 library(gam)
