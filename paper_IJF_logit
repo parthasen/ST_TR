@@ -169,6 +169,41 @@ ADBE
 PYPL
 ADP
 ALXN
-
+**
+all <- read.csv("/home/tutun/ALL.csv")
+all[1]<-NULL
+for(i in 1:45){all$ChD[i]<-ifelse(all[i,29]>0.0,1,0)}
+for(i in 1:45){all$Rev[i]<-ifelse(all[i,1]>0,1,0)}
+for(i in 1:45){all$GM[i]<-ifelse(all[i,2]>0,1,0)}
+for(i in 1:45){all$OM[i]<-ifelse(all[i,3]>0,1,0)}
+for(i in 1:45){all$NI[i]<-ifelse(all[i,4]>0,1,0)}
+for(i in 1:45){all$EPS[i]<-ifelse(all[i,5]>0,1,0)}
+for(i in 1:45){all$BV[i]<-ifelse(all[i,6]>0,1,0)}
+for(i in 1:45){all$NM[i]<-ifelse(all[i,7]>0,1,0)}
+for(i in 1:45){all$ATa[i]<-ifelse(all[i,8]>0,1,0)}
+for(i in 1:45){all$ROA[i]<-ifelse(all[i,9]>0,1,0)}
+for(i in 1:45){all$FLa[i]<-ifelse(all[i,10]>0,1,0)}
+for(i in 1:45){all$ROE[i]<-ifelse(all[i,11]>0,1,0)}
+for(i in 1:45){all$ROIC[i]<-ifelse(all[i,12]>0,1,0)}
+for(i in 1:45){all$OCF[i]<-ifelse(all[i,13]>0,1,0)}
+for(i in 1:45){all$CapEx[i]<-ifelse(all[i,14]>0,1,0)}
+for(i in 1:45){all$FCFs[i]<-ifelse(all[i,15]>0,1,0)}
+for(i in 1:45){all$FCFni[i]<-ifelse(all[i,16]>0,1,0)}
+for(i in 1:45){all$TL[i]<-ifelse(all[i,17]>0,1,0)}
+for(i in 1:45){all$TE[i]<-ifelse(all[i,18]>0,1,0)}
+for(i in 1:45){all$PP[i]<-ifelse(all[i,19]>0,1,0)}
+for(i in 1:45){all$CCC[i]<-ifelse(all[i,20]>0,1,0)}
+for(i in 1:45){all$RT[i]<-ifelse(all[i,21]>0,1,0)}
+for(i in 1:45){all$IT[i]<-ifelse(all[i,22]>0,1,0)}
+for(i in 1:45){all$FAT[i]<-ifelse(all[i,23]>0,1,0)}
+for(i in 1:45){all$AT[i]<-ifelse(all[i,24]>0,1,0)}
+for(i in 1:45){all$CR[i]<-ifelse(all[i,25]>0,1,0)}
+for(i in 1:45){all$QR[i]<-ifelse(all[i,26]>0,1,0)}
+for(i in 1:45){all$FL[i]<-ifelse(all[i,27]>0,1,0)}
+for(i in 1:45){all$DE[i]<-ifelse(all[i,28]>0,1,0)}
+logit3<- glm(ChD ~FCFs+CR+DE+all[,20], data=all, family = "binomial")
+predlogit<-predict(logit3,type="response")
+tapply(predlogit,all$ChD,mean)
+table(all$ChD,predlogit>0.5)
 
 
