@@ -74,3 +74,14 @@ cor(GSPC[5:length(GSPC[,4]),4],HSI[,4])#64%
 cor(GSPC[,4],FTSE[70:length(FTSE[,4]),4])#84%
 summary(NDX["2015"][,4])# TQQQ call short when NDX>4550 and SQQQ call short when NDX<4300
 summary(VIX["2015"][,4])# VIX and GSPC has -65% relation and 1st Q to Match 4th quartile, NDX>4500::VIX<18 and NDX<4300::VIX>30
+test$Return<-ROC(GSPC[,4])
+test$ChD<-ifelse(test[,2]>0,1,0)
+for(i in 1:length(test[,1])){test$S6[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] ,1,0)}
+for(i in 1:length(test[,1])){test$S7[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] && test[i-6,1]>test[i-7,1] ,1,0)}
+for(i in 1:length(test[,1])){test$S8[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] && test[i-6,1]>test[i-7,1] && test[i-7,1]>test[i-8,1] ,1,0)}
+for(i in 1:length(test[,1])){test$S5[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] ,1,0)}
+for(i in 1:length(test[,1])){test$S4[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] ,1,0)}
+for(i in 1:length(test[,1])){test$S3[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] ,1,0)}
+for(i in 1:length(test[,1])){test$S2[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] ,1,0)}
+for(i in 1:length(test[,1])){test$S6[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] ,1,0)}
+ 
