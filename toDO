@@ -101,3 +101,5 @@ for(i in 1:length(test[,1])){test$D7[i]<-ifelse(test[i,2]<0 && test[i-1,2]<0 && 
 
 for(i in 1:length(test[,1])){test$U5[i]<-ifelse(test[i,2]>0 && test[i-1,2]>0 && test[i-2,2]>0 && test[i-3,2]>0 && test[i-4,2]>0,1,0)}
 ## 3.5% probablity of 4 consicutive negative days and 3% probablity of 5 consicutive positive days. positive consicutive days have higher probablity
+for(i in 1:length(test[,1])){test$JD[i]<-ifelse(test[i,2]<(-0.025),1,0)}#4% probablity of 2.5% down
+for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>0.022,1,0)}#4% probablity of 2.2% up in a day
