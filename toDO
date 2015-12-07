@@ -5,3 +5,10 @@ VIX-VIX put strategy
 VIX,XIV,VXX,UVXX
 NDX-gold,oil,VIX, relation
 
+library("quantmod", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+getSymbols("^NDX")
+getSymbols("^OEX")
+getSymbols("^VIX")
+getSymbols("VXX")
+getSymbols("XIV")
+getSymbols("UVXY")
