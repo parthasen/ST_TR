@@ -8,6 +8,17 @@ NDX-gold,oil,VIX, relation
 library("quantmod", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
 getSymbols("^NDX")
 getSymbols("^OEX")
+getSymbols("^RUI")
+getSymbols("^GSPC")
+getSymbols("^IXIC")
+getSymbols("^SML")
+
+getSymbols("^FTSE")
+getSymbols("^IXIC")
+getSymbols("^GDAXI")
+getSymbols("^HSI")
+getSymbols("^N225")
+
 getSymbols("^VIX")
 getSymbols("VXX")
 getSymbols("XIV")
