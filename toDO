@@ -12,14 +12,27 @@ getSymbols("^RUI")
 getSymbols("^GSPC")
 getSymbols("^IXIC")
 getSymbols("^SML")
+getSymbols("^RUA")
 
 getSymbols("^FTSE")
-getSymbols("^IXIC")
+getSymbols("^FCHI")
 getSymbols("^GDAXI")
 getSymbols("^HSI")
 getSymbols("^N225")
+getSymbols("^NSEI")
+
 
 getSymbols("^VIX")
+getSymbols("^VXN")
 getSymbols("VXX")
 getSymbols("XIV")
 getSymbols("UVXY")
+getSymbols("^VVIX")
+
+getSymbols("^OVX")
+getSymbols("OIL")
+
+getSymbols("^TYX")
+getSymbols("TLT")
+getSymbols("SST")
+
