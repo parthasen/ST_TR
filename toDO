@@ -66,4 +66,4 @@ getSymbols("FWZ")
 cor(GSPC[,4],VIX[,4])#-65%
 cor(GSPC[5:length(GSPC[,4]),4],HSI[,4])#64%
 cor(GSPC[,4],FTSE[70:length(FTSE[,4]),4])#84%
-
+summary(NDX["2015"][,4])# TQQQ call short when NDX>4550 and SQQQ call short when NDX<4300
