@@ -63,6 +63,12 @@ getSymbols("TQQQ")
 getSymbols("FXI")
 getSymbols("FWZ")
 
+getSymbols("JPY=X")
+getSymbols("EUR=X")
+getSymbols("CNY=X")
+getSymbols("CAD=X")
+getSymbols("GBP=X")
+
 cor(GSPC[,4],VIX[,4])#-65%
 cor(GSPC[5:length(GSPC[,4]),4],HSI[,4])#64%
 cor(GSPC[,4],FTSE[70:length(FTSE[,4]),4])#84%
