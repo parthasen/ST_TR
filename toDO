@@ -78,6 +78,7 @@ test$Return<-ROC(GSPC[,4])
 test$ChD<-ifelse(test[,2]>0,1,0)
 for(i in 1:length(test[,1])){test$S6[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] ,1,0)}
 for(i in 1:length(test[,1])){test$S7[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] && test[i-6,1]>test[i-7,1] ,1,0)}
+#7th down probablity 0.3%
 for(i in 1:length(test[,1])){test$S8[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] && test[i-6,1]>test[i-7,1] && test[i-7,1]>test[i-8,1] ,1,0)}
 for(i in 1:length(test[,1])){test$S5[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] ,1,0)}
 for(i in 1:length(test[,1])){test$S4[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] ,1,0)}
@@ -91,6 +92,7 @@ for(i in 1:length(test[,1])){test$SD4[i]<-ifelse(test[i,1]<test[i-1,1] && test[i
 for(i in 1:length(test[,1])){test$SD5[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1],1,0)}
 for(i in 1:length(test[,1])){test$SD6[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1] && test[i-5,1]<test[i-6,1],1,0)}
 for(i in 1:length(test[,1])){test$SD7[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1] && test[i-5,1]<test[i-6,1] && test[i-6,1]<test[i-7,1],1,0)}
+# 6th day down probablity 0.5% and 7th day down probablity 0.2%
 for(i in 1:length(test[,1])){test$SD8[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1] && test[i-5,1]<test[i-6,1] && test[i-6,1]<test[i-7,1] && test[i-7,1]<test[i-8,1] ,1,0)}
 
 for(i in 1:length(test[,1])){test$D3[i]<-ifelse(test[i,2]<0 && test[i-1,2]<0 && test[i-2,2]<0,1,0)}
@@ -109,5 +111,7 @@ for(i in 1:length(test[,1])){test$JDd1[i]<-ifelse(test$JD[i]==1 && test[i+1,3]==
 for(i in 1:length(test[,1])){test$JDd2[i]<-ifelse(test$JD[i]==1 && test[i+1,3]==0 && test[i+2,3]==0,1,0)}(1% jump down 17.5% probablity,2.8% to be down for next two days)
 #H:: 1% jump down and if down for next 2 days (jump down,D,D) then sixith day up(JD,D,D,D,D,D,U) 
 #H:: 1.5% jump up and if up for next 2 days ( jump up,U,U) then sixth day down(JU,U,U,U,U,D)
+#H:: after continous 5 down days up at sixth or seventh day
+#H:: After continous 6 up days , down at seventh day.
 
 
