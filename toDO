@@ -120,3 +120,7 @@ for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>(0.0075) && test$QH[i]
 for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>(0.0075) && test$QH[i]==1 && test[i+1,3]==1,1,0)}# 1.5% up and next day up at top quantile in 1.5%, 3% for 1% up and 4.5% for 0.75% up
 for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>(0.0075) && test$QH[i]==1 && test[i+1,3]==1 && test[i+2,3]==1,1,0)}# 0.5% up and next 2 days up at top quantile in 1.5%, 1.3% for 1% up and 2% for 0.75% up
 #H:Index at top decile if jumps 0.75 up and continues up for  two  next days has 1.5% probablity 
+test$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10)
+test$QL<-ifelse(GSPC[,4]<test$Q1,1,0)
+for(i in 1:length(test[,1])){test$JD[i]<-ifelse(test[i,2]<(-0.01) && test$QL[i]==1 && test[i+1,3]==0 && test[i+2,3]==0,1,0)}#2% 
+for(i in 1:length(test[,1])){test$JD[i]<-ifelse(test[i,2]<(-0.01) && test$QL[i]==1 && test[i+1,3]==0 && test[i+2,3]==0,1,0)}#1% 
