@@ -172,7 +172,8 @@ SI$RUI<-ifelse(ROC(RUI[,4])>0,1,0)
 > SI$XLI<-ifelse(ROC(XLI[,4])>0,1,0)
 > SI$FXI<-ifelse(ROC(FXI[,4])>0,1,0)
 SI<-na.omit(SI)
-cor(SI$GSPC,SI$RUI)#95% , RUI has 11 more days up in last 7 years
+cor(SI[,2],SI[,5])# OEX-GSPC 0.8940295 , SP100-SP500, #SPY etf SPX index of SP100
+#NDX needed for SQQQ,TQQQ. NDX has low correlation with other index.
 
 
 
