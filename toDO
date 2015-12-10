@@ -169,3 +169,13 @@ insunemp <- Quandl('FRED/IURNSA', type = 'xts', start_date = '2007-01-03', end_d
 ccinsunemp <- Quandl('FRED/CCNSA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
 rateinsunemp <- Quandl('FRED/IURSA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
 phlxhsi <- Quandl('YAHOO/INDEX_HGX', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeTpc<- Quandl('CBOE/TOTAL_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeEpc<- Quandl('CBOE/EQUITY_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeVpc<- Quandl('CBOE/VIX_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeSpc<- Quandl('CBOE/SPX_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeEEMpc<- Quandl('CBOE/VXEEM', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+equnc<- Quandl('FRED/WLEMUINDXD', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#equity market related uncertainty
+polunc<- Quandl('FRED/USEPUINDXD', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#equity market related uncertainty#policy uncertainty
+unc10yr<- Quandl('FRED/DGS10', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#10 years uncertainty
+unc3m<- Quandl('FRED/DTB3', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#3m uncertainty
+ stresseq<- Quandl('FRED/EQMRKTSD678FRBCLE', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#Cleveland Financial Stress Index: Equity Markets
