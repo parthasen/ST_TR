@@ -147,3 +147,10 @@ SI<-na.omit(SI)
 cor(SI[,2],SI[,5])# OEX-GSPC 0.8940295 , SP100-SP500, #SPY etf SPX index of SP100
 #NDX needed for SQQQ,TQQQ. NDX has low correlation with other index.
 
+getSymbols("^GSPC")
+GSPC$chOPC<-ifelse((GSPC[,1]-lag(GSPC[,4],1))>0,1,0)#OPEN>prev CLOSE==chOPC
+GSPC$chCO<-ifelse((GSPC[,4]-GSPC[,1])>0,1,0)#CLOSE-OPEN>0==chCO
+GSPC$chCPC<-ifelse((GSPC[,4]-lag(GSPC[,4],1))>0,1,0)#CLOSE>prev CLOSE==chCPC
+SI<-GSPC$chOPC
+SI$CO<-GSPC$chCO
+SI$CPC<-GSPC$chCPC
