@@ -198,7 +198,8 @@ getSymbols("fb")
 #H:: 0.75% jump up and if up for next day (J,U) then buy SQQQ. Buy further next day after (J,U,U) and down probablity 99% after (J,U,U,U,D)
 #H:: after continous 5 down days up at sixth or seventh day. >> buy TQQQ after 2nd (D,D) on 3rd day if further D then buy again
 #H:: After continous 6 up days , down at seventh day.>> buy SQQQ after 3rdd (U,U,U) on 4th day if further U then buy again
-
+#H:Index at top decile if jumps 0.3 up and continues up for  next day ( J,U) then buy SQQQ and buy further next day uptrend if (J,U,U) as (J,U,U,U,D) has 99% probablity 
+#H:Index at bottom decaile, jumps down 6% and continues down for next day then (J,D) then buy TQQQ next day. (J,D,D,U) has 99% probablity.
 library("quantmod", lib.loc="~/R/win-library/3.2")
 getSymbols("^GSPC")
 #GSPC$OPC<-ifelse((GSPC[,1]-lag(GSPC[,4],1))>0,1,0)#OPEN>prev CLOSE==chOPC
@@ -220,6 +221,16 @@ for(i in 1:length(SI[,1])){SI$JD[i]<-ifelse(SI$Ret[i]<(-0.006),1,0)}#(4% probabl
 for(i in 1:length(SI[,1])){SI$JDd2[i]<-ifelse(SI$JD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0,1,0)}#10%
 for(i in 1:length(SI[,1])){SI$JU[i]<-ifelse(SI$Ret[i]>0.0075,1,0)}#4% probablity of 2.2% up in a day,8.5% probablity for 1.5% up
 for(i in 1:length(SI[,1])){SI$JUu2[i]<-ifelse(SI$JU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 ,1,0)}#(25% probablity of  0.75% jump ,12% continuing next day and 5.5% 2 days) 
+
+SI$Q3<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.90,na.rm=TRUE)#0.75 rolling quantile, 0.90 decile
+SI$QH<-ifelse(GSPC[,4]>SI$Q3,1,0)#35% cases
+for(i in 1:length(SI[,1])){SI$QJU[i]<-ifelse(SI$Ret[i]>0.003 && SI$QH[i]==1,1,0)}# 19%
+for(i in 1:length(SI[,1])){SI$QJUu2[i]<-ifelse(SI$QJU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1,1,0)}# 1.5% up and next day up at top quantile in 1.5%, 3% for 1% up and 4.5% for 0.75% up
+
+SI$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10,na.rm=TRUE)
+SI$QL<-ifelse(GSPC[,4]<SI$Q1,1,0)
+for(i in 1:length(SI[,1])){SI$QJD[i]<-ifelse(SI$Ret[i]<(-0.002) && SI$QL[i]==1,1,0)}#6% 
+for(i in 1:length(SI[,1])){SI$QJDd2[i]<-ifelse(SI$QJD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0,1,0)}#2% 
 
 SI$NDX<-ifelse(ROC(NDX[,4])>0,1,0)
 SI$OEX<-ifelse(ROC(OEX[,4])>0,1,0)
