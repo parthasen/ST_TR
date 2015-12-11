@@ -181,3 +181,14 @@ unc3m<- Quandl('FRED/DTB3', type = 'xts', start_date = '2007-01-03', end_date = 
 stresseq<- Quandl('FRED/EQMRKTSD678FRBCLE', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#Cleveland Financial Stress Index: Equity Markets
 fsi<- Quandl('FRED/CFSI', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
 motorsls<- Quandl('OICA/SALES_TOT_UNITEDSTATESOFAMERICA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+
+getSymbols("aapl")
+getSymbols("msft")
+getSymbols("xom")
+getSymbols("ge")
+getSymbols("jnj")
+getSymbols("wfc")
+getSymbols("amzn")
+getSymbols("BRK")
+getSymbols("jpm")
+getSymbols("fb")
