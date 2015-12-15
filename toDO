@@ -10,52 +10,6 @@ cor(GSPC[5:length(GSPC[,4]),4],HSI[,4])#64%
 cor(GSPC[,4],FTSE[70:length(FTSE[,4]),4])#84%
 summary(NDX["2015"][,4])# TQQQ call short when NDX>4550 and SQQQ call short when NDX<4300
 summary(VIX["2015"][,4])# VIX and GSPC has -65% relation and 1st Q to Match 4th quartile, NDX>4500::VIX<18 and NDX<4300::VIX>30
-test$Return<-ROC(GSPC[,4])
-test$ChD<-ifelse(test[,2]>0,1,0)
-for(i in 1:length(test[,1])){test$S6[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] ,1,0)}
-for(i in 1:length(test[,1])){test$S7[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] && test[i-6,1]>test[i-7,1] ,1,0)}
-#7th down probablity 0.3%
-for(i in 1:length(test[,1])){test$S8[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] && test[i-6,1]>test[i-7,1] && test[i-7,1]>test[i-8,1] ,1,0)}
-for(i in 1:length(test[,1])){test$S5[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] ,1,0)}
-for(i in 1:length(test[,1])){test$S4[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] ,1,0)}
-for(i in 1:length(test[,1])){test$S3[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] ,1,0)}
-for(i in 1:length(test[,1])){test$S2[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] ,1,0)}
-for(i in 1:length(test[,1])){test$S6[i]<-ifelse(test[i,1]>test[i-1,1] && test[i-1,1]>test[i-2,1] && test[i-2,1]>test[i-3,1] && test[i-3,1]>test[i-4,1] && test[i-4,1]>test[i-5,1] && test[i-5,1]>test[i-6,1] ,1,0)}
-
-for(i in 1:length(test[,1])){test$SD2[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1],1,0)}
-for(i in 1:length(test[,1])){test$SD3[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1],1,0)}
-for(i in 1:length(test[,1])){test$SD4[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1],1,0)}
-for(i in 1:length(test[,1])){test$SD5[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1],1,0)}
-for(i in 1:length(test[,1])){test$SD6[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1] && test[i-5,1]<test[i-6,1],1,0)}
-for(i in 1:length(test[,1])){test$SD7[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1] && test[i-5,1]<test[i-6,1] && test[i-6,1]<test[i-7,1],1,0)}
-# 6th day down probablity 0.5% and 7th day down probablity 0.2%
-for(i in 1:length(test[,1])){test$SD8[i]<-ifelse(test[i,1]<test[i-1,1] && test[i-1,1]<test[i-2,1] && test[i-2,1]<test[i-3,1] && test[i-3,1]<test[i-4,1] && test[i-4,1]<test[i-5,1] && test[i-5,1]<test[i-6,1] && test[i-6,1]<test[i-7,1] && test[i-7,1]<test[i-8,1] ,1,0)}
-
-for(i in 1:length(test[,1])){test$D3[i]<-ifelse(test[i,2]<0 && test[i-1,2]<0 && test[i-2,2]<0,1,0)}
-for(i in 1:length(test[,1])){test$D4[i]<-ifelse(test[i,2]<0 && test[i-1,2]<0 && test[i-2,2]<0 && test[i-3,2]<0,1,0)}
-for(i in 1:length(test[,1])){test$D5[i]<-ifelse(test[i,2]<0 && test[i-1,2]<0 && test[i-2,2]<0 && test[i-3,2]<0 && test[i-4,2]<0,1,0)}
-for(i in 1:length(test[,1])){test$D6[i]<-ifelse(test[i,2]<0 && test[i-1,2]<0 && test[i-2,2]<0 && test[i-3,2]<0 && test[i-4,2]<0 && test[i-5,2]<0,1,0)}
-for(i in 1:length(test[,1])){test$D7[i]<-ifelse(test[i,2]<0 && test[i-1,2]<0 && test[i-2,2]<0 && test[i-3,2]<0 && test[i-4,2]<0 && test[i-5,2]<0 && test[i-6,2]<0,1,0)}
-
-for(i in 1:length(test[,1])){test$U5[i]<-ifelse(test[i,2]>0 && test[i-1,2]>0 && test[i-2,2]>0 && test[i-3,2]>0 && test[i-4,2]>0,1,0)}
-## 3.5% probablity of 4 consicutive negative days and 3% probablity of 5 consicutive positive days. positive consicutive days have higher probablity
-for(i in 1:length(test[,1])){test$JD[i]<-ifelse(test[i,2]<(-0.01),1,0)}#(4% probablity of 2.5% down,17.5% probablity of 1% jump down)
-for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>0.015,1,0)}#4% probablity of 2.2% up in a day,8.5% probablity for 1.5% up 
-for(i in 1:length(test[,1])){test$JUu1[i]<-ifelse(test$JU[i]==1 && test[i+1,3]==1 ,1,0)}#jump up and positive next day (2.2% jump up and next day up 2%) ((2.2% jump up and next 2 days up 1%)
-for(i in 1:length(test[,1])){test$JUu2[i]<-ifelse(test$JU[i]==1 && test[i+1,3]==1 && test[i+2,3]==1 ,1,0)}#(8% jump 1.5%,4% continuing next day and 2% next 2 days)
-for(i in 1:length(test[,1])){test$JDd1[i]<-ifelse(test$JD[i]==1 && test[i+1,3]==0 ,1,0)}
-for(i in 1:length(test[,1])){test$JDd2[i]<-ifelse(test$JD[i]==1 && test[i+1,3]==0 && test[i+2,3]==0,1,0)}(1% jump down 17.5% probablity,2.8% to be down for next two days)
-
-test$Q3<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.90)#0.75 rolling quantile, 0.90 decile
-test$QH<-ifelse(GSPC[,4]>test$Q3,1,0)#35% cases
-for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>(0.0075) && test$QH[i]==1,1,0)}# 10%
-for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>(0.0075) && test$QH[i]==1 && test[i+1,3]==1,1,0)}# 1.5% up and next day up at top quantile in 1.5%, 3% for 1% up and 4.5% for 0.75% up
-for(i in 1:length(test[,1])){test$JU[i]<-ifelse(test[i,2]>(0.0075) && test$QH[i]==1 && test[i+1,3]==1 && test[i+2,3]==1,1,0)}# 0.5% up and next 2 days up at top quantile in 1.5%, 1.3% for 1% up and 2% for 0.75% up
-#H:Index at top decile if jumps 0.75 up and continues up for  two  next days has 1.5% probablity 
-test$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10)
-test$QL<-ifelse(GSPC[,4]<test$Q1,1,0)
-for(i in 1:length(test[,1])){test$JD[i]<-ifelse(test[i,2]<(-0.01) && test$QL[i]==1 && test[i+1,3]==0 && test[i+2,3]==0,1,0)}#2% 
-for(i in 1:length(test[,1])){test$JD[i]<-ifelse(test[i,2]<(-0.01) && test$QL[i]==1 && test[i+1,3]==0 && test[i+2,3]==0,1,0)}#1% 
 
 cor(SI[,2],SI[,5])# OEX-GSPC 0.8940295 , SP100-SP500, #SPY etf SPX index of SP100
 #NDX needed for SQQQ,TQQQ. NDX has low correlation with other index.
@@ -146,24 +100,6 @@ EI$cboeTpc<-ifelse(cboeTpc[,1]-lag(cboeTpc[,1])>0,1,0)
 EI$cboeEpc<-ifelse(cboeEpc[,1]-lag(cboeEpc[,1])>0,1,0)
 EI$cboeVpc<-ifelse(cboeVpc[,1]-lag(cboeVpc[,1])>0,1,0)
 **************
-
-for(i in 1:length(SI[,1])){SI$U4D[i]<-ifelse(SI$CH[i+1]==0 && SI$CH[i]==1 && SI$CH[i-1]==1 && SI$CH[i-2]==1 && SI$CH[i-3]==1,1,0)}
-
-for(i in 1:length(SI[,1])){SI$D3U[i]<-ifelse(SI$CH[i+1]==0 && SI$CH[i]==0 && SI$CH[i-1]==0 && SI$CH[i-2]==0,1,0)}
-
-for(i in 1:length(SI[,1])){SI$JD[i]<-ifelse(SI$Ret[i]<(-0.006),1,0)}
-for(i in 1:length(SI[,1])){SI$JDd2[i]<-ifelse(SI$JD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0 && SI$CH[i+3]==1,1,0)}#10%
-for(i in 1:length(SI[,1])){SI$JU[i]<-ifelse(SI$Ret[i]>0.0075,1,0)}#
-for(i in 1:length(SI[,1])){SI$JUu2[i]<-ifelse(SI$JU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 && SI$CH[i+3]==0,1,0)}
-SI$Q3<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.90,na.rm=TRUE)#0.75 rolling quantile, 0.90 decile
-SI$QH<-ifelse(GSPC[,4]>SI$Q3,1,0)#35% cases
-for(i in 1:length(SI[,1])){SI$QJU[i]<-ifelse(SI$Ret[i]>0.003 && SI$QH[i]==1,1,0)}# 19%
-for(i in 1:length(SI[,1])){SI$QJUu2[i]<-ifelse(SI$QJU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 && && SI$CH[i+3]==0,1,0)}
-SI$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10,na.rm=TRUE)
-SI$QL<-ifelse(GSPC[,4]<SI$Q1,1,0)
-for(i in 1:length(SI[,1])){SI$QJD[i]<-ifelse(SI$Ret[i]<(-0.002) && SI$QL[i]==1,1,0)}#6% 
-for(i in 1:length(SI[,1])){SI$QJDd2[i]<-ifelse(SI$QJD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0 && && SI$CH[i+3]==1,1,0)}
-****
 getSymbols("^GSPC")
 getSymbols("^NDX")
 getSymbols("^OEX")
@@ -252,22 +188,11 @@ test<-subset(SI,split=FALSE)
 SIlogit<-glm(CH ~.,data=train,family=binomial)
 summary(SIlogit)
 ***
-for(i in 1:length(SI[,1])){SI$U4D[i]<-ifelse(SI$CH[i]==0 && SI$CH[i-1]==1 && SI$CH[i-2]==1 && SI$CH[i-3]==1 && SI$CH[i-4]==1,1,0)}
-
-for(i in 1:length(SI[,1])){SI$D3U[i]<-ifelse(SI$CH[i+1]==0 && SI$CH[i]==0 && SI$CH[i-1]==0 && SI$CH[i-2]==0,1,0)}
-
-for(i in 1:length(SI[,1])){SI$JD[i]<-ifelse(SI$Ret[i]<(-0.006),1,0)}
-for(i in 1:length(SI[,1])){SI$JDd2[i]<-ifelse(SI$JD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0 && SI$CH[i+3]==1,1,0)}#10%
-for(i in 1:length(SI[,1])){SI$JU[i]<-ifelse(SI$Ret[i]>0.0075,1,0)}#
-for(i in 1:length(SI[,1])){SI$JUu2[i]<-ifelse(SI$JU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 && SI$CH[i+3]==0,1,0)}
-SI$Q3<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.90,na.rm=TRUE)#0.75 rolling quantile, 0.90 decile
-SI$QH<-ifelse(GSPC[,4]>SI$Q3,1,0)#35% cases
-for(i in 1:length(SI[,1])){SI$QJU[i]<-ifelse(SI$Ret[i]>0.003 && SI$QH[i]==1,1,0)}# 19%
-for(i in 1:length(SI[,1])){SI$QJUu2[i]<-ifelse(SI$QJU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 && && SI$CH[i+3]==0,1,0)}
-SI$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10,na.rm=TRUE)
-SI$QL<-ifelse(GSPC[,4]<SI$Q1,1,0)
-for(i in 1:length(SI[,1])){SI$QJD[i]<-ifelse(SI$Ret[i]<(-0.002) && SI$QL[i]==1,1,0)}#6% 
-for(i in 1:length(SI[,1])){SI$QJDd2[i]<-ifelse(SI$QJD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0 && && SI$CH[i+3]==1,1,0)}
+SI$Ret<-ROC(GSPC[,4])
+SI$Q4<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.75,na.rm=TRUE)#0.75 rolling quantile, 0.90 decile
+SI$QH<-ifelse(GSPC[,4]>SI$Q4,1,0)#35% cases
+for(i in 1:length(SI[,1])){SI$QJJD[i]<-ifelse(SI$Ret[i]>0.01 && SI$Ret[i+1]>0.005 && SI$QH[i]==1 && SI$CH[i+2]==0,1,0)}# 19%
+for(i in 1:length(SI[,1])){SI$QJJU[i]<-ifelse(SI$Ret[i]>0.01 && SI$Ret[i+1]>0.005 && SI$QH[i]==1 && SI$CH[i+2]==1,1,0)}# 19% 
 ***
 
 EI<-na.omit(EI)
