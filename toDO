@@ -80,68 +80,6 @@ SI$CO<-GSPC$chCO
 SI$CPC<-GSPC$chCPC
 DATA***
 library("quantmod", lib.loc="~/R/win-library/3.2")
-getSymbols("^NDX")
-getSymbols("^OEX")
-getSymbols("^RUI")
-getSymbols("^GSPC")
-getSymbols("^IXIC")
-getSymbols("^SML")
-getSymbols("^RUA")
-getSymbols("SPY")
-getSymbols("^FTSE")
-getSymbols("^FCHI")
-getSymbols("^GDAXI")
-getSymbols("^HSI")
-getSymbols("^N225")
-getSymbols("^NSEI")
-getSymbols("^VIX")
-getSymbols("^VXN")
-getSymbols("VXX")
-getSymbols("XIV")
-getSymbols("UVXY")
-getSymbols("^VVIX") 
-getSymbols("^OVX")
-getSymbols("OIL")
-getSymbols("USO")
-getSymbols("^GVZ")
-getSymbols("GLD")
-getSymbols("GDX") 
-getSymbols("UGLD")
-getSymbols("DGLD")
-getSymbols("^TYX")
-getSymbols("TLT")#TLT and SST and PRTBX for long term
-getSymbols("SST")
-getSymbols("PRTBX")
-getSymbols("XLE")
-getSymbols("XLF")
-getSymbols("XLK")
-getSymbols("XBI")
-getSymbols("XLP")
-getSymbols("XLV")
-getSymbols("XLU")
-getSymbols("XLB")
-getSymbols("XLY")
-getSymbols("XME")
-getSymbols("XLI")
-getSymbols("SQQQ")
-getSymbols("TQQQ")
-getSymbols("FXI")
-getSymbols("FWZ")
-getSymbols("JPY=X")
-getSymbols("EUR=X")
-getSymbols("CNY=X")
-getSymbols("CAD=X")
-getSymbols("GBP=X")
-getSymbols("aapl")
-getSymbols("msft")
-getSymbols("xom")
-getSymbols("ge")
-getSymbols("jnj")
-getSymbols("wfc")
-getSymbols("amzn")
-getSymbols("BRK")
-getSymbols("jpm")
-getSymbols("fb")
 nonfarm <- Quandl('FRED/PAYEMS', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
 iniclaim <- Quandl('FRED/ICNSA', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
 totalconspend <- Quandl('FRED/TTLCON', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
@@ -176,52 +114,6 @@ SI$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
 SI$CH<-ifelse(SI$CO*SI$GSPC==1,1,0)
 SI$Ret<-ROC(GSPC[,4])
 
-for(i in 1:length(SI[,1])){SI$U4[i]<-ifelse(SI$CH[i]==1 && SI$CH[i-1]==1 && SI$CH[i-2]==1 && SI$CH[i-3]==1,1,0)}# (1,2,3,4,5,6,7==0.6%;1,2,3,4,5,6==1.2%;1,2,3,4,5==3.1%;1,2,3,4==7.71)#3 rd up 15.5% and 4th up probablity 6.5% next day 3%. After 3rd day buy SQQQ
-
-for(i in 1:length(SI[,1])){SI$D3[i]<-ifelse(SI$CH[i]==0 && SI$CH[i-1]==0 && SI$CH[i-2]==0,1,0)}# buy TQQQ after 2 nd day with probablity 27% and 3rd day repeated down of 10% probablity, next day again down probablity of 4%. if next day down again then further holding
-
-for(i in 1:length(SI[,1])){SI$JD[i]<-ifelse(SI$Ret[i]<(-0.006),1,0)}#(4% probablity of 2.5% down,17.5% probablity of 1% jump down)
-for(i in 1:length(SI[,1])){SI$JDd2[i]<-ifelse(SI$JD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0,1,0)}#10%
-for(i in 1:length(SI[,1])){SI$JU[i]<-ifelse(SI$Ret[i]>0.0075,1,0)}#4% probablity of 2.2% up in a day,8.5% probablity for 1.5% up
-for(i in 1:length(SI[,1])){SI$JUu2[i]<-ifelse(SI$JU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 ,1,0)}#(25% probablity of  0.75% jump ,12% continuing next day and 5.5% 2 days) 
-
-SI$Q3<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.90,na.rm=TRUE)#0.75 rolling quantile, 0.90 decile
-SI$QH<-ifelse(GSPC[,4]>SI$Q3,1,0)#35% cases
-for(i in 1:length(SI[,1])){SI$QJU[i]<-ifelse(SI$Ret[i]>0.003 && SI$QH[i]==1,1,0)}# 19%
-for(i in 1:length(SI[,1])){SI$QJUu2[i]<-ifelse(SI$QJU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1,1,0)}# 1.5% up and next day up at top quantile in 1.5%, 3% for 1% up and 4.5% for 0.75% up
-
-SI$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10,na.rm=TRUE)
-SI$QL<-ifelse(GSPC[,4]<SI$Q1,1,0)
-for(i in 1:length(SI[,1])){SI$QJD[i]<-ifelse(SI$Ret[i]<(-0.002) && SI$QL[i]==1,1,0)}#6% 
-for(i in 1:length(SI[,1])){SI$QJDd2[i]<-ifelse(SI$QJD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0,1,0)}#2% 
-
-SI$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
-SI$NDX<-ifelse(ROC(NDX[,4])>0,1,0)
-SI$OEX<-ifelse(ROC(OEX[,4])>0,1,0)
-SI$FTSE<-ifelse(ROC(FTSE[,4])>0,1,0)
-SI$HSI<-ifelse(ROC(HSI[,4])>0,1,0)
-SI$VIX<-ifelse(ROC(VIX[,4])>0,1,0)
-SI$OIL<-ifelse(ROC(OIL[,4])>0,1,0)
-SI$TYX<-ifelse(ROC (TYX[,4])>0,1,0)
-SI$TLT<-ifelse(ROC (TLT[,4])>0,1,0)
-SI$XLE<-ifelse(ROC(XLE[,4])>0,1,0)
-SI$XLF<-ifelse(ROC(XLF[,4])>0,1,0)
-SI$XLK<-ifelse(ROC(XLK[,4])>0,1,0)
-SI$XLP<-ifelse(ROC(XLP[,4])>0,1,0)
-SI$XLV<-ifelse(ROC(XLV[,4])>0,1,0)
-SI$XLB<-ifelse(ROC(XLB[,4])>0,1,0)
-SI$XLY<-ifelse(ROC(XLY[,4])>0,1,0)
-SI$XLI<-ifelse(ROC(XLI[,4])>0,1,0)
-SI$AAPL<-ifelse(ROC(AAPL[,4])>0,1,0)
-SI$MSFT<-ifelse(ROC(MSFT[,4])>0,1,0)
-SI$XOM<-ifelse(ROC(XOM[,4])>0,1,0)
-SI$GE<-ifelse(ROC(GE[,4])>0,1,0)
-SI$WFC<-ifelse(ROC(JNJ[,4])>0,1,0)
-SI$AMZN<-ifelse(ROC(AMZN[,4])>0,1,0)
-SI$BRK<-ifelse(ROC(BRK[,4])>0,1,0)
-SI$JPM<-ifelse(ROC(JPM[,4])>0,1,0)
-SI$FB<-ifelse(ROC(FB[,4])>0,1,0)
-
 EI<-SI$CH
 EI$fsi<-ifelse(fsi[,1]-lag(fsi[,1])>0,1,0)
 EI$stresseq<-ifelse(stresseq[,1]-lag(stresseq[,1])>0,1,0)
@@ -254,6 +146,24 @@ EI$cboeTpc<-ifelse(cboeTpc[,1]-lag(cboeTpc[,1])>0,1,0)
 EI$cboeEpc<-ifelse(cboeEpc[,1]-lag(cboeEpc[,1])>0,1,0)
 EI$cboeVpc<-ifelse(cboeVpc[,1]-lag(cboeVpc[,1])>0,1,0)
 **************
+
+for(i in 1:length(SI[,1])){SI$U4D[i]<-ifelse(SI$CH[i+1]==0 && SI$CH[i]==1 && SI$CH[i-1]==1 && SI$CH[i-2]==1 && SI$CH[i-3]==1,1,0)}
+
+for(i in 1:length(SI[,1])){SI$D3U[i]<-ifelse(SI$CH[i+1]==0 && SI$CH[i]==0 && SI$CH[i-1]==0 && SI$CH[i-2]==0,1,0)}
+
+for(i in 1:length(SI[,1])){SI$JD[i]<-ifelse(SI$Ret[i]<(-0.006),1,0)}
+for(i in 1:length(SI[,1])){SI$JDd2[i]<-ifelse(SI$JD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0 && SI$CH[i+3]==1,1,0)}#10%
+for(i in 1:length(SI[,1])){SI$JU[i]<-ifelse(SI$Ret[i]>0.0075,1,0)}#
+for(i in 1:length(SI[,1])){SI$JUu2[i]<-ifelse(SI$JU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 && SI$CH[i+3]==0,1,0)}
+SI$Q3<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.90,na.rm=TRUE)#0.75 rolling quantile, 0.90 decile
+SI$QH<-ifelse(GSPC[,4]>SI$Q3,1,0)#35% cases
+for(i in 1:length(SI[,1])){SI$QJU[i]<-ifelse(SI$Ret[i]>0.003 && SI$QH[i]==1,1,0)}# 19%
+for(i in 1:length(SI[,1])){SI$QJUu2[i]<-ifelse(SI$QJU[i]==1 && SI$CH[i+1]==1 && SI$CH[i+2]==1 && && SI$CH[i+3]==0,1,0)}
+SI$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10,na.rm=TRUE)
+SI$QL<-ifelse(GSPC[,4]<SI$Q1,1,0)
+for(i in 1:length(SI[,1])){SI$QJD[i]<-ifelse(SI$Ret[i]<(-0.002) && SI$QL[i]==1,1,0)}#6% 
+for(i in 1:length(SI[,1])){SI$QJDd2[i]<-ifelse(SI$QJD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0 && && SI$CH[i+3]==1,1,0)}
+****
 getSymbols("^GSPC")
 getSymbols("^NDX")
 getSymbols("^OEX")
@@ -317,38 +227,32 @@ getSymbols("amzn")
 getSymbols("BRK")
 getSymbols("jpm")
 getSymbols("fb")
+*****
 GSPC$CO<-ifelse((GSPC[,4]-GSPC[,1])>0,1,0)#CLOSE-OPEN>0==chCO
 GSPC$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
 SI<-ROC(GSPC[,4])
 SI$CH<-ifelse(GSPC$CO*GSPC$GSPC==1,1,0)
-SI$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
 SI$NDX<-ifelse(ROC(NDX[,4])>0,1,0)
 SI$OEX<-ifelse(ROC(OEX[,4])>0,1,0)
-SI$FTSE<-ifelse(ROC(FTSE[,4])>0,1,0)
-SI$HSI<-ifelse(ROC(HSI[,4])>0,1,0)
 SI$VIX<-ifelse(ROC(VIX[,4])>0,1,0)
-SI$OIL<-ifelse(ROC(OIL[,4])>0,1,0)
-SI$TYX<-ifelse(ROC (TYX[,4])>0,1,0)
-SI$TLT<-ifelse(ROC (TLT[,4])>0,1,0)
 SI$XLE<-ifelse(ROC(XLE[,4])>0,1,0)
 SI$XLF<-ifelse(ROC(XLF[,4])>0,1,0)
-SI$XLK<-ifelse(ROC(XLK[,4])>0,1,0)
 SI$XLP<-ifelse(ROC(XLP[,4])>0,1,0)
 SI$XLV<-ifelse(ROC(XLV[,4])>0,1,0)
 SI$XLB<-ifelse(ROC(XLB[,4])>0,1,0)
 SI$XLY<-ifelse(ROC(XLY[,4])>0,1,0)
 SI$XLI<-ifelse(ROC(XLI[,4])>0,1,0)
-SI$AAPL<-ifelse(ROC(AAPL[,4])>0,1,0)
-SI$MSFT<-ifelse(ROC(MSFT[,4])>0,1,0)
-SI$XOM<-ifelse(ROC(XOM[,4])>0,1,0)
-SI$GE<-ifelse(ROC(GE[,4])>0,1,0)
-SI$WFC<-ifelse(ROC(JNJ[,4])>0,1,0)
-SI$AMZN<-ifelse(ROC(AMZN[,4])>0,1,0)
-SI$BRK<-ifelse(ROC(BRK[,4])>0,1,0)
-SI$JPM<-ifelse(ROC(JPM[,4])>0,1,0)
-SI$FB<-ifelse(ROC(FB[,4])>0,1,0)
-
-for(i in 1:length(SI[,1])){SI$U4D[i]<-ifelse(SI$CH[i+1]==0 && SI$CH[i]==1 && SI$CH[i-1]==1 && SI$CH[i-2]==1 && SI$CH[i-3]==1,1,0)}
+SI$GSPC.Close<-NULL
+***
+library("caTools", lib.loc="~/R/win-library/3.2")
+set.seed(1000)
+split<-sample.split(SI$CH,SplitRatio = 0.7)
+train<-subset(SI,split=TRUE)
+test<-subset(SI,split=FALSE)
+SIlogit<-glm(CH ~.,data=train,family=binomial)
+summary(SIlogit)
+***
+for(i in 1:length(SI[,1])){SI$U4D[i]<-ifelse(SI$CH[i]==0 && SI$CH[i-1]==1 && SI$CH[i-2]==1 && SI$CH[i-3]==1 && SI$CH[i-4]==1,1,0)}
 
 for(i in 1:length(SI[,1])){SI$D3U[i]<-ifelse(SI$CH[i+1]==0 && SI$CH[i]==0 && SI$CH[i-1]==0 && SI$CH[i-2]==0,1,0)}
 
@@ -364,6 +268,7 @@ SI$Q1<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.10,na.rm=TRUE)
 SI$QL<-ifelse(GSPC[,4]<SI$Q1,1,0)
 for(i in 1:length(SI[,1])){SI$QJD[i]<-ifelse(SI$Ret[i]<(-0.002) && SI$QL[i]==1,1,0)}#6% 
 for(i in 1:length(SI[,1])){SI$QJDd2[i]<-ifelse(SI$QJD[i]==1 && SI$CH[i+1]==0 && SI$CH[i+2]==0 && && SI$CH[i+3]==1,1,0)}
-****
+***
+
 EI<-na.omit(EI)
 SI<-na.omit(SI)
