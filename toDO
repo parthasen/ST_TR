@@ -1,9 +1,7 @@
-VIX - SP100 relation
 VIX mean chart
 VIX tango
 VIX-VIX put strategy
 VIX,XIV,VXX,UVXX
-NDX-gold,oil,VIX, relation
 *****
 cor(GSPC[,4],VIX[,4])#-65%
 cor(GSPC[5:length(GSPC[,4]),4],HSI[,4])#64%
@@ -15,24 +13,15 @@ cor(SI[,2],SI[,5])# OEX-GSPC 0.8940295 , SP100-SP500, #SPY etf SPX index of SP10
 #NDX needed for SQQQ,TQQQ. NDX has low correlation with other index.
 
 *****
-#H::0.6% jump down and if down for next day (J,D) then buy TQQQ and further buy if (J,D,D,D) on next day as probablity of 99% to down ( J,D,D,D,D)
-#H:: 0.75% jump up and if up for next day (J,U) then buy SQQQ. Buy further next day after (J,U,U) and down probablity 99% after (J,U,U,U,D)
-#H:: after continous 5 down days up at sixth or seventh day. >> buy TQQQ after 2nd (D,D) on 3rd day if further D then buy again
-#H:: After continous 6 up days , down at seventh day.>> buy SQQQ after 3rdd (U,U,U) on 4th day if further U then buy again
-#H:Index at top decile if jumps 0.3 up and continues up for  next day ( J,U) then buy SQQQ and buy further next day uptrend if (J,U,U) as (J,U,U,U,D) has 99% probablity 
-#H:Index at bottom decaile, jumps down 6% and continues down for next day then (J,D) then buy TQQQ next day. (J,D,D,U) has 99% probablity.
 1. Market Open up/down{premarket index,NQ future up/down,Asian Market reaction}
 2. Market close is not dependent to 1
 3. Market close { model,economic event on that day,news}
-PROVING PT.2***
 getSymbols("^GSPC")
-GSPC$chOPC<-ifelse((GSPC[,1]-lag(GSPC[,4],1))>0,1,0)#OPEN>prev CLOSE==chOPC
-GSPC$chCO<-ifelse((GSPC[,4]-GSPC[,1])>0,1,0)#CLOSE-OPEN>0==chCO
-GSPC$chCPC<-ifelse((GSPC[,4]-lag(GSPC[,4],1))>0,1,0)#CLOSE>prev CLOSE==chCPC
-SI<-GSPC$chOPC
-SI$CO<-GSPC$chCO
-SI$CPC<-GSPC$chCPC
-DATA***
+GSPC$CO<-ifelse((GSPC[,4]-GSPC[,1])>0,1,0)#CLOSE-OPEN>0==chCO
+GSPC$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
+SI$CH<-ifelse(GSPC$CO*GSPC$GSPC==1,1,0)
+SI$Ret<-ROC(GSPC[,4])
+Eco DATA***
 library("quantmod", lib.loc="~/R/win-library/3.2")
 nonfarm <- Quandl('FRED/PAYEMS', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
 iniclaim <- Quandl('FRED/ICNSA', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
@@ -56,18 +45,6 @@ unc3m<- Quandl('FRED/DTB3', type = 'xts', start_date = '2007-01-03', end_date = 
 stresseq<- Quandl('FRED/EQMRKTSD678FRBCLE', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#Cleveland Financial Stress Index: Equity Markets
 fsi<- Quandl('FRED/CFSI', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
 motorsls<- Quandl('OICA/SALES_TOT_UNITEDSTATESOFAMERICA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
-CLEANING***
-#GSPC$OPC<-ifelse((GSPC[,1]-lag(GSPC[,4],1))>0,1,0)#OPEN>prev CLOSE==chOPC
-GSPC$CO<-ifelse((GSPC[,4]-GSPC[,1])>0,1,0)#CLOSE-OPEN>0==chCO
-#GSPC$chCPC<-ifelse((GSPC[,4]-lag(GSPC[,4],1))>0,1,0)#CLOSE>prev CLOSE==chCPC
-SI<-GSPC$CO
-#SI$CO<-GSPC$chCO
-#SI$CPC<-GSPC$chCPC
-cor(SI$CPC,SI$OPC)#correlation of OPC and CPC is 33%
-SI$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
-SI$CH<-ifelse(SI$CO*SI$GSPC==1,1,0)
-SI$Ret<-ROC(GSPC[,4])
-
 EI<-SI$CH
 EI$fsi<-ifelse(fsi[,1]-lag(fsi[,1])>0,1,0)
 EI$stresseq<-ifelse(stresseq[,1]-lag(stresseq[,1])>0,1,0)
