@@ -169,6 +169,52 @@ SI$QH<-ifelse(GSPC[,4]>SI$Q4,1,0)#35% cases
 for(i in 1:length(SI[,1])){SI$QJJD[i]<-ifelse(SI$Ret[i]>0.01 && SI$Ret[i+1]>0.005 && SI$QH[i]==1 && SI$CH[i+2]==0,1,0)}# 19%
 for(i in 1:length(SI[,1])){SI$QJJU[i]<-ifelse(SI$Ret[i]>0.01 && SI$Ret[i+1]>0.005 && SI$QH[i]==1 && SI$CH[i+2]==1,1,0)}# 19% 
 ***
+TD<-ROC(GSPC[,4])
+TD$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
+TD$NDX<-ifelse(ROC(NDX[,4])>0,1,0)
+TD$OEX<-ifelse(ROC(OEX[,4])>0,1,0)
+TD$RUI<-ifelse(ROC(RUI[,4])>0,1,0)
+TD$IXIC<-ifelse(ROC(IXIC[,4])>0,1,0)
+TD$SML<-ifelse(ROC(SML[,4])>0,1,0)
+TD$SPY<-ifelse(ROC(SPY[,4])>0,1,0)
+TD$FTSE<-ifelse(ROC(FTSE[,4])>0,1,0)
+TD$FCHI<-ifelse(ROC(FCHI[,4])>0,1,0)
+TD$GDAXI<-ifelse(ROC(GDAXI[,4])>0,1,0)
+TD$HSI<-ifelse(ROC(HSI[,4])>0,1,0)
+TD$N225<-ifelse(ROC(N225[,4])>0,1,0)
+TD$NSEI<-ifelse(ROC(NSEI[,4])>0,1,0)
+TD$VIX<-ifelse(ROC(VIX[,4])>0,1,0)
+TD$VXN<-ifelse(ROC(VXN[,4])>0,1,0)
+TD$VXX<-ifelse(ROC(VXX[,4])>0,1,0)
+TD$XIV<-ifelse(ROC(XIV[,4])>0,1,0)
+TD$UVXY<-ifelse(ROC(UVXY[,4])>0,1,0)
+TD$OIL<-ifelse(ROC(OIL[,4])>0,1,0)
+TD$USO<-ifelse(ROC(USO[,4])>0,1,0)
+TD$GVZ<-ifelse(ROC(GVZ[,4])>0,1,0)
+TD$GLD<-ifelse(ROC(GLD[,4])>0,1,0)
+TD$GDX<-ifelse(ROC(GDX[,4])>0,1,0)
+TD$GSPC.Close<-NULL
+TD<-na.omit(TD)
+library("caret", lib.loc="~/R/win-library/3.2")
+library("kernlab", lib.loc="~/R/win-library/3.2")
+inTrain<-createDataPartition(y=TD$NDX,p=0.75,list=FALSE)
+training<-TD[inTrain,]
+testing<-TD[inTrain,]
+M<-abs(cor(training[,-58])
+diag(M)<-0
+which(M>0.6,arr.ind=T)
 
+GSPC:NDX,OEX,RUI,IXIC,SML,VIX
+NDX:GSPC,OEX,RUI,IXIC,SPY
+VIX:GSPC,OEX,VXN   
+
+smallTD<-TD[,c(TD$GSPC,TD$OEX)] 
+
+typeColor<-((TD$NDX=1)*1+1)
+pca<-prcomp(log10(TD[,-58]+1))
+plot(pca$x[,1],pca$x[,2],col=typeColor,xlab="PC1",ylab="PC2")
+prPro<-preProcess(log10(TD[,-12]+1),method ="pca",pcaComp = 2)
+  
+***
 EI<-na.omit(EI)
 SI<-na.omit(SI)
