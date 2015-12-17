@@ -195,6 +195,7 @@ TD$GLD<-ifelse(ROC(GLD[,4])>0,1,0)
 TD$GDX<-ifelse(ROC(GDX[,4])>0,1,0)
 TD$GSPC.Close<-NULL
 TD<-na.omit(TD)
+# correlation based reduction of variables
 library("caret", lib.loc="~/R/win-library/3.2")
 library("kernlab", lib.loc="~/R/win-library/3.2")
 inTrain<-createDataPartition(y=TD$NDX,p=0.75,list=FALSE)
@@ -207,14 +208,45 @@ which(M>0.6,arr.ind=T)
 GSPC:NDX,OEX,RUI,IXIC,SML,VIX
 NDX:GSPC,OEX,RUI,IXIC,SPY
 VIX:GSPC,OEX,VXN   
-
-smallTD<-TD[,c(TD$GSPC,TD$OEX)] 
-
-typeColor<-((TD$NDX=1)*1+1)
-pca<-prcomp(log10(TD[,-58]+1))
+**** PCA
+TDR<-ROC(GSPC[,4])
+TDR$GSPC<-ROC(GSPC[,4])
+TDR$NDX<-ROC(NDX[,4])
+TDR$OEX<-ROC(OEX[,4])
+TDR$RUI<-ROC(RUI[,4])
+TDR$IXIC<-ROC(IXIC[,4])
+TDR$SML<-ROC(SML[,4])
+TDR$VIX<-ROC(VIX[,4])
+TDR$GSPC.Close<-NULL
+TDR<-na.omit(TDR)
+TDRdf<-as.data.frame(TDR)
+inTrain<-createDataPartition(y=TDRdf$NDX,p=0.75,list=FALSE)
+training<-TDRdf[inTrain,]
+testing<-TDRdf[inTrain,]
+M<-abs(cor(training[,-58]))
+diag(M)<-0
+which(M>0.6,arr.ind=T)
+smallTDR<-TDR[,c("GSPC","OEX")] 
+pca<-prcomp(smallTDR)
+plot(pca$x[,1],pca$x[,2])
+pca$Rotation
+typeColor<-((TDR$NDX=1)*1+1)
+pca<-prcomp(log10(TDR[,-58]+1))
 plot(pca$x[,1],pca$x[,2],col=typeColor,xlab="PC1",ylab="PC2")
-prPro<-preProcess(log10(TD[,-12]+1),method ="pca",pcaComp = 2)
-  
+prPro<-preProcess(log10(TDRdf[,-58]+1),method ="pca",pcaComp = 2)
+TDRdfPC<-predict(prPro,log10(TDRdf[,-58]+1))
+plot(TDRdfPC[,1],TDRdfPC[,2],col=typeColor)
+plot(TDRdf$GSPC,TDRdf$NDX,pch=19)
+
+prProT<-preProcess(log10(training[,-58]+1),method ="pca",pcaComp = 2)
+TDRdfPC<-predict(prProT,log10(training[,-58]+1))
+modelFit<-train(training$NDX ~.,method="glm",data=TDRdfPC)
+testPC<-predict(prProT,log10(testing[,-58]+1))
+confusionMatrix(testing$NDX,predict(modelFit,testPC))
+modelFit<-train(training$NDX ~.,method="glm",preProcess="glm",data=training)
+confusionMatrix(testing$NDX,predict(modelFit,testPC))
 ***
 EI<-na.omit(EI)
 SI<-na.omit(SI)
+*** Linear regression
+
