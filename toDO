@@ -263,3 +263,5 @@ AD$TLT<-TLT[,4]
 AD$NDX<-ifelse(ROC(NDX[,4])>0.002,1,ifelse(ROC(NDX[,4])<(-0.002),2,0))
 AD<-na.omit(AD)
 qplot(SST,TLT,color=NDX,data=AD)
+modfit<-train(NDX ~.,method="rpart",data=AD)
+print(modfit$finaModel)
