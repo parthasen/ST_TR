@@ -249,4 +249,17 @@ confusionMatrix(testing$NDX,predict(modelFit,testPC))
 EI<-na.omit(EI)
 SI<-na.omit(SI)
 *** Linear regression
+plot(TDRdf$NDX,TDRdf$OEX)
+lmNDX<-lm(NDX ~ OEX+SML+RUI+VIX,data=TDRdf)
 
+***TREE
+AD<-GSPC[,4]
+AD$OEX<-OEX[,4]
+AD$NDX<-NDX[,4]
+AD$VIX<-VIX[,4]
+AD$GLD<-GLD[,4]
+AD$SST<-SST[,4]
+AD$TLT<-TLT[,4]
+AD$NDX<-ifelse(ROC(NDX[,4])>0.002,1,ifelse(ROC(NDX[,4])<(-0.002),2,0))
+AD<-na.omit(AD)
+qplot(SST,TLT,color=NDX,data=AD)
