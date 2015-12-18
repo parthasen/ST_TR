@@ -265,3 +265,9 @@ AD<-na.omit(AD)
 qplot(SST,TLT,color=NDX,data=AD)
 modfit<-train(NDX ~.,method="rpart",data=AD)
 print(modfit$finaModel)
+
+symbol<-'INX'#index SP500 
+dirPath<-'c:/DATA/min/'
+fileName<-paste(dirPath,symbol,'.csv',sep='')
+download.file(paste('http://www.google.com/finance/getprices?q=',symbol,'&x=INDEXSP&i=',60,"&p=",15,"d&f=d,o,h,l,c,v,t",sep=""), fileName)
+
