@@ -1,1 +1,25 @@
-
+#***
+library("quantmod")
+library("rpart")
+library("rpart.plot")
+library("caTools")
+library("caret")
+library("kernlab")
+library("nnet")
+library("foreign")
+library("ggplot2")
+library("reshape2")
+library("PerformanceAnalytics")
+library("car")
+library("FinTS")
+library("fGarch")
+library("robustbase")
+library("MASS")
+library("klaR")
+library("lubridate")#Makes it easier to work with the dates
+library("e1071")
+library("parallel")
+library("DMwR")
+library("randomForest")
+#***
+getSymbols(c("^GSPC",'^NDX','^OEX','OIL','SQQQ','TQQQ','XLE','XLF','XLV',,'XLY','XLI','TLT','SST','EEM','CAD=X','OIL'))
