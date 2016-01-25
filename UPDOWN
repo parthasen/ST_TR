@@ -22,7 +22,7 @@ library("parallel")
 library("DMwR")
 library("randomForest")
 #***
-getSymbols(c("^GSPC",'^NDX','^OEX','^VIX','OIL','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X','OIL'))
+getSymbols(c("^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
 ***
 F1: PRICE-VOLUME convergence or divergence ??
 #Price and Volume change
@@ -73,7 +73,7 @@ plot(VCUD["2016-1"])
 plot(PCUD["2016-1"])
 plot(PL["2016-1"])
 plot(VL["2016-1"])
-#Volatility
+#F2:Volatility
 chaiVOL<-na.omit(chaikinVolatility(NDX[,2:3]))
 atrVOL<-na.omit(ATR(NDX[,2:4])[,2])
 vGK <- Cl(volatility(NDX[,1:4], calc="garman"))
@@ -90,3 +90,16 @@ plot(tail(stochOsc[,"fastK"], 100), type="l",main="Fast %K and Williams %R", yla
 lines(tail(stochWPR, 100), col="blue")
 lines(tail(1-stochWPR, 100), col="red", lty="dashed")
 plot(rollSD["2016-01"])#cor(tail(Cl(NDX),10),tail(rollSD,10)) -63%
+#INDEX RATIO PLOTS
+plot(Cl(NDX)/Cl(GSPC))
+plot(Cl(NDX)/Cl(OEX))
+plot(Cl(GSPC)/Cl(OEX))
+plot(Cl(TQQQ)/Cl(SQQQ))
+plot(Cl(TLT)/Cl(SST))
+plot(Cl(TLT)/Cl(EEM))
+#INDEX
+plot(Cl(DWTI))
+plot(Cl(UWTI))
+plot(Cl(TLT))
+plot(Cl(`CAD=X`))
+#
