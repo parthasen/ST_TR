@@ -22,4 +22,37 @@ library("parallel")
 library("DMwR")
 library("randomForest")
 #***
-getSymbols(c("^GSPC",'^NDX','^OEX','OIL','SQQQ','TQQQ','XLE','XLF','XLV',,'XLY','XLI','TLT','SST','EEM','CAD=X','OIL'))
+getSymbols(c("^GSPC",'^NDX','^OEX','OIL','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X','OIL'))
+***
+#Price and Volume change
+q1<-na.omit(ROC(Cl(NDX)))
+rolling_quantile<-rollapply(q1,width=50,FUN=function(y) quantile(y,c(0.01,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.95,0.99)),by.column = FALSE, align = "right")
+tail(rolling_quantile)
+q1<-na.omit(ROC(Vo(NDX)))
+rolling_quantile<-rollapply(q1,width=50,FUN=function(y) quantile(y,c(0.01,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.95,0.99)),by.column = FALSE, align = "right")
+tail(rolling_quantile)
+PU<-ifelse(ROC(Cl(NDX))>=0.0258,5,ifelse(ROC(Cl(NDX))>=0.021 & ROC(Cl(NDX))<0.0258,4,ifelse(ROC(Cl(NDX))>=0.012 & ROC(Cl(NDX))<0.021,3,ifelse(ROC(Cl(NDX))>=0.007 & ROC(Cl(NDX))<0.012,2,ifelse(ROC(Cl(NDX))>=0.002 & ROC(Cl(NDX))<0.007,1,0)))))
+PD<-ifelse(ROC(Cl(NDX))<=(-0.0335),-5,ifelse(ROC(Cl(NDX))<=(-0.027) & ROC(Cl(NDX))>(-0.0335),-4,ifelse(ROC(Cl(NDX))<=(-0.014) & ROC(Cl(NDX))>(-0.027),-3,ifelse(ROC(Cl(NDX))<=(-0.005) & ROC(Cl(NDX))>(-0.014),-2,ifelse(ROC(Cl(NDX))<=(-0.0012) & ROC(Cl(NDX))>(-0.005),-1,0)))))
+PCUD<-ifelse(ROC(Cl(NDX))>0,PU,PD)
+VU<-ifelse(ROC(Vo(NDX))>=0.021,5,ifelse(ROC(Cl(NDX))>=0.01 & ROC(Cl(NDX))<0.02,4,ifelse(ROC(Cl(NDX))>=0.004 & ROC(Cl(NDX))<0.0075,2,ifelse(ROC(Cl(NDX))>=0.002 & ROC(Cl(NDX))<0.004,1,0))))
+VD<-ifelse(ROC(Cl(NDX))<=(-0.028),-5,ifelse(ROC(Cl(NDX))<=(-0.016) & ROC(Cl(NDX))>(-0.028),-4,ifelse(ROC(Cl(NDX))<=(-0.01) & ROC(Cl(NDX))>(-0.016),-3,ifelse(ROC(Cl(NDX))<=(-0.005) & ROC(Cl(NDX))>(-0.01),-2,ifelse(ROC(Cl(NDX))<=(-0.0015) & ROC(Cl(NDX))>(-0.05),1,0)))))
+VCUD<-ifelse(ROC(Cl(NDX))>0,VU,VD)
+q1<-na.omit(ROC(Cl(NDX)))
+rolling_quantile<-rollapply(q1,width=50,FUN=function(y) quantile(y,c(0.01,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.95,0.99)),by.column = FALSE, align = "right")
+tail(rolling_quantile)
+#Price and Volume
+q1<-na.omit(ROC(Vo(NDX)))
+rolling_quantile<-rollapply(q1,width=50,FUN=function(y) quantile(y,c(0.01,0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.95,0.99)),by.column = FALSE, align = "right")
+tail(rolling_quantile)
+PU<-ifelse(ROC(Cl(NDX))>=0.0258,5,ifelse(ROC(Cl(NDX))>=0.021 & ROC(Cl(NDX))<0.0258,4,ifelse(ROC(Cl(NDX))>=0.012 & ROC(Cl(NDX))<0.021,3,ifelse(ROC(Cl(NDX))>=0.007 & ROC(Cl(NDX))<0.012,2,ifelse(ROC(Cl(NDX))>=0.002 & ROC(Cl(NDX))<0.007,1,0)))))
+PD<-ifelse(ROC(Cl(NDX))<=(-0.0335),-5,ifelse(ROC(Cl(NDX))<=(-0.027) & ROC(Cl(NDX))>(-0.0335),-4,ifelse(ROC(Cl(NDX))<=(-0.014) & ROC(Cl(NDX))>(-0.027),-3,ifelse(ROC(Cl(NDX))<=(-0.005) & ROC(Cl(NDX))>(-0.014),-2,ifelse(ROC(Cl(NDX))<=(-0.0012) & ROC(Cl(NDX))>(-0.005),-1,0)))))
+PCUD<-ifelse(ROC(Cl(NDX))>0,PU,PD)
+VU<-ifelse(ROC(Vo(NDX))>=0.021,5,ifelse(ROC(Cl(NDX))>=0.01 & ROC(Cl(NDX))<0.02,4,ifelse(ROC(Cl(NDX))>=0.004 & ROC(Cl(NDX))<0.0075,2,ifelse(ROC(Cl(NDX))>=0.002 & ROC(Cl(NDX))<0.004,1,0))))
+VD<-ifelse(ROC(Cl(NDX))<=(-0.028),-5,ifelse(ROC(Cl(NDX))<=(-0.016) & ROC(Cl(NDX))>(-0.028),-4,ifelse(ROC(Cl(NDX))<=(-0.01) & ROC(Cl(NDX))>(-0.016),-3,ifelse(ROC(Cl(NDX))<=(-0.005) & ROC(Cl(NDX))>(-0.01),-2,ifelse(ROC(Cl(NDX))<=(-0.0015) & ROC(Cl(NDX))>(-0.05),1,0)))))
+VCUD<-ifelse(ROC(Cl(NDX))>0,VU,VD)
+
+
+
+par(mfrow=c(2,2))
+plot(VCUD["2016-1"])
+plot(PCUD["2016-1"])
