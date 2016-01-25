@@ -24,6 +24,7 @@ library("randomForest")
 #***
 getSymbols(c("^GSPC",'^NDX','^OEX','OIL','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X','OIL'))
 ***
+F1: PRICE-VOLUME convergence or divergence ??
 #Price and Volume change
 q3<-na.omit(ROC(Cl(NDX)))
 q2<-na.omit(Vo(NDX))
