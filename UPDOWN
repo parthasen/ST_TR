@@ -217,13 +217,17 @@ par(mfrow=c(2,3))
 plot(tail(HMMpost$state,100)
 plot(tail(Cl(TLT)/Cl(EEM),100))
 ###ARIMA
-NDXdiff1 <- diff(log(Cl(NDX))-log(Op(NDX)), differences=1)
-acf(na.omit(NDXdiff1), lag.max=20) #16
-pacf(na.omit(NDXdiff1), lag.max=20)#16 
-NDXarima <- arima(Cl(NDX), order=c(16,1,16)) # fit an ARIMA(p,d,q) model
-NDXarima <- arima(log(Cl(NDX))-log(Op(NDX)), order=c(15,3,15)) # fit an ARIMA(p,d,q) model
-NDXarimaforecasts <- forecast.Arima(NDXarima, h=5)
+logNDX<- log(Cl(NDX))-log(Op(NDX))
+##ARIMA
+acf(na.omit(logNDX), lag.max=20) #16
+pacf(na.omit(logNDX), lag.max=20)#16 
+NDXarima <- arima(logNDX, order=c(2,0,2)) # fit an ARIMA(p,d,q) model
+NDXarimaforecasts <- forecast.Arima(NDXarima, h=1)
 NDXarimaforecasts 
 plot.forecast(NDXarimaforecasts )
 acf(NDXarimaforecasts $residuals, lag.max=20)
 Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
+##GARCH
+garchfit<-garchFit(~ garch(2,2), data =NDXdiff, trace = FALSE)
+predict(garchfit, n.ahead = 1, plot=TRUE, crit_val=2)
+
