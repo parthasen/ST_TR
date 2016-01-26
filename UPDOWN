@@ -257,5 +257,9 @@ TD$SMI<-SMI
 TD$wave<-wave
 TD$atr<-atr
 TD$P<-Cl(NDX)
-    
+*Train and Test set
+set.seed(1000)
+split<-sample.split(TD$CH,SplitRatio = 0.75)
+train<-subset(TD,split=TRUE)
+test<-subset(TD,split=FALSE)    
     
