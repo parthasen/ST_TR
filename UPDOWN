@@ -104,6 +104,25 @@ plot(Cl(DWTI))
 plot(Cl(UWTI))
 plot(Cl(TLT))
 plot(Cl(`CAD=X`))
+*** PRICE GRAPH
+CHOC=Cl(NDX)-Op(NDX)
+CHC=Cl(NDX)-lag(Cl(NDX))
+d1<-diff(Op(NDX))
+logd1<-diff(log(Cl(NDX)))
+sd1<-diff(sqrt(Cl(NDX)))
+doc1<-na.omit(diff(CHOC))
+logdoc1<-na.omit(log(CHOC))
+sdoc1<-na.omit(diff(sqrt(CHOC)))
+par(mfrow=c(3,3))
+plot(Cl(NDX)["2016"],type='l',xlab='Time',ylab='Close Prices',main='Daily Close Prices')# only close price
+plot(na.omit(CHC)["2016"],type='l',xlab='Time',ylab='Close Price difference from yesterday',main='Daily Close Price difference from yesterday')# Change in a day
+plot(d1["2016"],type='l',xlab='Time',ylab='Difference',main='First Degree Differencing on Open Data')
+plot(logd1["2016"],type='l',xlab='Time',ylab='Difference',main='First Degree Differencing on Logged close Data')
+plot(sd1["2016"],type='l',xlab='Time',ylab='Difference',main='First Degree Differencing on Square-root close Data')
+plot(CHOC["2016"],type='l',xlab='Time',ylab='Close Price difference from opening',main='Daily Close Prices difference from opening')# Change in a day
+plot(doc1["2016"],type='l',xlab='Time',ylab='Difference',main='First Degree Differencing on CL-OP Data')
+plot(logdoc1["2016"],type='l',xlab='Time',ylab='Difference',main='First Degree Differencing on Logged CL-OP Data')
+plot(sdoc1["2015/2016"],type='l',xlab='Time',ylab='Difference',main='First Degree Differencing on Square-root CL-OP Data')
 #F3#Technical Indicators
 RSI5<-RSI(Op(NDX), n= 5)#Calculate a 5-period relative strength index (RSI) off the open price strength index (RSI) off the open price
 EMA15<-EMA(Op(NDX),n=15)#Calculate a 5-period exponential moving average (EMA)
@@ -262,4 +281,7 @@ set.seed(1000)
 split<-sample.split(TD$CH,SplitRatio = 0.75)
 train<-subset(TD,split=TRUE)
 test<-subset(TD,split=FALSE)    
-    
+****correlation search
+M<-cor(tail(TD,5))
+diag(M)<-0    
+M<-na.omit(M)
