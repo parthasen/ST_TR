@@ -104,7 +104,7 @@ plot(Cl(DWTI))
 plot(Cl(UWTI))
 plot(Cl(TLT))
 plot(Cl(`CAD=X`))
-##Technical Indicators
+#F3#Technical Indicators
 RSI5<-RSI(Op(NDX), n= 5)#Calculate a 5-period relative strength index (RSI) off the open price strength index (RSI) off the open price
 EMA15<-EMA(Op(NDX),n=15)#Calculate a 5-period exponential moving average (EMA)
 EMAcross<- Op(NDX)-EMA15#Let’s explore the difference between the open price and our 5-period EMA
@@ -216,7 +216,7 @@ head(HMMpost)
 par(mfrow=c(2,3))
 plot(tail(HMMpost$state,100)
 plot(tail(Cl(TLT)/Cl(EEM),100))
-###REGRESSION PREDICTION
+##F4#REGRESSION PREDICTION
 logNDX<- log(Cl(NDX))-log(Op(NDX))
 acf(na.omit(logNDX), lag.max=20) #16
 pacf(na.omit(logNDX), lag.max=20)#16 
@@ -251,5 +251,43 @@ forecastSVM<-svmComputeForecasts(
     endDate="2016-01-07",
     featureSelection="all" ) ##for UBUNTU cores=8
     ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(GSPC)))[1]## predicted value by SVM regression
+####F5###
+TD<-ROC(Cl(NDX))
+TD$CH<-ifelse((log(Cl(NDX))-log(Op(NDX)))>0,1,0)# NDX
+TD$NDX.Close<-NULL
+TD$NDX<-(log(Cl(NDX))-log(Op(NDX)))
+TD$GSPC<-(log(Cl(GSPC))-log(Op(GSPC)))
+TD$OEX<-(log(Cl(OEX))-log(Op(OEX)))
+TD$NDX_OEX<-Cl(NDX)/Cl(OEX)
+TD$NDX_GSPC<-Cl(NDX)/Cl(GSPC)
+TD$OEX_GSPC<-Cl(OEX)/Cl(GSPC)
+TD$TQQQ_SQQQ<-Cl(TQQQ)/Cl(SQQQ)
+TD$USD_CAD<-(log(Cl(`CAD=X`))-log(Op(`CAD=X`)))
+TD$TLT_EEM<-Cl(TLT)/Cl(EEM)
+TD$XLE<-(log(Cl(XLE))-log(Op(XLE)))
+TD$XLF<-(log(Cl(XLF))-log(Op(XLF)))
+TD$XLV<-(log(Cl(XLV))-log(Op(XLV)))
+TD$XLY<-(log(Cl(XLY))-log(Op(XLY)))
+TD$XLI<-(log(Cl(XLI))-log(Op(XLI)))
+TD$DWTI<-(log(Cl(DWTI))-log(Op(DWTI)))
+TD$USDCAD<-(log(Cl(`CAD=X`))-log(Op(`CAD=X`)))
+TD$PCUD<-PCUD
+TD$PCUD<-VCUD
+TD$PL<-PL
+TD$VL<-VL
+TD$vGK<-vGK
+TD$rollSD<-rollSD
+TD$stochOsc<-stochOsc
+TD$stochWPR<-stochWPR 
+TD$RSI5<-RSI5
+TD$EMAcross<-EMAcross
+TD$Trend<-Trend
+TD$MACDsignal<-MACDsignal
+TD$SMI<-SMI
+TD$wave<-wave
+TD$atr<-atr
+TD$S15<-S15
+TD$S50<-S50
+TD$P<-Cl(NDX)
     
     
