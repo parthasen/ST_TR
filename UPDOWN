@@ -242,7 +242,7 @@ TD$XLI<-(log(Cl(XLI))-log(Op(XLI)))
 TD$DWTI<-(log(Cl(DWTI))-log(Op(DWTI)))
 TD$USDCAD<-(log(Cl(`CAD=X`))-log(Op(`CAD=X`)))
 TD$PCUD<-PCUD
-TD$PCUD<-VCUD
+TD$VCUD<-VCUD
 TD$PL<-PL
 TD$VL<-VL
 TD$vGK<-vGK
