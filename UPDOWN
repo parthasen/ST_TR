@@ -103,6 +103,40 @@ plot(Cl(DWTI))
 plot(Cl(UWTI))
 plot(Cl(TLT))
 plot(Cl(`CAD=X`))
+##Technical Indicators
+RSI5<-RSI(Op(NDX), n= 5)#Calculate a 5-period relative strength index (RSI) off the open price strength index (RSI) off the open price
+EMA15<-EMA(Op(NDX),n=15)#Calculate a 5-period exponential moving average (EMA)
+EMAcross<- Op(NDX)-EMA15#Let’s explore the difference between the open price and our 5-period EMA
+SMA15<-SMA(Op(NDX),n=15)
+Trend<-Op(NDX)-SMA15#Our measure of trend: the difference between the open price and the 15-period simple moving average.
+MACD<-MACD(Op(NDX),fast = 10, slow = 20, signal = 5)#Calculate a MACD with standard parameters
+MACDsignal<-MACD[,2]#Grab just the signal line to use as our indicator.
+SMI<-SMI(Op(NDX),n=9,slow=15,fast=2,signal=5) #Stochastic Oscillator with standard parameters
+SMI<-SMI[,1]#Grab just the oscillator to use as our indicator
+**self indicator1
+par(mfrow=c(2,2))
+atrVOL<-na.omit(ATR(NDX[,2:4])[,2])
+atrMA<-SMA(atrVOL,n=5)
+SMA15<-SMA(Cl(NDX),n=15)
+SMA50<-SMA(Cl(NDX),n=50)
+roc1<-ROC(Cl(NDX),n=1,type="discrete")
+roc5<-ROC(Cl(NDX),n=5,type="discrete")
+roc10<-ROC(Cl(NDX),n=10,type="discrete")
+roc15<-ROC(Cl(NDX),n=15,type="discrete")
+wave<-roc1*0.5+(roc5*0.3+roc10*0.3+roc15*15)*0.5
+atr<-atrVOL-atrMA
+S15<-Op(NDX)-SMA15
+S50<-OP(NDX)-SMA50
+  *plot
+plot(tail(wave,50))
+plot(tail(atr,50))
+plot(tail(S50,50))
+plot(tail(S15,50))
+plot(tail(RSI5,50))
+plot(tail(EMAcross,50))
+plot(tail(Trend,50))
+plot(tail(MACDsignal,50))
+plot(tail(SMI,50))
 ####HMM
 ##vGK
 LogReturns <- log(Cl(NDX)) - log(Op(NDX)) #calculate the logarithmic returns
