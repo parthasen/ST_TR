@@ -127,7 +127,7 @@ roc15<-ROC(Cl(NDX),n=15,type="discrete")
 wave<-roc1*0.5+(roc5*0.3+roc10*0.3+roc15*15)*0.5
 atr<-atrVOL-atrMA
 S15<-Op(NDX)-SMA15
-S50<-OP(NDX)-SMA50
+S50<-Op(NDX)-SMA50
   *plot
 plot(tail(wave,50))
 plot(tail(atr,50))
@@ -159,63 +159,33 @@ TDm15<-month(TD["2015"], label = TRUE)
 TD15<-data.frame(TDm15,TD["2015"])
 table(TD15$TDm15,TD15$L)
 ####HMM
-##vGK
 LogReturns <- log(Cl(NDX)) - log(Op(NDX)) #calculate the logarithmic returns
-dataHMM<-na.omit(data.frame(LogReturns,vGK)) #create the data frame for our HMM model
-colnames(dataHMM)<-c("LogReturns","Volatility") #name our columns 
+dataHMM<-na.omit(data.frame(tail(LogReturns,1000),tail(***,1000)))
+colnames(dataHMM)<-c("LogReturns","***") #name our columns 
 set.seed(1)
-HMM<-depmix(list(LogReturns~1,Volatility~1),data=dataHMM,nstates=3,family=list(gaussian(),gaussian())) #We’re setting the LogReturns and ATR as our response variables, using the data frame we just built, want to set 3 different regimes, and setting the response distributions to be gaussian. 
-HMMfit<-fit(HMM, verbose = FALSE) #fit our model to the data set 
-print(HMMfit) #we can compare the log Likelihood as well as the AIC and BIC values to help choose our model 
-summary(HMMfit) 
-HMMpost<-posterior(HMMfit) #find the posterior odds for each state over our data set
-head(HMMpost) #we can see that we now have the probability for each state for everyday as well as the highest probability class. 
-plot(HMMpost$state)
-plot(HMMpost$S1)
-plot(HMMpost$S2)
-plot(HMMpost$S3)
-
-##TQQQ/SQQQ ratio
-  #No significant probablity to change state
-dataHMM<-na.omit(data.frame(tail(LogReturns,1000),tail(Cl(TQQQ)/Cl(SQQQ),1000)))
-colnames(dataHMM)<-c("LogReturns","TSratio") #name our columns 
-set.seed(1)
-HMM<-depmix(list(LogReturns~1,TSratio~1),data=dataHMM,nstates=3,family=list(gaussian(),gaussian())) 
+HMM<-depmix(list(LogReturns~1,***~1),data=dataHMM,nstates=4,family=list(gaussian(),gaussian())) 
 HMMfit<-fit(HMM, verbose = FALSE)
 print(HMMfit)
 summary(HMMfit) 
 HMMpost<-posterior(HMMfit)
 head(HMMpost)
+par(mfrow=c(3,1))
 plot(HMMpost$state)
+plot(tail(***,50))
+plot(tail(Cl(NDX),50))
 
-##NDX/GSPC ratio
-  #No significant probablity to change state
-dataHMM<-na.omit(data.frame(LogReturns,Cl(NDX)/Cl(GSPC)))
-colnames(dataHMM)<-c("LogReturns","NGratio") #name our columns 
-set.seed(1)
-HMM<-depmix(list(LogReturns~1,NGratio~1),data=dataHMM,nstates=3,family=list(gaussian(),gaussian())) 
-HMMfit<-fit(HMM, verbose = FALSE)
-print(HMMfit)
-summary(HMMfit) 
-HMMpost<-posterior(HMMfit)
-par(mfrow=c(2,3))
-head(HMMpost)
-plot(HMMpost$state)
+##vGK#good to check
+##TQQQ/SQQQ ratio   #Not significant 
+##NDX/GSPC ratio   #Not significant
+##TltEem ratio  #Not significant
+##wave==good to check
+##atr== good to check
+##EMAcross== good to check
+##SMI== not significant
+##trend==not significant
+##RSI3==good to check
+##stochOsc==good to check
 
-##TltEem ratio
-  #No significant probablity to change state
-dataHMM<-na.omit(data.frame(LogReturns,Cl(TLT)/Cl(EEM)))
-colnames(dataHMM)<-c("LogReturns","TltEem") #name our columns 
-set.seed(1)
-HMM<-depmix(list(LogReturns~1,TltEem~1),data=dataHMM,nstates=13,family=list(gaussian(),gaussian())) 
-HMMfit<-fit(HMM, verbose = FALSE)
-print(HMMfit)
-summary(HMMfit) 
-HMMpost<-posterior(HMMfit)
-head(HMMpost)
-par(mfrow=c(2,3))
-plot(tail(HMMpost$state,100)
-plot(tail(Cl(TLT)/Cl(EEM),100))
 ##F4#REGRESSION PREDICTION
 logNDX<- log(Cl(NDX))-log(Op(NDX))
 acf(na.omit(logNDX), lag.max=20) #16
@@ -286,8 +256,6 @@ TD$MACDsignal<-MACDsignal
 TD$SMI<-SMI
 TD$wave<-wave
 TD$atr<-atr
-TD$S15<-S15
-TD$S50<-S50
 TD$P<-Cl(NDX)
     
     
