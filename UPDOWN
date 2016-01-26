@@ -216,15 +216,15 @@ head(HMMpost)
 par(mfrow=c(2,3))
 plot(tail(HMMpost$state,100)
 plot(tail(Cl(TLT)/Cl(EEM),100))
-###ARIMA
+###REGRESSION PREDICTION
 logNDX<- log(Cl(NDX))-log(Op(NDX))
-##ARIMA
 acf(na.omit(logNDX), lag.max=20) #16
 pacf(na.omit(logNDX), lag.max=20)#16 
+##ARIMA
 NDXarima <- arima(logNDX, order=c(2,0,2)) # fit an ARIMA(p,d,q) model
 NDXarimaforecasts <- forecast.Arima(NDXarima, h=1)
 NDXarimaforecasts 
-plot.forecast(NDXarimaforecasts )
+
 acf(NDXarimaforecasts $residuals, lag.max=20)
 Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
 ##GARCH
