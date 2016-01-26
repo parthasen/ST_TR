@@ -230,4 +230,26 @@ Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
 ##GARCH
 garchfit<-garchFit(~ garch(2,2), data =NDXdiff, trace = FALSE)
 predict(garchfit, n.ahead = 1, plot=TRUE, crit_val=2)
-
+##SVM
+##source("e1071.R")#https://gist.github.com/ivannp/4180399  #copy and let run otherwise
+tt<-get( getSymbols( "^NDX") )
+rets<-na.trim((log(Cl(tt))-log(Op(tt))), type="discrete" )
+# only the first two features so that we may see some results in reasonable time
+dataSVM<-svmFeatures( tt )[,c(1,2)]
+#data <- na.exclude(merge(rets,dataSVM))
+rets<- rets[index(dataSVM)]
+data<-dataSVM[index(rets)]
+stopifnot( NROW( rets ) == NROW( data ) )
+forecastSVM<-svmComputeForecasts(
+    data=data,
+    history=100,
+    response=rets,
+    cores=8,#for wondow =1
+    trace=T,
+    modelPeriod="days",
+    startDate="2014-12-15",
+    endDate="2016-01-07",
+    featureSelection="all" ) ##for UBUNTU cores=8
+    ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(GSPC)))[1]## predicted value by SVM regression
+    
+    
