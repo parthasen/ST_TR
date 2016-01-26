@@ -138,6 +138,26 @@ plot(tail(EMAcross,50))
 plot(tail(Trend,50))
 plot(tail(MACDsignal,50))
 plot(tail(SMI,50))
+****** Rolling Correlation
+y1<-TD$USD_CAD
+y2<-TD$TQQQ_SQQQ
+y<-merge(y1,y2)
+rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
+plot(rolling_correlation)
+****Rolling Regression
+rr <- rollapply(y, width = 36,FUN = function(y) coef(lm(y ~ y[,1] + y[,2], data = as.data.frame(y))),by.column = FALSE, align = "right")
+plot(rr)
+****CYCLE
+#??lubridate
+DayofWeek<-wday(TD, label=TRUE)
+TD1<-data.frame(DayofWeek,TD)
+table(TD1$DayofWeek,TD$L)
+TDm<-month(TD, label = TRUE)
+TD2<-data.frame(TDm,TD)
+table(TD2$TDm,TD2$L)
+TDm15<-month(TD["2015"], label = TRUE)
+TD15<-data.frame(TDm15,TD["2015"])
+table(TD15$TDm15,TD15$L)
 ####HMM
 ##vGK
 LogReturns <- log(Cl(NDX)) - log(Op(NDX)) #calculate the logarithmic returns
