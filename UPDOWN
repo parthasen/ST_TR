@@ -142,6 +142,18 @@ plot(rolling_correlation)
 ****Rolling Regression
 rr <- rollapply(y, width = 36,FUN = function(y) coef(lm(y ~ y[,1] + y[,2], data = as.data.frame(y))),by.column = FALSE, align = "right")
 plot(rr)
+# VOlume and price relation
+par(mfrow=c(3,1))
+PriceChange<- (log(Cl(NDX)) - log(Op(NDX)))
+par(mfrow=c(3,1))
+y1<-PriceChange
+y2<-ROC(NDX[,4])
+y<-merge(y1,y2)
+rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
+plot(rolling_correlation["2015/2016"])
+rr <- rollapply(y, width = 36,FUN = function(y) coef(lm(y[,2] ~ y[,1], data = as.data.frame(y))),by.column = FALSE, align = "right")
+plot(rr[,1])
+plot(rr[,2])
 ****CYCLE
 #??lubridate
 DayofWeek<-wday(TD, label=TRUE)
