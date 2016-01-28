@@ -195,6 +195,26 @@ plot(tail(Cl(NDX),50))
 ##trend==not significant
 ##RSI3==good to check
 ##stochOsc==good to check
+###svm CLASSIFICATION
+****
+PriceChange<- Cl(NDX) - Op(NDX)
+Class<-ifelse(PriceChange>0,"UP","DOWN")
+**
+dataSVM<-data.frame(tail(Class,2000),tail(***,2000),tail(***,2000))
+colnames(dataSVM)<-c("Class","***","***")
+dataSVM<-na.omit(dataSVM)
+set.seed(886)
+split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
+trainSVM<-subset(dataSVM, split == TRUE)
+testSVM<-subset(dataSVM, split == FALSE)
+SVM<-svm(Class~***+***,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
+#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
+TrainingPredictions<-predict(SVM,testSVM,type="class")
+#Run the algorithm once more over the training set to visualize the patterns it found
+TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
+ggplot(testSVM,aes(x=***,y=***))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM *** and *** Predictions",x="***",y="***",color="Training Predictions")
+**
+plot(tail(***,50))
 
 ##F4#REGRESSION PREDICTION
 logNDX<- log(Cl(NDX))-log(Op(NDX))
@@ -231,7 +251,7 @@ forecastSVM<-svmComputeForecasts(
     endDate="2016-01-07",
     featureSelection="all" ) ##for UBUNTU cores=8
     ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(GSPC)))[1]## predicted value by SVM regression
-####F5###
+####dataSET###
 TD<-ROC(Cl(NDX))
 TD$CH<-ifelse((log(Cl(NDX))-log(Op(NDX)))>0,1,0)# NDX
 TD$NDX.Close<-NULL
@@ -276,258 +296,9 @@ test<-subset(TD,split=FALSE)
 M<-cor(tail(TD,5))
 diag(M)<-0    
 M<-na.omit(M)
-*TREE
+#F3:TREE
 DecisionTree<-rpart(CH~PL+VL+PCUD+VCUD+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.003)
 prp(DecisionTree, type=2)
 tail(TD)
 DecisionTree<-rpart(CH~PL+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.008)
 prp(DecisionTree, type=2)
-##*SVM classification for indicator selection
-
-*SVM
-    *Indictor prediction
-PriceChange<- Cl(GSPC) - Op(GSPC)
-Class<-ifelse(PriceChange>0,"UP","DOWN")
-RSI<-round(RSI(Op(GSPC), n= 13))# indicator to add here
-EMA5<-EMA(Op(GSPC),n=5)
-#Calculate a 5-period exponential moving average (EMA)
-EMAcross<- Op(GSPC)-EMA5
-SMA50<-SMA(Op(GSPC),n=50)
-Trend<-Op(GSPC)-SMA50#Our measure of trend: the difference between the open price and the 50-period simple moving average.
-MACD<-MACD(Op(GSPC),fast = 12, slow = 26, signal = 9)
-#Calculate a MACD with standard parameters
-MACDsignal<-MACD[,2]
-#Grab just the signal line to use as our indicator.
-SMI<-SMI(Op(GSPC),n=13,slow=25,fast=2,signal=9) 
-#Stochastic Oscillator with standard parameters
-SMI<-SMI[,1]
-U<-ifelse(ROC(Cl(GSPC))>=0.01,4,ifelse(ROC(Cl(GSPC))>=0.0075 & ROC(Cl(GSPC))<0.01,3,ifelse(ROC(Cl(GSPC))>=0.004 & ROC(Cl(GSPC))<0.0075,2,ifelse(ROC(Cl(GSPC))>=0.002 & ROC(Cl(GSPC))<0.004,1,0))))
-D<-ifelse(ROC(Cl(GSPC))<=(-0.01),-4,ifelse(ROC(Cl(GSPC))<=(-0.0075) & ROC(Cl(GSPC))>(-0.01),-3,ifelse(ROC(Cl(GSPC))<=(-0.004) & ROC(Cl(GSPC))>(-0.0075),-2,ifelse(ROC(Cl(GSPC))<=(-0.002) & ROC(Cl(GSPC))>(-0.004),-1,0))))
-UD<-ifelse(ROC(Cl(GSPC))>0,U,D)
-L<-ifelse(Cl(NDX)>=rolling_quantile$X5. & Cl(NDX)<rolling_quantile$X10.,1,ifelse(Cl(NDX)>=rolling_quantile$X10. & Cl(NDX)<rolling_quantile$X20.,2,ifelse(Cl(NDX)>=rolling_quantile$X20. & Cl(NDX)<rolling_quantile$X30.,3,ifelse(Cl(NDX)>=rolling_quantile$X30. & Cl(NDX)<rolling_quantile$X40.,4,ifelse(Cl(NDX)>=rolling_quantile$X40. & Cl(NDX)<rolling_quantile$X50.,5,ifelse(Cl(NDX)>=rolling_quantile$X50. & Cl(NDX)<rolling_quantile$X60.,6,ifelse(Cl(NDX)>=rolling_quantile$X60. & Cl(NDX)<rolling_quantile$X70.,7,ifelse(Cl(NDX)>=rolling_quantile$X70. & Cl(NDX)<rolling_quantile$X80.,8,ifelse(Cl(NDX)>=rolling_quantile$X80. & Cl(NDX)<rolling_quantile$X90.,9,ifelse(Cl(NDX)>=rolling_quantile$X90. & Cl(NDX)<rolling_quantile$X95.,10,ifelse(Cl(NDX)>=rolling_quantile$X95.,11,0)))))))))))
-**
-dataSVM<-data.frame(Class,RSI,EMAcross)
-colnames(dataSVM)<-c("Class","RSI","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~RSI+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=RSI))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM RSI and EMA Predictions",x="EMAcross",y="RSI",color="Training Predictions")
-
-**
-dataSVM<-data.frame(Class,Trend,EMAcross)
-colnames(dataSVM)<-c("Class","Trend","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~Trend+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=Trend))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="Trend",color="Training Predictions")
-**
-dataSVM<-data.frame(Class,Trend,EMAcross)
-colnames(dataSVM)<-c("Class","Trend","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~Trend+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=Trend))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="Trend",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,MACDsignal,EMAcross)
-colnames(dataSVM)<-c("Class","MACDsignal","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~MACDsignal+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=MACDsignal))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="MACDsignal",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,SMI,EMAcross)
-colnames(dataSVM)<-c("Class","SMI","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~SMI+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=SMI))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="SMI",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,UD,EMAcross)
-colnames(dataSVM)<-c("Class","UD","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~UD+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=UD))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="UD",color="Training Predictions")
-****
-dataSVM<-data.frame(Class,UD,SMI)
-colnames(dataSVM)<-c("Class","UD","SMI")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~UD+SMI,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=SMI,y=UD))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="SMI",y="UD",color="Training Predictions")
-****
-dataSVM<-data.frame(Class,UD,MACDsignal)
-colnames(dataSVM)<-c("Class","UD","MACDsignal")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~UD+MACDsignal,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=MACDsignal,y=UD))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="MACDsignal",y="UD",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,UD,Trend)
-colnames(dataSVM)<-c("Class","UD","Trend")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~UD+Trend,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=Trend,y=UD))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="Trend",y="UD",color="Training Predictions")
-****
-dataSVM<-data.frame(Class,UD,RSI)
-colnames(dataSVM)<-c("Class","UD","RSI")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~UD+RSI,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=RSI,y=UD))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="RSI",y="UD",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,L,SMI)
-colnames(dataSVM)<-c("Class","L","SMI")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~L+SMI,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the #number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=SMI,y=L))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="SMI",y="L",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,L,MACDsignal)
-colnames(dataSVM)<-c("Class","L","MACDsignal")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~L+MACDsignal,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the #number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=MACDsignal,y=L))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="MACDsignal",y="L",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,L,Trend)
-colnames(dataSVM)<-c("Class","L","Trend")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~L+Trend,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the #number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=Trend,y=L))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="Trend",y="L",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,L,EMAcross)
-colnames(dataSVM)<-c("Class","L","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~L+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the #number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=L))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="L",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,L,EMAcross)
-colnames(dataSVM)<-c("Class","L","EMAcross")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~L+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the #number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=EMAcross,y=L))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="L",color="Training Predictions")
-***
-dataSVM<-data.frame(Class,L,RSI)
-colnames(dataSVM)<-c("Class","L","RSI")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~L+RSI,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the #number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=RSI,y=L))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="RSI",y="L",color="Training Predictions")
-
