@@ -302,14 +302,12 @@ M<-cor(tail(TD,5))
 diag(M)<-0    
 M<-na.omit(M)
 ##F4#Regression prediction
-glmNDX<-glm(CH ~OEX+DWTI+USDCAD+XLF+XLV+XLY+PL+VCUD,data=TD,family=binomial)
+glmNDX<-glm(CH ~OEX+DWTI+USDCAD+XLF+XLV+XLY+PL+VCUD,data=train,family=binomial)
 #plot(glmNDX)
 #exp(coef(glmNDX))
-predictedNDXglm<-predict(glmNDX,type = "response")
+predictedNDXglm<-predict(glmNDX,test,type = "response")
 plot(tail(predictedNDXglm,5))
-
-last(predict(lm(formula = NDX ~ GSPC+XLE + XLF + XLV + XLY+XLI+VL+VCUD, data =TD)))
-
+last(predict(lm(formula = NDX ~ GSPC+XLE + XLF + XLV + XLY+XLI+VL+VCUD, data =train),test))
 #F3:TREE
 DecisionTree<-rpart(CH~PL+VL+PCUD+VCUD+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.003)
 prp(DecisionTree, type=2)
