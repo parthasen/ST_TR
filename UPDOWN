@@ -659,3 +659,1015 @@ TrainingPredictions<-predict(SVM,testSVM,type="class")
 #Run the algorithm once more over the training set to visualize the patterns it found
 TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
 ggplot(testSVM,aes(x=EMAcross,y=Trend))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="Trend",color="Training Predictions")
+******
+https://cran.r-project.org/web/views/Finance.html
+Eco DATA***
+library("quantmod", lib.loc="~/R/win-library/3.2")
+**************
+getSymbols("^GSPC")
+getSymbols("^NDX")
+getSymbols("^OEX")
+getSymbols("^RUI")
+getSymbols("^GSPC")
+getSymbols("^IXIC")
+getSymbols("^SML")
+getSymbols("^RUA")
+getSymbols("SPY")
+getSymbols("^FTSE")
+getSymbols("^FCHI")
+getSymbols("^GDAXI")
+getSymbols("^HSI")
+getSymbols("^N225")
+getSymbols("^NSEI")
+getSymbols("^VIX")
+getSymbols("^VXN")
+getSymbols("VXX")
+getSymbols("XIV")
+getSymbols("UVXY")
+getSymbols("^VVIX") 
+getSymbols("^OVX")
+getSymbols("OIL")
+getSymbols("USO")
+getSymbols("^GVZ")
+getSymbols("GLD")
+getSymbols("GDX") 
+getSymbols("UGLD")
+getSymbols("DGLD")
+getSymbols("^TYX")
+getSymbols("TLT")#TLT and SST and PRTBX for long term
+getSymbols("SST")
+getSymbols("PRTBX")
+getSymbols("XLE")
+getSymbols("XLF")
+getSymbols("XLK")
+getSymbols("XBI")
+getSymbols("XLP")
+getSymbols("XLV")
+getSymbols("XLU")
+getSymbols("XLB")
+getSymbols("XLY")
+getSymbols("XME")
+getSymbols("XLI")
+getSymbols("SQQQ")
+getSymbols("TQQQ")
+getSymbols("FXI")
+getSymbols("FWZ")
+getSymbols("JPY=X")
+getSymbols("EUR=X")
+getSymbols("CNY=X")
+getSymbols("CAD=X")
+getSymbols("GBP=X")
+getSymbols("aapl")
+getSymbols("msft")
+getSymbols("xom")
+getSymbols("ge")
+getSymbols("jnj")
+getSymbols("wfc")
+getSymbols("amzn")
+getSymbols("BRK")
+getSymbols("jpm")
+getSymbols("fb")
+*****
+nonfarm <- Quandl('FRED/PAYEMS', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
+iniclaim <- Quandl('FRED/ICNSA', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
+totalconspend <- Quandl('FRED/TTLCON', type = 'xts',start_date = '2007-01-03', end_date = '2015-12-10')
+ismprice <- Quandl('FRED/NAPMPRI', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+ismpemp <- Quandl('FRED/NAPMEI', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+realest <- Quandl('GOOG/SHE_399241', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+insunemp <- Quandl('FRED/IURNSA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+ccinsunemp <- Quandl('FRED/CCNSA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+rateinsunemp <- Quandl('FRED/IURSA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+phlxhsi <- Quandl('YAHOO/INDEX_HGX', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeTpc<- Quandl('CBOE/TOTAL_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeEpc<- Quandl('CBOE/EQUITY_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeVpc<- Quandl('CBOE/VIX_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeSpc<- Quandl('CBOE/SPX_PC', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+cboeEEMpc<- Quandl('CBOE/VXEEM', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+equnc<- Quandl('FRED/WLEMUINDXD', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#equity market related uncertainty
+polunc<- Quandl('FRED/USEPUINDXD', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#equity market related uncertainty#policy uncertainty
+unc10yr<- Quandl('FRED/DGS10', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#10 years uncertainty
+unc3m<- Quandl('FRED/DTB3', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#3m uncertainty
+stresseq<- Quandl('FRED/EQMRKTSD678FRBCLE', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')#Cleveland Financial Stress Index: Equity Markets
+fsi<- Quandl('FRED/CFSI', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+motorsls<- Quandl('OICA/SALES_TOT_UNITEDSTATESOFAMERICA', type = 'xts', start_date = '2007-01-03', end_date = '2015-12-10')
+
+
+cor(GSPC[,4],VIX[,4])#-65%
+cor(GSPC[5:length(GSPC[,4]),4],HSI[,4])#64%
+cor(GSPC[,4],FTSE[70:length(FTSE[,4]),4])#84%
+summary(NDX["2015"][,4])# TQQQ call short when NDX>4550 and SQQQ call short when NDX<4300
+summary(VIX["2015"][,4])# VIX and GSPC has -65% relation and 1st Q to Match 4th quartile, NDX>4500::VIX<18 and NDX<4300::VIX>30
+cor(SI[,2],SI[,5])# OEX-GSPC 0.8940295 , SP100-SP500, #SPY etf SPX index of SP100
+#NDX needed for SQQQ,TQQQ. NDX has low correlation with other index.
+SI<-ROC(GSPC[,4])
+GSPC$CO<-ifelse((GSPC[,4]-GSPC[,1])>0,1,0)#CLOSE-OPEN>0==chCO
+SI$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
+SI$CH<-ifelse(GSPC$CO*SI$GSPC==1,1,0)
+SI$NDX<-ifelse(ROC(NDX[,4])>0,1,0)
+SI$OEX<-ifelse(ROC(OEX[,4])>0,1,0)
+SI$VIX<-ifelse(ROC(VIX[,4])>0,1,0)
+SI$XLE<-ifelse(ROC(XLE[,4])>0,1,0)
+SI$XLF<-ifelse(ROC(XLF[,4])>0,1,0)
+SI$XLP<-ifelse(ROC(XLP[,4])>0,1,0)
+SI$XLV<-ifelse(ROC(XLV[,4])>0,1,0)
+SI$XLB<-ifelse(ROC(XLB[,4])>0,1,0)
+SI$XLY<-ifelse(ROC(XLY[,4])>0,1,0)
+SI$XLI<-ifelse(ROC(XLI[,4])>0,1,0)
+SI$GSPC.Close<-NULL
+***
+EI<-SI$CH
+EI$fsi<-ifelse(fsi[,1]-lag(fsi[,1])>0,1,0)
+EI$stresseq<-ifelse(stresseq[,1]-lag(stresseq[,1])>0,1,0)
+EI$unc3m<-ifelse(unc3m[,1]-lag(unc3m[,1])>0,1,0)
+EI$unc10yr<-ifelse(unc10yr[,1]-lag(unc10yr[,1])>0,1,0)
+EI$polunc<-ifelse(polunc[,1]-lag(polunc[,1])>0,1,0)
+EI$cboeEEMpc<-ifelse(cboeEEMpc[,1]-lag(cboeEEMpc[,1])>0,1,0)
+EI$cboeSpc<-ifelse(cboeSpc[,1]-lag(cboeSpc[,1])>0,1,0)
+EI$nonfarm<-ifelse(nonfarm[,1]-lag(nonfarm[,1])>0,1,0)
+EI$iniclaim<-ifelse(iniclaim[,1]-lag(iniclaim [,1])>0,1,0)
+EI$totalconspend<-ifelse(totalconspend[,1]-lag(totalconspend[,1])>0,1,0)
+EI$ismprice<-ifelse(ismprice[,1]-lag(ismprice[,1])>0,1,0)
+EI$ismpemp<-ifelse(ismpemp[,1]-lag(ismpemp[,1])>0,1,0)
+EI$realest<-ifelse(realest[,1]-lag(realest[,1])>0,1,0)
+EI$insunemp<-ifelse(insunemp[,1]-lag(insunemp[,1])>0,1,0)
+EI$ccinsunemp<-ifelse(ccinsunemp[,1]-lag(ccinsunemp[,1])>0,1,0)
+EI$rateinsunemp<-ifelse(rateinsunemp[,1]-lag(rateinsunemp[,1])>0,1,0)
+EI$phlxhsi<-ifelse(phlxhsi[,1]-lag(phlxhsi[,1])>0,1,0)
+EI$cboeTpc<-ifelse(cboeTpc[,1]-lag(cboeTpc[,1])>0,1,0)
+EI$cboeEpc<-ifelse(cboeEpc[,1]-lag(cboeEpc[,1])>0,1,0)
+EI$cboeVpc<-ifelse(cboeVpc[,1]-lag(cboeVpc[,1])>0,1,0)
+**
+EI$fsi<-ifelse(fsi[,1]-lag(fsi[,1])>0,1,0)
+EI$stresseq<-ifelse(stresseq[,1]-lag(stresseq[,1])>0,1,0)
+EI$unc3m<-ifelse(unc3m[,1]-lag(unc3m[,1])>0,1,0)
+EI$unc10yr<-ifelse(unc10yr[,1]-lag(unc10yr[,1])>0,1,0)
+EI$polunc<-ifelse(polunc[,1]-lag(polunc[,1])>0,1,0)
+EI$phlxhsi<-ifelse(phlxhsi[,1]-lag(phlxhsi[,1])>0,1,0)
+EI$cboeTpc<-ifelse(cboeTpc[,1]-lag(cboeTpc[,1])>0,1,0)
+EI$cboeEpc<-ifelse(cboeEpc[,1]-lag(cboeEpc[,1])>0,1,0)
+EI$cboeVpc<-ifelse(cboeVpc[,1]-lag(cboeVpc[,1])>0,1,0)
+****
+library("caTools", lib.loc="~/R/win-library/3.2")
+set.seed(1000)
+split<-sample.split(SI$CH,SplitRatio = 0.7)
+train<-subset(SI,split=TRUE)
+test<-subset(SI,split=FALSE)
+SIlogit<-glm(CH ~.,data=train,family=binomial)
+summary(SIlogit)
+http://www.r-bloggers.com/how-to-perform-a-logistic-regression-in-r/
+***
+SI$Ret<-ROC(GSPC[,4])
+SI$Q4<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.75,na.rm=TRUE)#0.75 rolling quantile, 0.90 decile
+SI$QH<-ifelse(GSPC[,4]>SI$Q4,1,0)#35% cases
+for(i in 1:length(SI[,1])){SI$QJJD[i]<-ifelse(SI$Ret[i]>0.01 && SI$Ret[i+1]>0.005 && SI$QH[i]==1 && SI$CH[i+2]==0,1,0)}# 19%
+for(i in 1:length(SI[,1])){SI$QJJU[i]<-ifelse(SI$Ret[i]>0.01 && SI$Ret[i+1]>0.005 && SI$QH[i]==1 && SI$CH[i+2]==1,1,0)}# 19% 
+***
+TD<-ROC(GSPC[,4])
+TD$GSPC<-ifelse(ROC(GSPC[,4])>0,1,0)
+TD$NDX<-ifelse(ROC(NDX[,4])>0,1,0)
+TD$OEX<-ifelse(ROC(OEX[,4])>0,1,0)
+TD$RUI<-ifelse(ROC(RUI[,4])>0,1,0)
+TD$IXIC<-ifelse(ROC(IXIC[,4])>0,1,0)
+TD$SML<-ifelse(ROC(SML[,4])>0,1,0)
+TD$SPY<-ifelse(ROC(SPY[,4])>0,1,0)
+TD$FTSE<-ifelse(ROC(FTSE[,4])>0,1,0)
+TD$FCHI<-ifelse(ROC(FCHI[,4])>0,1,0)
+TD$GDAXI<-ifelse(ROC(GDAXI[,4])>0,1,0)
+TD$HSI<-ifelse(ROC(HSI[,4])>0,1,0)
+TD$N225<-ifelse(ROC(N225[,4])>0,1,0)
+TD$NSEI<-ifelse(ROC(NSEI[,4])>0,1,0)
+TD$VIX<-ifelse(ROC(VIX[,4])>0,1,0)
+TD$VXN<-ifelse(ROC(VXN[,4])>0,1,0)
+TD$VXX<-ifelse(ROC(VXX[,4])>0,1,0)
+TD$XIV<-ifelse(ROC(XIV[,4])>0,1,0)
+TD$UVXY<-ifelse(ROC(UVXY[,4])>0,1,0)
+TD$OIL<-ifelse(ROC(OIL[,4])>0,1,0)
+TD$USO<-ifelse(ROC(USO[,4])>0,1,0)
+TD$GVZ<-ifelse(ROC(GVZ[,4])>0,1,0)
+TD$GLD<-ifelse(ROC(GLD[,4])>0,1,0)
+TD$GDX<-ifelse(ROC(GDX[,4])>0,1,0)
+TD$GSPC.Close<-NULL
+TD<-na.omit(TD)
+# correlation based reduction of variables
+library("caret", lib.loc="~/R/win-library/3.2")
+library("kernlab", lib.loc="~/R/win-library/3.2")
+inTrain<-createDataPartition(y=TD$NDX,p=0.75,list=FALSE)
+training<-TD[inTrain,]
+testing<-TD[inTrain,]
+M<-abs(cor(training[,-58])
+diag(M)<-0
+which(M>0.6,arr.ind=T)
+GSPC:NDX,OEX,RUI,IXIC,SML,VIX
+NDX:GSPC,OEX,RUI,IXIC,SPY
+VIX:GSPC,OEX,VXN   
+symbol<-'INX'#index SP500 
+dirPath<-'c:/DATA/min/'
+fileName<-paste(dirPath,symbol,'.csv',sep='')
+download.file(paste('http://www.google.com/finance/getprices?q=',symbol,'&x=INDEXSP&i=',60,"&p=",15,"d&f=d,o,h,l,c,v,t",sep=""), fileName)
+****
+library("quantmod", lib.loc="~/R/win-library/3.2")
+library("rpart", lib.loc="C:/Program Files/R/R-3.2.1/library")
+library("rpart.plot", lib.loc="~/R/win-library/3.2")
+library("caTools", lib.loc="~/R/win-library/3.2")
+library("caret", lib.loc="~/R/win-library/3.2")
+library("kernlab", lib.loc="~/R/win-library/3.2")
+
+***LOGIT
+library("nnet", lib.loc="/usr/lib/R/library")
+library("foreign", lib.loc="/usr/lib/R/library")
+library("ggplot2", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+library("reshape2", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+****
+http://www.ats.ucla.edu/stat/r/dae/mlogit.htm
+http://nlp.stanford.edu/manning/courses/ling289/logistic.pdf
+http://data.princeton.edu/R/glms.html
+http://ww2.coastal.edu/kingw/statistics/R-tutorials/logistic.html
+http://www.ats.ucla.edu/stat/r/dae/logit.htm
+####
+**see stocktrade/paper_IJF_logit
+
+PCA
+****
+https://github.com/vqv/ggbiplot
+http://www.cs.otago.ac.nz/cosc453/student_tutorials/principal_components.pdf
+https://onlinecourses.science.psu.edu/stat505/node/49
+http://ordination.okstate.edu/PCA.htm
+http://www.brown.edu/academics/economics/sites/brown.edu.academics.economics/files/uploads/Yacine.pdf
+http://quantcity.blogspot.in/2013/12/pca-on-nifty-stocks.html
+https://www.riskprep.com/all-tutorials/36-exam-22/132-understanding-principal-component-analysis-pca
+http://www.pearsonhighered.com/kuiper1einfo/assets/pdf/Kuiper_Ch10.pdf
+http://www.r-bloggers.com/computing-and-visualizing-pca-in-r/
+http://www.hse.ru/data/2012/02/19/1263058713/Principal%20components%20of%20stock%20market%20dynamics_19_02.pdf
+http://www.r-bloggers.com/modelling-returns-using-pca-evidence-from-indian-equity-market/
+http://programming-r-pro-bro.blogspot.in/2011/10/principal-component-analysis-use_23.html
+http://strata.uga.edu/software/pdf/pcaTutorial.pdf
+http://www.calculatinginvestor.com/2013/03/01/principal-component-analysis/
+1. Fundamental data 2.Which strategy to include in selection/trade strategy 3.Sector weightage 4. Index Direction prediction factor 5. Which component stocks of index are accounting most for index variations
+
+TDR<-ROC(GSPC[,4])
+TDR$GSPC<-ROC(GSPC[,4])
+TDR$NDX<-ROC(NDX[,4])
+TDR$OEX<-ROC(OEX[,4])
+TDR$RUI<-ROC(RUI[,4])
+TDR$IXIC<-ROC(IXIC[,4])
+TDR$SML<-ROC(SML[,4])
+TDR$VIX<-ROC(VIX[,4])
+TDR$GSPC.Close<-NULL
+TDR<-na.omit(TDR)
+TDRdf<-as.data.frame(TDR)
+inTrain<-createDataPartition(y=TDRdf$NDX,p=0.75,list=FALSE)
+training<-TDRdf[inTrain,]
+testing<-TDRdf[inTrain,]
+M<-abs(cor(training[,-58]))
+diag(M)<-0
+which(M>0.6,arr.ind=T)
+smallTDR<-TDR[,c("GSPC","OEX")] 
+pca<-prcomp(smallTDR)
+plot(pca$x[,1],pca$x[,2])
+pca$Rotation
+typeColor<-((TDR$NDX=1)*1+1)
+pca<-prcomp(log10(TDR[,-58]+1))
+plot(pca$x[,1],pca$x[,2],col=typeColor,xlab="PC1",ylab="PC2")
+prPro<-preProcess(log10(TDRdf[,-58]+1),method ="pca",pcaComp = 2)
+TDRdfPC<-predict(prPro,log10(TDRdf[,-58]+1))
+plot(TDRdfPC[,1],TDRdfPC[,2],col=typeColor)
+plot(TDRdf$GSPC,TDRdf$NDX,pch=19)
+prProT<-preProcess(log10(training[,-58]+1),method ="pca",pcaComp = 2)
+TDRdfPC<-predict(prProT,log10(training[,-58]+1))
+modelFit<-train(training$NDX ~.,method="glm",data=TDRdfPC)
+testPC<-predict(prProT,log10(testing[,-58]+1))
+confusionMatrix(testing$NDX,predict(modelFit,testPC))
+modelFit<-train(training$NDX ~.,method="glm",preProcess="glm",data=training)
+confusionMatrix(testing$NDX,predict(modelFit,testPC))
+***
+EI<-na.omit(EI)
+SI<-na.omit(SI)
+***MLR
+plot(TDRdf$NDX,TDRdf$OEX)
+lmNDX<-lm(NDX ~ OEX+SML+RUI+VIX,data=TDRdf)
+***TREE
+getSymbols("^GSPC")
+RSI3<-RSI(Op(GSPC), n= 3)# 3 is not effective so taking 14 #RSI14<-RSI(Op(GSPC), n=14)
+#Calculate a 3-period relative strength index (RSI) off the open price strength index (RSI) off the open price
+EMA5<-EMA(Op(GSPC),n=5)
+#Calculate a 5-period exponential moving average (EMA)
+EMAcross<- Op(GSPC)-EMA5
+#Let’s explore the difference between the open price and our 5-period EMA
+MACD<-MACD(Op(GSPC),fast = 12, slow = 26, signal = 9)
+#Calculate a MACD with standard parameters
+MACDsignal<-MACD[,2]
+#Grab just the signal line to use as our indicator.
+SMI<-SMI(Op(GSPC),n=13,slow=25,fast=2,signal=9) 
+#Stochastic Oscillator with standard parameters
+SMI<-SMI[,1]
+#Grab just the oscillator to use as our indicator
+PriceChange<- Cl(GSPC) - Op(GSPC)
+#Calculate the difference between the close price and open price
+Class<-ifelse(PriceChange>0,"UP","DOWN")
+#Create a binary classification variable, the variable we are trying to predict.
+DataSet<-data.frame(RSI3,EMAcross,MACDsignal,SMI,Class)
+#Create our data set
+colnames(DataSet)<-c("RSI3","EMAcross","MACDsignal","Stochastic","Class")
+SI<-GSPC[,4]
+SI$C<-GSPC[,4]
+SI$ret<-ROC(GSPC[,4])
+SI$Q5<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.80,na.rm=TRUE)# rolling 0,1,2,3,4 five levels
+SI$Q4<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.60,na.rm=TRUE)
+SI$Q3<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.40,na.rm=TRUE)
+SI$Q2<-rollapply(as.xts(GSPC[,4]),width=50,FUN="quantile",0.20,na.rm=TRUE)
+SI$L<-ifelse(SI$C>=SI$Q5,4,ifelse(SI$C>=SI$Q4 & SI$C<SI$Q5,3,ifelse(SI$C>=SI$Q3 & SI$C<SI$Q4,2,ifelse(SI$C>=SI$Q2 & SI$C<SI$Q3,1,0))))
+SI$U<-ifelse(SI$ret>=0.01,4,ifelse(SI$ret>=0.0075 & SI$ret<0.01,3,ifelse(SI$ret>=0.004 & SI$ret<0.0075,2,ifelse(SI$ret>=0.002 & SI$ret<0.004,1,0))))
+SI$D<-ifelse(SI$ret<=(-0.01),4,ifelse(SI$ret<=(-0.0075) & SI$ret>(-0.01),3,ifelse(SI$ret<=(-0.004) & SI$ret>(-0.0075),2,ifelse(SI$ret<=(-0.002) & SI$ret>(-0.004),1,0))))
+DataSet$L<-SI$L
+DataSet$U<-SI$U
+DataSet$D<-SI$D
+DataSet$P<-GSPC[,4]
+DataSet$ret<-SI$ret
+#Name the columns
+DataSet<-na.omit(DataSet)#DataSet<-DataSet[-c(1:33),]#Get rid of the data where the indicators are being calculated
+qplot(RSI3,ROC,color=Class,data=DataSet)
+quantile(DataSet$RSI3)
+set.seed(88)
+split<-sample.split(DataSet$Class, SplitRatio = 0.75)
+split
+# Create training and testing sets
+TrainingSet<-subset(DataSet, split == TRUE)
+TestSet<-subset(DataSet, split == FALSE)
+#TrainingSet<-DataSet[1:312,]#Use 2/3 of the data to build the tree
+#TestSet<-DataSet[313:469,]#And leave out 1/3 data to test our strategy
+DecisionTree<-rpart(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, cp=.001)
+#Specifying the indicators to we want to use to predict the class and controlling the growth of the tree by setting the minimum amount of information gained (cp) needed to justify a split.
+prp(DecisionTree,type=2,extra=8)
+#Nice plotting tool with a couple parameters to make it look good. If you want to play around with the visualization yourself, here is a great resource.
+printcp(DecisionTree)#PRUNE
+#shows the minimal cp for each trees of each size.
+plotcp(DecisionTree,upper="splits")
+#plots the average geometric mean for trees of each size.
+PrunedDecisionTree<-prune(DecisionTree,cp=0.0272109)
+#I am selecting the complexity parameter (cp) that has the lowest cross-validated error (xerror)
+prp(PrunedDecisionTree, type=2, extra=8)
+table(predict(PrunedDecisionTree,TestSet,type="class"),TestSet[,5],dnn=list('predicted','actual'))
+
+##DecisionTree<-rpart(Class~L+U+RSI3,data=TrainingSet, cp=.001)
+##DecisionTree<-rpart(Class~L+RSI3+EMAcross,data=TrainingSet, cp=.0083)
+##DecisionTree<-rpart(Class~L+D+RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, cp=.0005)
+## DataSet$S1<-ifelse(DataSet$L==4 & DataSet$Stochastic<62,1,0) # top quartile and stochastic below 62 ==UP
+DecisionTree<-rpart(Class~L+U+Stochastic,data=TrainingSet, cp=.0015)#<52
+DecisionTree<-rpart(Class~L+MACDsignal,data=TrainingSet, cp=.0035)
+DecisionTree<-rpart(Class~L+EMAcross,data=TrainingSet, cp=.005)
+DecisionTree<-rpart(Class~L+RSI3,data=TrainingSet, cp=.005)
+prp(DecisionTree, type=2, extra=8)
+https://inovancetech.com/blogML3.html
+**Other Packages
+library("evtree", lib.loc="~/R/win-library/3.2")
+DTev<-evtree(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet)
+plot(DTev)
+table(predict(DTev), TrainingSet$Class)
+1-mean(predict(DTev) ==TrainingSet$Class)
+library("maptree", lib.loc="~/R/win-library/3.2")
+library("cluster", lib.loc="C:/Program Files/R/R-3.2.1/library")
+draw.tree( clip.rpart (rpart (TrainingSet), best=7),nodeinfo=TRUE, units="species",cases="cells", digits=0)
+library("party", lib.loc="~/R/win-library/3.2")
+(ct = ctree(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet))
+plot(ct, main="Conditional Inference Tree")
+#Table of prediction errors
+table(predict(ct), TrainingSet$Class)
+# Estimated class probabilities
+tr.pred<-predict(ct, newdata=TestSet, type="prob")
+library("tree", lib.loc="~/R/win-library/3.2")
+tr<-tree(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet)
+summary(tr)
+plot(tr)
+text(tr)
+***BAGGING
+library("mlbench", lib.loc="~/R/win-library/3.2")
+library("adabag", lib.loc="~/R/win-library/3.2")
+BAgging<-bagging(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet)
+BAgging.pred<-predict.bagging(BAgging,newdata=TestSet)
+BAgging.pred$error
+BAgging.pred$confusion
+****RandomFOrest
+library("randomForest", lib.loc="~/R/win-library/3.2")
+RF<-randomForest(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=DataSet)
+print(RF)
+importance(RF)
+plot(RF)
+plot( importance(RF), lty=2, pch=16)
+lines(importance(RF))
+**
+library("CORElearn", lib.loc="~/R/win-library/3.2")
+## Random Forests
+RMcoremodel<-CoreModel(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, model="rf", selectionEstimator="MDL", minNodeWeightRF=5, rfNoTrees=20)
+plot(RMcoremodel)
+## decision tree with naive Bayes in the leaves
+RMcoremodelNB<-CoreModel(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, model="tree", modelType=4)
+plot(RMcoremodelNB,TrainingSet)
+RMcoremodelRT<-CoreModel(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, model="regTree", modelTypeReg=1) 
+summary(RMcoremodelRT)
+plot(RMcoremodelRT,TestSet, graphType="prototypes")
+pred<-predict(RMcoremodelRT,TestSet)
+print(pred)
+plot(pred)
+
+
+
+SEM
+****
+structural equation modelling, available in the sem, lavaan and OpenMx packages. I highly recommend getting the psych package, and reading its vignettes, as they have a host of information on these kinds of techniques
+
+
+ Dynamic principle components (and dynamic factor analysis) 
+*****
+
+Naive Bayes
+*****
+1. Days effect as economic event is important 2.indicator importance along with PCA
+
+https://inovancetech.com/blogML2.html
+
+http://www.ijera.com/papers/Vol4_issue6/Version%202/Q04602106117.pdf
+http://www.dataapple.net/
+http://stats.stackexchange.com/questions/61034/naive-bayes-on-continuous-variables
+http://www.salemmarafi.com/tag/r/
+http://stackoverflow.com/questions/32700491/plotting-a-linear-discriminant-analysis-classification-tree-and-naive-bayes-cur   
+http://discuss.analyticsvidhya.com/t/how-does-r-calculate-the-probabilities-in-naive-bayes/5818
+
+library("MASS", lib.loc="/usr/lib/R/library")
+install.packages("caret")
+install.packages("klaR")
+install.packages("quantmod")
+library("quantmod")
+#Allows us to import the data we need
+
+install.packages("lubridate")
+library("lubridate")
+#Makes it easier to work with the dates
+
+install.packages("e1071")
+library("e1071")
+#Gives us access to the Naïve Bayes classifier 
+
+startDate = as.Date("2014-01-01")
+# The beginning of the date range we want to look at
+
+endDate = as.Date("2015-11-18")
+# The end of the date range we want to look at
+
+getSymbols("AAPL", src = "yahoo", from = startDate, to = endDate)
+# Retrieving Apple’s daily OHLCV from Yahoo Finance 
+
+DayofWeek<-wday(AAPL, label=TRUE)
+#Find the day of the week 
+
+PriceChange<- Cl(AAPL) - Op(AAPL)
+#Find the difference between the close price and open price
+
+Class<-ifelse(PriceChange>0,"UP","DOWN")
+#Convert to a binary classification. (In our data set, there are no bars with an exactly 0 price change so, for simplicity sake, we will not address bars that had the same open and close price.)
+
+DataSet<-data.frame(DayofWeek,Class)
+#Create our data set 
+
+MyModel<-naiveBayes(DataSet[,1],DataSet[,2])
+#The input, or independent variable (DataSet,1]), and what we are trying to predict, the dependent variable (DataSet[,2]). 
+
+#Application of indicator
+
+EMA5<-EMA(Op(AAPL),n = 5)
+#We are calculating a 5-period EMA off the open price
+
+EMA10<-EMA(Op(AAPL),n = 10)
+#Then the 10-period EMA, also off the open price 
+
+EMACross <- EMA5 - EMA10
+#Positive values correspond to the 5-period EMA being above the 10-period EMA 
+
+EMACross<-round(EMACross,2)
+
+DataSet2<-data.frame(DayofWeek,EMACross, Class)
+DataSet2<-DataSet2[-c(1:10),]
+#We need to remove the instances where the 10-period moving average is still being calculated
+TrainingSet<-DataSet2[1:round(length(DataSet2[,1])*2/3),]
+#We will use ⅔ of the data to train the model
+TestSet<-DataSet2[(length(DataSet2[,1])*2/3+1):length(DataSet2[,1])+1,]
+#And ⅓ to test it on unseen data 
+EMACrossModel<-naiveBayes(TrainingSet[,1:2],TrainingSet[,3]) 
+The Conditional Probability of the EMA Cross, a numeric variable, shows the mean value for each case ([,1]), and the standard deviation ([,2]). We can see that the mean difference between the 5-period EMA and 10-period EMA for long and short trades was $0.54 and -$0.24, respectively. 
+
+table(predict(EMACrossModel,TestSet),TestSet[,3],dnn=list('predicted','actual')) 
+
+Maximum Entropy
+****
+
+KNN
+****
+library(class)
+library(dplyr)
+library(lubridate)
+
+PriceChange<- Cl(GSPC) - Op(GSPC)
+#Calculate the difference between the close price and open price
+Increase<-ifelse(PriceChange>0,"TRUE","FALSE")
+#Create a binary classification variable, the variable we are trying to predict.
+KNNdata<-data.frame(Cl(GSPC),Cl(NDX),Cl(OEX),Increase)
+#Create our data set
+colnames(KNNdata)<-c("GSPC","NDX","OEX","Increase")
+
+set.seed(88)
+split<-sample.split(KNNdata$Increase, SplitRatio = 0.75)# Create training and testing sets
+TrainingSetKNN<-subset(KNNdata, split == TRUE)
+TestSetKNN<-subset(KNNdata, split == FALSE)
+
+prediction <- knn(TrainingSetKNN[1:3],TestSetKNN[1:3],TrainingSetKNN$Increase, k = 1)
+table(prediction, TestSetKNN$Increase)
+mean(prediction ==TestSetKNN$Increase)
+accuracy <- rep(0, 10)
+k <- 1:10
+for(x in k){
+prediction <- knn(TrainingSetKNN[1:3],TestSetKNN[1:3],TrainingSetKNN$Increase, k = 1)
+
+  accuracy[x] <- mean(prediction ==TestSetKNN$Increase)
+}
+plot(k, accuracy, type = 'b')
+
+Bayesian belief networks.
+*****
+
+SVM
+***
+see sentiment/indices
+Grab a time-series of some commodity or fund price and treat it as a data frame;
+
+Add a bunch of columns of technical analysis metrics (e.g. Bollinger, RSI, MACD, CCI) as factors;
+
+Add further columns: 1) ZigZag 2) a boolean for when the ZigZag is a low 3) the number of days before it increases +5% 4) a boolean for whether that gain is achieved within a month
+
+Then you can use your favourite ML engine (randomForest, SVM, etc) to find correspondences between the technical analysis factors and useful trading criteria. 
+
+KSVMmodel <- ksvm(Class~ RSI3+MACDsignal, data = DataSet,
+type = "C-bsvc", kernel = "rbfdot",kpar = list(sigma = 0.1), C = 10,prob.model = TRUE)
+predict(KSVMmodel,DataSet$Class, type = "probabilities")
+SVMmodel <- svm(Class~ RSI3+MACDsignal, data =DataSet,method = "C-classification", kernel = "radial",cost = 10, gamma = 0.1)
+
+file:///C:/Users/PS/Downloads/v15i09.pdf
+http://www.r-bloggers.com/learning-kernels-svm/
+http://www.dcc.fc.up.pt/~ltorgo/DataMiningWithR/code3.html
+
+https://quantumfinancier.wordpress.com/2010/06/26/support-vector-machine-rsi-system/
+http://www.quintuitive.com/2012/11/30/trading-with-support-vector-machines-svm/
+http://stats.stackexchange.com/questions/34924/resources-about-forecasting-stock-returns-with-svr
+http://www.cs.upc.edu/~belanche/Docencia/mineria/English-september-2008/Practical-work/Labo-SVMs.R
+http://www.svm-tutorial.com/2014/10/support-vector-regression-r/
+http://www.r-bloggers.com/the-5th-tribe-support-vector-machines-and-caret/
+http://www.r-bloggers.com/trading-with-support-vector-machines-svm/
+http://dni-institute.in/blogs/building-predictive-model-using-svm-and-r/
+http://www.cse.ust.hk/~leichen/courses/comp630p/collection/reference-1-23.pdf
+https://www.econ.berkeley.edu/sites/default/files/Selene%20Yue%20Xu.pdf
+
+HMM
+***
+HMMs can be used in two ways for regime detection, the first is to use a single HMM where each state in the HMM is considered a “regime”. The second method is to have multiple HMMs each designed to model an individual regime, the task is then to chose between models by looking at which is the most likely to have generated the data. I will explore both methods.
+
+Method1
+
+library('RHmm') #Load HMM package
+#Code based upon http://systematicinvestor.wordpress.com/2012/11/01/regime-detection/
+bullMarketOne = rnorm( 100, 0.1/365, 0.05/sqrt(365) )
+bearMarket  = rnorm( 100, -0.2/365, 0.15/sqrt(365))
+bullMarketTwo = rnorm( 100, 0.15/365, 0.07/sqrt(365) )
+true.states = c(rep(1,100),rep(2,100),rep(1,100))
+returns = c( bullMarketOne, bearMarket, bullMarketTwo )
+ 
+y=returns
+ResFit = HMMFit(y, nStates=2) #Fit a HMM with 2 states to the data
+VitPath = viterbi(ResFit, y) #Use the viterbi algorithm to find the most likely state path (of the training data)
+fb = forwardBackward(ResFit, y) #Forward-backward procedure, compute probabilities
+ 
+ 
+# Plot probabilities and implied states
+layout(1:3)
+plot(cumsum(returns),ylab="Cumulative Market Return",type="l", main="Fake Market Data")
+plot(VitPath$states, type='s', main='Implied States', xlab='', ylab='State')
+matplot(fb$Gamma, type='l', main='Smoothed Probabilities', ylab='Probability')
+legend(x='topright', c('Bear Market - State 2','Bull Market - State 1'),  fill=1:2, bty='n')
+
+Method 2
+
+library('RHmm') #Load HMM package
+library('zoo')
+ 
+#HMM model 1 (high vol and low vol upwards trend)
+model1ReturnsFunc <- function(isHighVol){
+  return(rnorm( 100, 0.1,if(isHighVol){0.15}else{0.02}))
+}
+bullLowVol = model1ReturnsFunc(F)
+bullHighVol  = model1ReturnsFunc(T)
+model1TrainingReturns = c(bullLowVol, bullHighVol)
+Model1Fit = HMMFit(model1TrainingReturns, nStates=2) #Fit a HMM with 2 states to the data
+ 
+#HMM model 2 (high vol and low vol downwards trend)
+model2ReturnsFunc <- function(isHighVol){
+  return(rnorm( 100, -0.1,if(isHighVol){0.15}else{0.02}))
+}
+bearLowVol = model2ReturnsFunc(F)
+bearHighVol  = model2ReturnsFunc(T)
+model2TrainingReturns = c(bearLowVol, bearHighVol)
+Model2Fit = HMMFit(model2TrainingReturns, nStates=2) #Fit a HMM with 2 states to the data
+ 
+#HMM model 3 (sideways market)
+model3ReturnsFunc <- function(isHighVol){
+  return(rnorm( 100, 0.0,if(isHighVol){0.16}else{0.08}))
+}
+sidewaysLowVol = model3ReturnsFunc(F)
+sidewaysHighVol  = model3ReturnsFunc(T)
+model3TrainingReturns = c(sidewaysLowVol, sidewaysHighVol)
+Model3Fit = HMMFit(model3TrainingReturns, nStates=2) #Fit a HMM with 2 states to the data
+ 
+generateDataFunc <- function(modelSequence,highVolSequence){
+  results <- c()
+  if(length(modelSequence) != length(highVolSequence)){ print("Model Sequence and Vol Sequence must be the same length"); return(NULL)}
+  for(i in 1:length(modelSequence)){
+    #Bit rubish having all these IFs here but its easy to understand for novice R users
+    if(modelSequence[i] == 1){
+       results <- c(results,model1ReturnsFunc(highVolSequence[i]))
+    }
+    if(modelSequence[i] == 2){
+       results <- c(results,model2ReturnsFunc(highVolSequence[i]))
+    }
+    if(modelSequence[i] == 3){
+       results <- c(results,model3ReturnsFunc(highVolSequence[i]))
+    }
+  }
+  return(results)
+}
+ 
+#Create some out of sample data
+actualModelSequence <- c(1,1,1,3,2,2,1)
+actualVolRegime <- c(T,T,T,T,T,T,T)
+outOfSampleData <- generateDataFunc(actualModelSequence,actualVolRegime)
+#Will take 50 days of data and calculate the rolling log likelihood for each HMM model
+model1Likelihood <- rollapply(outOfSampleData,50,align="right",na.pad=T,function(x) {forwardBackward(Model1Fit,x)$LLH})
+model2Likelihood <- rollapply(outOfSampleData,50,align="right",na.pad=T,function(x) {forwardBackward(Model2Fit,x)$LLH})
+model3Likelihood <- rollapply(outOfSampleData,50,align="right",na.pad=T,function(x) {forwardBackward(Model3Fit,x)$LLH})
+layout(1:3)
+plot(cumsum(outOfSampleData),main="Fake Market Data",ylab="Cumulative Returns",type="l")
+plot(model1Likelihood,type="l",ylab="Log Likelihood of Each Model",main="Log Likelihood for each HMM Model")
+lines(model2Likelihood,type="l",col="red")
+lines(model3Likelihood,type="l",col="blue")
+plot(rep((actualModelSequence==3)*3,each=100),col="blue",type="o",ylim=c(0.8,3.1),ylab="Actual MODEL Number",main="Actual MODEL Sequence")
+lines(rep((actualModelSequence==2)*2,each=100),col="red",type="o")
+lines(rep((actualModelSequence==1)*1,each=100),col="black",type="o")
+legend(x='topright', c('Model 1 - Bull Mkt','Model 2 - Bear Mkt','Model 3 - Side ways Mkt'), col=c("black","red","blue"), bty='n',lty=c(1,1,1))
+
+
+http://gekkoquant.com/2014/09/07/hidden-markov-models-examples-in-r-part-3-of-4/
+http://cs229.stanford.edu/proj2009/ShinLee.pdf
+https://www.cs.sfu.ca/~anoop/students/rzhang/rzhang_msc_thesis.pdf
+http://www.cs.uml.edu/ecg/uploads/AIfall12/jfallon_hmm_stock.pdf
+http://iceb.nccu.edu.tw/proceedings/2002/PDF/f234.pdf
+http://www.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-63.pdf
+http://www.scienpress.com/Upload/JSEM/Vol%201_2_4.pdf
+http://www.r-bloggers.com/regime-detection/
+http://blog.revolutionanalytics.com/2014/03/r-and-hidden-markov-models.html
+http://connection.ebscohost.com/c/articles/75244123/future-state-prediction-stock-market-using-hidden-markov-model
+http://profs.sci.univr.it/~bicego/papers/2008_SSPRBicegoGrossoOtranto.pdf
+https://cran.r-project.org/web/packages/markovchain/vignettes/an_introduction_to_markovchain_package.pdf
+http://www.springerplus.com/content/3/1/657
+http://www.researchgate.net/publication/256503512_Hidden_Markov_Models
+http://www2.imm.dtu.dk/courses/02433/
+https://cran.r-project.org/web/packages/HiddenMarkov/HiddenMarkov.pdf
+http://dare.uva.nl/document/2/105489
+*#
+
+
+
+***HHM
+install.packages("RHmm", repos="http://R-Forge.R-project.org")
+library("RHmm", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+install.packages("RHmm", repos="http://R-Forge.R-project.org")
+install.packages("depmixS4", repos= c("http://R-Forge.R-project.org", getOption("repos")))
+library("depmixS4", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+install.packages('curl', repos = 'http://cran.r-project.org')
+library("curl", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+#sudo su - -c "R -e \"install.packages('devtools', repos='http://cran.rstudio.com/')\""
+install.packages('devtools', repos='http://cran.rstudio.com/')
+#http://systematicinvestor.github.io/about/ # SIT download
+**
+rm(list = ls())
+
+library(depmixS4)
+library(TTR)
+
+## Bull and Bear Markets ##
+# Load S&P 500 returns
+Sys.setenv(tz = "UTC")
+sp500 <- getYahooData("^GSPC", start = 19500101, end = 20160120, freq = "daily")
+
+# Preprocessing
+ep <- endpoints(sp500, on = "months", k = 1)
+sp500 <- sp500[ep[2:(length(ep)-1)]]
+sp500$logret <- log(sp500$Close) - lag(log(sp500$Close))
+sp500 <- na.exclude(sp500)
+
+# Plot the S&P 500 returns
+plot(sp500$logret, main = "S&P 500 log Returns")
+
+# Regime switching model
+mod <- depmix(logret ~ 1, family = gaussian(), nstates = 4, data = sp500)
+set.seed(1)
+fm2 <- fit(mod, verbose = FALSE)
+# Initial probabilities
+summary(fm2, which = "prior")
+# Transition probabilities
+summary(fm2, which = "transition")
+# Reponse/emission function
+summary(fm2, which = "response")
+
+# Classification (inference task)
+tsp500 <- as.ts(sp500)
+pbear <- as.ts(posterior(fm2)[, 2])
+tsp(pbear) <- tsp(tsp500)
+plot(cbind(tsp500[, 6], pbear), main = "Posterior Probability of State=1 (Volatile, Bear Market)")
+
+map.bear <- as.ts(posterior(fm2)[, 1] == 1)
+tsp(map.bear) <- tsp(tsp500)
+plot(cbind(tsp500[, 6], map.bear),main = "Maximum A Posteriori (MAP) State Sequence")
+**
+
+#----------------------------------------------------------------
+# Hiden Markov Model of S&P 500 log returns
+# See documentation for depmixS4 package 
+# http://cran.r-project.org/web/packages/depmixS4/depmixS4.pdf and presentation 
+# on Singapore R Users Group Site on HMM February 14, 2014
+# http://www.meetup.com/R-User-Group-SG/files/
+
+library(depmixS4)
+library(TTR)
+library(ggplot2)
+library(reshape2)
+
+## Bull and Bear Markets ##
+# Load S&P 500 returns from Yahoo
+Sys.setenv(tz = "UTC")
+sp500 <- getYahooData("^GSPC", start = 19500101, end = 20160120, freq = "daily")
+head(sp500)
+tail(sp500)
+
+# Preprocessing
+# Compute log Returns
+ep <- endpoints(sp500, on = "months", k = 1)
+sp500LR <- sp500[ep[2:(length(ep)-1)]]
+sp500LR$logret <- log(sp500LR$Close) - lag(log(sp500LR$Close))
+sp500LR <- na.exclude(sp500LR)
+head(sp500LR)
+
+# Build a data frame for ggplot
+sp500LRdf <- data.frame(sp500LR)
+sp500LRdf$Date <-as.Date(row.names(sp500LRdf),"%Y-%m-%d")
+
+# Plot the S&P 500 returns
+ggplot( sp500LRdf, aes(Date) ) + 
+  geom_line( aes( y = logret ) ) +
+  labs( title = "S&P 500 log Returns")
+
+
+# Construct and fit a regime switching model
+mod <- depmix(logret ~ 1, family = gaussian(), nstates = 4, data = sp500LR)
+set.seed(1)
+fm2 <- fit(mod, verbose = FALSE)
+#
+summary(fm2)
+print(fm2)
+
+# Classification (inference task)
+probs <- posterior(fm2)             # Compute probability of being in each state
+head(probs)
+rowSums(head(probs)[,2:5])          # Check that probabilities sum to 1
+
+pBear <- probs[,2]                  # Pick out the "Bear" or low volatility state
+sp500LRdf$pBear <- pBear            # Put pBear in the data frame for plotting
+
+# Pick out an interesting subset of the data or plotting and
+# reshape the data in a form convenient for ggplot
+df <- melt(sp500LRdf[400:500,6:8],id="Date",measure=c("logret","pBear"))
+#head(df)
+
+# Plot the log return time series along withe the time series of probabilities
+qplot(Date,value,data=df,geom="line",
+      main = "SP 500 Log returns and 'Bear' state probabilities",
+      ylab = "") + 
+  facet_grid(variable ~ ., scales="free_y")
+**
+http://www.meetup.com/R-User-Group-SG/files/
+http://blog.revolutionanalytics.com/2014/03/r-and-hidden-markov-models.html
+http://systematicinvestor.github.io/Regime-Detection-Update/
+https://github.com/cran/depmixS4/blob/master/tests/test3responses.R
+http://stackoverflow.com/questions/30146288/hmm-text-recognition-in-r-depmixs4
+https://cran.r-project.org/web/packages/depmixS4/depmixS4.pdf
+https://www.afsc.noaa.gov/Publications/ProcRpt/PR2013-04.pdf
+http://yunus.hacettepe.edu.tr/~iozkan/eco742/hmm.html
+https://github.com/helske/seqHMM
+http://www-stat.wharton.upenn.edu/~steele/Courses/956/Resource/HiddenMarkovModels/HMMinR/PackageHiddenMarkov.pdf
+https://cran.r-project.org/web/packages/HMMCont/HMMCont.pdf
+http://www.ase360.org/handle/123456789/121
+http://www.ase360.org/bitstream/handle/123456789/121/submission11.pdf?sequence=1&isAllowed=y
+http://sist.sysu.edu.cn/~syu/HSMM_References/2009_Bulla%20Bulla%20Nenadic_HSMM%20R%20package.pdf
+https://ediss.uni-goettingen.de/bitstream/handle/11858/00-1735-0000-000D-F27C-7/bulla.counted.pdf?sequence=1
+http://ir.lib.uwo.ca/cgi/viewcontent.cgi?article=3670&context=etd
+http://www.stats.uwo.ca/faculty/aim/tsar/tsar.pdf
+https://cran.r-project.org/doc/contrib/Farnsworth-EconometricsInR.pdf
+http://www.datalab.uci.edu/papers/trseghmm.pdf
+http://liu.diva-portal.org/smash/get/diva2:17431/FULLTEXT01.pdf
+http://www.stanfordphd.com/uploads/Finance_CS1_Solution.pdf
+http://www-stat.wharton.upenn.edu/~stine/stat910/
+
+
+ANN
+**
+library("neuralnet")
+ 
+#Going to create a neural network to perform sqare rooting
+#And store them as a dataframe
+traininginput <-  Op(GSPC)
+trainingoutput <- RSI(traininginput, n= 3)
+ 
+#Column bind the data into one variable
+trainingdata <- cbind(traininginput,trainingoutput)
+colnames(trainingdata) <- c("Input","Output")
+ 
+#Train the neural network
+#Going to have 10 hidden layers
+#Threshold is a numeric value specifying the threshold for the partial
+#derivatives of the error function as stopping criteria.
+nn.RSI <- neuralnet(Output~Input,trainingdata, hidden=10, threshold=0.01)
+print(nn.RSI)
+ 
+#Plot the neural network
+plot(nn.RSI)
+ 
+#Test the neural network on some training data
+testdata <- RSI(Op(GSPC), n= 3)#Generate some squared numbers
+nn.results <- compute(nn.RSI, testdata) #Run them through the neural network
+ 
+#Lets see what properties net.sqrt has
+ls(nn.results)
+ 
+#Lets see the results
+print(nn.results$net.result)
+ 
+#Lets display a better version of the results
+cleanoutput <- cbind(testdata,sqrt(testdata),
+                         as.data.frame(nn.results$net.result))
+colnames(cleanoutput) <- c("Input","Expected Output","Neural Net Output")
+print(cleanoutput)
+
+
+https://en.m.wikipedia.org/wiki/Quantitative_analyst
+https://github.com/FraPochetti/StocksProject
+http://www.ijera.com/papers/Vol3_issue6/EN36855867.pdf
+http://computationalfinance.lsi.upc.edu/?page_id=242
+https://cs.nyu.edu/web/Research/TechReports/TR2013-953/TR2013-953.pdf
+http://blog.fosstrading.com/
+
+ARIMA
+**
+fit <- arima(Cl(GSPC), order=c(1,0,0), list(order=c(2,1,0), period=12))
+fore <- predict(fit, n.ahead=24)
+# error bounds at 95% confidence level
+U <- fore$pred + 2*fore$se
+L <- fore$pred - 2*fore$se
+ts.plot(as.ts(Cl(GSPC)), fore$pred, U, L, col=c(1,2,4,4), lty = c(1,1,2,2))
+legend("topleft", c("Actual", "Forecast", "Error Bounds (95% Confidence)"),col=c(1,2,4), lty=c(1,1,2))
+https://theaverageinvestor.wordpress.com/tag/arima/
+http://www.r-bloggers.com/arma-models-for-trading/
+
+GARCH
+***
+http://www.r-bloggers.com/trading-using-garch-volatility-forecast/
+http://www.quintuitive.com/2012/08/22/arma-models-for-trading/
+http://unstarched.net/r-examples/rugarch/a-short-introduction-to-the-rugarch-package/
+http://www.r-bloggers.com/more-orthodox-armagarch-trading/
+
+GP
+**
+http://www.cs.ubc.ca/~nando/540-2013/projects/p5.pdf
+
+https://sites.google.com/site/cdmurray80/machinelearningandmarkets
+http://www.researchgate.net/publication/270341894_Application_of_ARMA-GARCH_model_and_Support_Vector_Regression_in_Financial_Time_Series_Forecasting
+http://www.svms.org/finance/
+http://www.r-bloggers.com/search/trading
+http://gekkoquant.com/
+http://cs229.stanford.edu/proj2013/Taylor-Applying%20Machine%20Learning%20to%20Stock%20Market%20Trading.pdf
+http://cs229.stanford.edu/proj2013/Taylor-Applying%20Machine%20Learning%20to%20Stock%20Market%20Trading.pdf
+install.packages("DMwR")
+http://www.dcc.fc.up.pt/~ltorgo/DataMiningWithR/book.html
+http://www.dcc.fc.up.pt/~ltorgo/DataMiningWithR/code3.html
+
+
+http://www.dcc.fc.up.pt/~ltorgo/DataMiningWithR/code3.html
+http://www.researchmathsci.org/JMIart/JMI-v1-7.pdf
+https://www.linkedin.com/pulse/20141103165037-172934333-trading-the-rsi-using-a-support-vector-machine
+http://www.cse.ust.hk/~leichen/courses/comp630p/collection/reference-1-23.pdf
+http://biocircuits.ucsd.edu/huerta/AF_Huerta.pdf
+http://www.ccsenet.org/journal/index.php/mas/article/viewFile/4586/3925%20rel=%5C''nofollo%25
+http://www.aphysicistinwallstreet.com/2011/01/blackbox-trading-strategy-using.html
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.259.2242&rep=rep1&type=pdf
+file:///C:/Users/PS/Downloads/0938505BehroozNobakht_0953083CarlDippel_4040260BabakLoni_4.pdf
+http://www.eecs.berkeley.edu/Pubs/TechRpts/2010/EECS-2010-63.pdf
+https://systematicinvestor.wordpress.com/2012/11/01/regime-detection/
+http://cs229.stanford.edu/proj2009/ShinLee.pdf
+https://www.cs.sfu.ca/~anoop/students/rzhang/rzhang_msc_thesis.pdf
+*****http://www.dcc.fc.up.pt/~ltorgo/DataMiningWithR/code3.html##below
+
+T.ind <- function(quotes,tgt.margin=0.025,n.days=10) {
+  v <- apply(HLC(quotes),1,mean)
+
+  r <- matrix(NA,ncol=n.days,nrow=NROW(quotes))
+  ## The following statment is wrong in the book (page 109)!
+  for(x in 1:n.days) r[,x] <- Next(Delt(Cl(quotes),v,k=x),x)
+
+  x <- apply(r,1,function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x,time(quotes)) else x
+}
+
+
+candleChart(last(GSPC,'3 months'),theme='white',TA=NULL)
+avgPrice <- function(p) apply(HLC(p),1,mean)
+addAvgPrice <- newTA(FUN=avgPrice,col=1,legend='AvgPrice')
+addT.ind <- newTA(FUN=T.ind,col='red',legend='tgtRet')
+addAvgPrice(on=1)
+addT.ind()
+myATR <- function(x) ATR(HLC(x))[,'atr']
+mySMI <- function(x) SMI(HLC(x))[,'SMI']
+myADX <- function(x) ADX(HLC(x))[,'ADX']
+myAroon <- function(x) aroon(x[,c('High','Low')])$oscillator
+myBB <- function(x) BBands(HLC(x))[,'pctB']
+myChaikinVol <- function(x) Delt(chaikinVolatility(x[,c("High","Low")]))[,1]
+myCLV <- function(x) EMA(CLV(HLC(x)))[,1]
+myEMV <- function(x) EMV(x[,c('High','Low')],x[,'Volume'])[,2]
+myMACD <- function(x) MACD(Cl(x))[,2]
+myMFI <- function(x) MFI(x[,c("High","Low","Close")], x[,"Volume"])
+mySAR <- function(x) SAR(x[,c('High','Close')]) [,1]
+myVolat <- function(x) volatility(OHLC(x),calc="garman")[,1]
+
+data.model <- specifyModel(T.ind(GSPC) ~ Delt(Cl(GSPC),k=1) + myATR(GSPC) + myADX(GSPC) + myEMV(GSPC) + myVolat(GSPC)  + myMACD(GSPC) 
+              + mySAR(GSPC) + runMean(Cl(GSPC)) )
+
+Tdata.train <- as.data.frame(modelData(data.model,
+                       data.window=c('2014-01-01','2015-09-06')))
+Tdata.eval <- na.omit(as.data.frame(modelData(data.model,
+                       data.window=c('2015-09-07','2016-01-06'))))
+Tform <- as.formula('T.ind.GSPC ~ .')
+
+set.seed(1234)
+library(nnet)
+norm.data <- scale(Tdata.train)
+nn <- nnet(Tform,norm.data[1:100,],size=10,decay=0.01,maxit=100,linout=T,trace=F)
+norm.preds <- predict(nn,norm.data[101:200,])
+preds <- unscale(norm.preds,norm.data)
+
+sigs.nn <- trading.signals(preds,0.1,-0.1)
+true.sigs <- trading.signals(Tdata.train[101:200,'T.ind.GSPC'],0.1,-0.1)
+sigs.PR(sigs.nn,true.sigs)
+
+***LDA and logit to find significant LAG. LAG1 is significant
+library("ISLR")
+PriceChange<- Cl(GSPC) - Op(GSPC)
+Class<-ifelse(PriceChange>0,"UP","DOWN")
+lag1<-lag(Cl(GSPC),1)
+lag2<-lag(Cl(GSPC),2)
+lag3<-lag(Cl(GSPC),3)
+lag4<-lag(Cl(GSPC),4)
+lag5<-lag(Cl(GSPC),5)
+lag6<-lag(Cl(GSPC),6)
+LDAdata<-data.frame(Class[10:length(Class)],lag1[10:length((lag1))],lag2[10:length((lag2))],lag3[10:length((lag3))],lag4[10:length((lag4))],lag5[10:length((lag5))],lag6[10:length((lag6))])
+colnames(LDAdata)<-c("Change","lag1","lag2","lag3","lag4","lag5","lag6")
+set.seed(88)
+split<-sample.split(LDAdata$Change,SplitRatio = 0.75)
+TrainingSetLDA<-subset(LDAdata, split == TRUE)
+TestSetLDA<-subset(LDAdata, split == FALSE)
+lda.fit<-lda(Change ~ lag1+lag2+lag3+lag4+lag5+lag6, data =TrainingSetLDA)
+lda.fit
+lda.pred <- predict(lda.fit,TestSetLDA)
+names(lda.pred)
+lda.class = lda.pred$class
+# Confusion Matrix
+table(lda.class,TestSetLDA$Change)
+mean(lda.class == TestSetLDA$Change)
+sum(lda.pred$posterior[, 1] >= 0.5)
+sum(lda.pred$posterior[, 1] < 0.5)
+lda.pred$posterior[1:20, 1]
+lda.class[1:20]
+plot(lda.fit)
+knn.pred<-knn(TrainingSetLDA[2:7],TestSetLDA[2:7],TrainingSetLDA$Change, k = 3)
+table(knn.pred,TestSetLDA$Change)
+glm.fit<-glm(Change ~ lag1+lag2+lag3+lag4+lag5+lag6,data =TrainingSetLDA,family = binomial)
+summary(glm.fit)
+glm.probs<-predict(glm.fit,data =TestSetLDA,type = "response")
+length(glm.probs)
+glm.probs[1:10]
+# movements of the market over that time period.
+glm.pred<-glm.probs
+glm.pred<-ifelse(glm.pred> 0.5,"Up","Down")
+table(glm.pred,TestSetLDA$Change)
+mean(glm.pred == TestSetLDA$Change)
