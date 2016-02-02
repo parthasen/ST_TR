@@ -314,3 +314,348 @@ prp(DecisionTree, type=2)
 tail(TD)
 DecisionTree<-rpart(CH~PL+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.008)
 prp(DecisionTree, type=2)
+******
+***MODEL NDX
+NDX_logit<-glm(CH ~ OEX+XLF+XLV+XLB+XLY+XLI,data=TD,family=binomial)#y1
+lmOEX<-lm(formula = OEX_R ~ NDX_R +FTSE_R+HSI_R+XLE_R + XLF_R + XLV_R + XLI_R, data =TD)#y2
+lmNDX<-lm(formula = NDX_R ~ OEX_R +XLE_R + XLF_R +TQQQ_SQQQ, data = TD)#y3
+fitOEX<-garchFit(~ garch(1, 1), data =TD$OEX_R, trace = FALSE, cond.dist="QMLE")
+pOEX<-predict(fitOEX, n.ahead = 1)
+fitNDX<-garchFit(~ garch(1, 1), data = TD$NDX_R, trace = FALSE, cond.dist="QMLE")
+pNDX<-predict(fitNDX, n.ahead = 1)
+fitFTSE<-garchFit(~ garch(1, 1), data =TD$FTSE_R, trace = FALSE, cond.dist="QMLE")
+fitNDX<-garchFit(~ garch(1, 1), data = TD$NDX_R, trace = FALSE, cond.dist="QMLE")
+pNDX<-predict(fitNDX, n.ahead = 1)
+pFTSE<-predict(fitFTSE, n.ahead = 1)
+fitHSI<-garchFit(~ garch(1, 1), data =TD$HSI_R, trace = FALSE, cond.dist="QMLE")
+pHSI<-predict(fitHSI, n.ahead = 1)
+fitXLE<-garchFit(~ garch(1, 1), data = TD$XLE_R, trace = FALSE, cond.dist="QMLE")
+pXLE<-predict(fitXLE, n.ahead = 1)
+fitXLF<-garchFit(~ garch(1, 1), data = TD$XLF_R, trace = FALSE, cond.dist="QMLE")
+pXLF<-predict(fitXLF, n.ahead = 1)
+fitXLV<-garchFit(~ garch(1, 1), data = TD$XLV_R, trace = FALSE, cond.dist="QMLE")
+pXLV<-predict(fitXLV, n.ahead = 1)
+fitXLI<-garchFit(~ garch(1, 1), data = TD$XLI_R, trace = FALSE, cond.dist="QMLE")
+pXLI<-predict(fitXLI, n.ahead = 1)
+fitXLB<-garchFit(~ garch(1, 1), data =TD$XLB_R, trace = FALSE, cond.dist="QMLE")
+pXLB<-predict(fitXLB, n.ahead = 1)
+fitXLY<-garchFit(~ garch(1, 1), data =TD$XLY_R, trace = FALSE, cond.dist="QMLE")
+pXLY<-predict(fitXLY, n.ahead = 1)
+fitTQQQ_SQQQ<-garchFit(~ garch(1, 1), data =TD$TQQQ_SQQQ, trace = FALSE, cond.dist="QMLE")
+pTQQQ_SQQQ<-predict(fitTQQQ_SQQQ, n.ahead = 1)
+#pNDX$meanForecast
+fOEX<-sum(lmOEX$coefficients[2]*(pNDX$meanForecast)+lmOEX$coefficients[3]*(pFTSE$meanForecast)-lmOEX$coefficients[4]*(pHSI$meanForecast)+lmOEX$coefficients[5]*(pXLE$meanForecast)+lmOEX$coefficients[6]*(pXLF$meanForecast)+lmOEX$coefficients[7]*(pXLV$meanForecast)+lmOEX$coefficients[8]*(pXLI$meanForecast))
+fNDX<-sum(lmNDX$coefficients[2]*(pOEX$meanForecast)+lmNDX$coefficients[3]*(pXLE$meanForecast)+lmNDX$coefficients[4]*(pXLF$meanForecast)+lmNDX$coefficients[5]*(pTQQQ_SQQQ$meanForecast))
+chOEX<-ifelse(fOEX>0,1,0)
+chFTSE<-ifelse(pFTSE>0,1,0)
+chHSI<-ifelse(pHSI>0,1,0)
+chXLE<-ifelse(pXLE>0,1,0)
+chXLV<-ifelse(pXLV>0,1,0)
+chXLF<-ifelse(pXLF>0,1,0)
+chXLI<-ifelse(pXLI>0,1,0)
+chXLB<-ifelse(pXLF>0,1,0)
+chXLY<-ifelse(pXLI>0,1,0)
+y1e<-exp(coef(NDX_logit))[1]+exp(coef(NDX_logit))[2]*chOEX+exp(coef(NDX_logit))[3]*chXLF+exp(coef(NDX_logit))[4]*chXLV+exp(coef(NDX_logit))[5]*chXLB+exp(coef(NDX_logit))[6]*chXLY+exp(coef(NDX_logit))[7]*chXLI
+PE<-first(y1e/(1+y1e))[1]*100#probablity of UP/DOWN OF sp500
+y1<-exp(coef(NDX_logit))[1]+exp(coef(NDX_logit))[2]*last(TD$OEX)[1]+exp(coef(NDX_logit))[3]*last(TD$XLF)[1]+exp(coef(NDX_logit))[4]*last(TD$XLV)[1]+exp(coef(NDX_logit))[5]*last(TD$XLB)[1]+exp(coef(NDX_logit))[6]*last(TD$XLY)[1]+exp(coef(NDX_logit))[7]*last(TD$XLI)[1]
+P<-first(y1/(1+y1))[1]*100#probablity of UP/DOWN OF sp500
+*RESULT
+PE
+P
+ts((1+fOEX)*last(OEX$OEX.Close))[1]# forcasted OEX 
+ts((1+fNDX)*last(NDX$NDX.Close))[1]# forcasted NDX 
+***
+NDX_R<-(Cl(NDX)/Op(NDX))-1# NDX
+OIL_R<-(Cl(OIL)/Op(OIL))-1#OIL return
+dataSVM<-data.frame(NDX_R,OIL_R)
+colnames(dataSVM)<-c("CH","OIL")
+dataSVM<-na.omit(dataSVM)
+set.seed(886)
+split<-sample.split(dataSVM$CH, SplitRatio = 0.75)
+trainSVM<-subset(dataSVM, split == TRUE)
+testSVM<-subset(dataSVM, split == FALSE)
+***
+model<-svm(CH~OIL,dataSVM)
+predictedY <- predict(model, dataSVM)
+last(predictedY)
+**
+tuneResult <- tune(svm, CH ~ OIL,  data = dataSVM,ranges = list(epsilon = seq(0.94,1,0.01), cost = 1.2^(2:4))) 
+print(tuneResult)
+plot(tuneResult)
+***
+tunedModel <- tuneResult$best.model
+tunedModelY <- predict(tunedModel, dataSVM) 
+***
+mysvm_lin<-svm (TD$NDX_R,TD$CH, type='C', kernel='linear')
+predsvm_lin<-predict (mysvm_lin,TD$NDX_R)
+table(predsvm_lin,TD$CH)
+#
+mysvm_pol<-svm (TD$NDX_R,TD$CH, type='C', kernel='polynomial', degree=2)
+predsvm_pol<-predict (mysvm_pol,TD$NDX_R)
+table(predsvm_pol,TD$CH)
+#
+mysvm_gam<-svm (train$NDX_R,train$CH, type='C', kernel='radial', gamma=0.1)
+predsvm_gam<-predict (mysvm_gam,test$NDX_R)
+table(predsvm_gam,test$CH)
+
+******Naive Bayes
+#DayofWeek<-wday(NDX, label=TRUE) #not effctive
+D_NB<-ifelse(ROC(Cl(GSPC))<=(-0.01),4,ifelse(ROC(Cl(GSPC))<=(-0.0075) & ROC(Cl(GSPC))>(-0.01),3,ifelse(ROC(Cl(GSPC))<=(-0.004) & ROC(Cl(GSPC))>(-0.0075),2,ifelse(ROC(Cl(GSPC))<=(-0.002) & ROC(Cl(GSPC))>(-0.004),1,0))))
+PriceChange<- Cl(GSPC) - Op(GSPC)
+Class<-ifelse(PriceChange>0,"UP","DOWN")
+indicator<-round(RSI(Op(GSPC), n= 13))# indicator to add here
+DataSetNB<-data.frame(D_NB,indicator, Class)#SI$U effective but L is not
+DataSetNB<-na.omit(DataSetNB)
+set.seed(88)
+split<-sample.split(DataSetNB[,3], SplitRatio = 0.75)
+TrainingSetNB<-subset(DataSetNB, split == TRUE)
+TestSetNB<-subset(DataSetNB, split == FALSE)
+NBModel<-naiveBayes(TrainingSetNB[,1:2],TrainingSetNB[,3])
+table(predict(NBModel,TestSetNB),TestSetNB[,3],dnn=list('predicted','actual'))
+#other indicators
+EMA5<-EMA(Op(NDX),n = 5) 
+EMA10<-EMA(Op(NDX),n = 10)
+EMACross <- EMA5 - EMA10
+indicator<-round(EMACross,2)
+
+last(rollapply(as.xts(NDX[,4]),width=50,FUN="quantile",0.90,na.rm=TRUE))# quantile check of NDX above 90% 
+
+*
+last(rollapply(as.xts(Cl(NDX)),width=50,FUN="quantile",0.90,na.rm=TRUE))# quantile check of NDX above 90% 
+
+
+***
+DIRECTION OF INDEX MOVEMENT PREDICTION USING MACHINE LEARNING
+Introduction
+The basic form of effcient market hypothesis postulates that publicly available information is incorporated into stock prices.
+The stronger form of the hypothesis asserts that all information are immediately reflected in the market as soon as they become 
+available; whereas the weaker form allows a certain lag period in which the information is digested by the public and stock prices move
+gradually towards the effcient target.
+stock  price  series  are  generally quite noisy,dynamic,nonlinear,complicated,nonparametric, and chaotic by nature[1-4]. The noisy 
+characteristic  refers  to  the  unavailability  of  complete information   from   the   past   behavior   of   financial markets  to 
+fully  capture  the  dependency  between future and past prices[5-9].
+Investors  could  effectively hedge against potential market risk and speculators as well   as   arbitrageurs   could   have  
+opportunity   of making  profit  by  trading  stock  index  whenever  they could  obtain  the  accurate  prediction  of  stock  price 
+direction.  That  is  why  there  have  been  a  number  of studies  looking  at  direction  or  trend  of  movement  of various kinds
+of financial instruments [10-14]. 
+Because  of  the  high  nonlinearity  of  the  stock market,  it  is  difficult  to  reveal  the  inside  law  by  the traditional
+forecast  methods
+[18]. The  difficulty  of prediction   lies   in   the   complexities   of   modeling human  behavior  [19]. In  response  to  such 
+difficulty, data mining  (or  machine  learning)  techniques  have been   introduced   and   applied   for   this  
+financial prediction.   Recent   studies   reveal  that   nonlinear models are able to simulate the volatile stock markets well and 
+produce   better   predictive   results   than traditional  linear models  in  stock  market  tendency exploration[20].  With  the
+development  of  artificial intelligence (AI) techniques investors are hoping that the market  mysteries can be  unraveled because
+these methods  have  great  capability  in  pattern  recognition problems such as classification andprediction.
+Many factors:(political  events,economic events,stock specific events,sector specific events,traders expectations,technical analysis 
+output,machine learning output)
+Several methods have been proposed for making prediction on stock market and devising profit-generating trading strategies:
+Software
+http://nlp.stanford.edu/software/lex-parser.shtml
+http://nlp.stanford.edu/software/classifier.shtml
+http://nlp.stanford.edu/software/tagger.shtml
+Reference
+http://nlp.stanford.edu/
+http://nlp.stanford.edu/courses/
+http://nlp.stanford.edu/courses/cs224n/2008/reports/21.pdf
+http://nlp.stanford.edu/pubs/lrecstanforddeps_final_final.pdf
+http://www.ijera.com/papers/Vol4_issue6/Version%202/Q04602106117.pdf
+****
+****
+VIX mean chart
+VIX tango
+VIX-VIX put strategy
+VIX,XIV,VXX,UVXX
+*****
+*****
+1. Market Open up/down{premarket index,NQ future up/down,Asian Market reaction}
+2. Market close is not dependent to 1
+3. Market close { model,economic event on that day,news}
+4. NDX has low correlation with other indices but needed for SQQQ,TQQQ
+5. JUMP up/down 1% to 1.5% is important
+6. UUUU,DDDD,UUUUU,DDDDD,UUUUUU,DDDDDD are important
+7. lag1 is significant
+******
+****CORRELATION
+GSPC:NDX,OEX,RUI,IXIC,SML,VIX
+NDX:GSPC,OEX,RUI,IXIC,SPY
+VIX:GSPC,OEX,VXN 
+##Down above 0.2% leads 99% chance of down to next day
+#DecisionTree<-rpart(Class~L+D+EMAcross+MACDsignal+Stochastic,data=TrainingSet, cp=.0015)
+#prp(DecisionTree,type=2,extra=8)
+#table(predict(DecisionTree,TestSet,type="class"),TestSet[,5],dnn=list('predicted','actual'))
+***
+Change of EEM
+finance sector
+health care sector
+industries
+USDCAD inversely
+Trend and SMI inverse to USDCAD
+4338,high probablity of UP
+Technicals are not strong to UP direction but none has negative signal
+premarket up
+FUTURE UP
+Emerging market positive
+****
+***CORRELATION
+# correlation based reduction of variables
+inTrain<-createDataPartition(y=TD$NDX,p=0.75,list=FALSE)
+training<-TD[inTrain,]
+testing<-TD[inTrain,]
+M<-abs(cor(training[,-58])
+diag(M)<-0
+which(M>0.6,arr.ind=T)
+#only cor(TD) is effective
+*****LOGIT
+set.seed(1000)
+split<-sample.split(ind$CH,SplitRatio = 0.7)
+train<-subset(ind,split=TRUE)
+test<-subset(ind,split=FALSE)
+ind_logit<-glm(CH ~.,data=train,family=binomial)
+summary(ind_logit)
+logit(p)= -5.5612+3.1135(OEX)+1.1719(NDX)-0.6868(VIX)+1.1870(XLE)+1.14685(XLF)+0.841(XLV)+1.0599(XLB)+1.343(XLY)+0.9275(XLI)
+odd ratio=exp(logit(p))=20.5(OEX)+3.4(NDX)+0.51(VIX)+3.25(XLE)+4.53(XLF)+1.52(XLP)+2.12(XLV)+2.9(XLB)+3.65(XLY)+2.5(XLI)
+#input of each element from "ind" datset
+#exp(coef(ind_logit))  and exp(cbind(OR = coef(ind_logit), confint(ind_logit))) to get odd ratio
+#p=probablity=exp(logit(p))/1+exp(logit(p))=odd ratio/1+odd ratio
+#Model has 98% UP probablity if all are up
+***MLR
+plot(TDRdf$NDX,TDRdf$OEX)
+lmOEX<-lm(formula = OEX ~ NDX +FTSE+HSI+XLE + XLF + XLV + XLI, data = TDRdf)#MLR model to predict OEX next day for logit model
+***TREE
+qplot(RSI3,ROC,color=Class,data=DataSet)
+quantile(DataSet$RSI3)
+set.seed(88)
+split<-sample.split(DataSet$Class, SplitRatio = 0.75)
+split
+# Create training and testing sets
+TrainingSet<-subset(DataSet, split == TRUE)
+TestSet<-subset(DataSet, split == FALSE)
+#TrainingSet<-DataSet[1:312,]#Use 2/3 of the data to build the tree
+#TestSet<-DataSet[313:469,]#And leave out 1/3 data to test our strategy
+DecisionTree<-rpart(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, cp=.001)
+#Specifying the indicators to we want to use to predict the class and controlling the growth of the tree by setting the minimum amount of information gained (cp) needed to justify a split.
+prp(DecisionTree,type=2,extra=8)
+#Nice plotting tool with a couple parameters to make it look good. If you want to play around with the visualization yourself, here is a great resource.
+printcp(DecisionTree)#PRUNE
+#shows the minimal cp for each trees of each size.
+plotcp(DecisionTree,upper="splits")
+#plots the average geometric mean for trees of each size.
+PrunedDecisionTree<-prune(DecisionTree,cp=0.0272109)
+#I am selecting the complexity parameter (cp) that has the lowest cross-validated error (xerror)
+prp(PrunedDecisionTree, type=2, extra=8)
+table(predict(PrunedDecisionTree,TestSet,type="class"),TestSet[,5],dnn=list('predicted','actual'))
+
+##DecisionTree<-rpart(Class~L+U+RSI3,data=TrainingSet, cp=.001)
+##DecisionTree<-rpart(Class~L+RSI3+EMAcross,data=TrainingSet, cp=.0083)
+##DecisionTree<-rpart(Class~L+D+RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, cp=.0005)
+## DataSet$S1<-ifelse(DataSet$L==4 & DataSet$Stochastic<62,1,0) # top quartile and stochastic below 62 ==UP
+DecisionTree<-rpart(Class~L+U+Stochastic,data=TrainingSet, cp=.0015)#<52
+DecisionTree<-rpart(Class~L+MACDsignal,data=TrainingSet, cp=.0035)
+DecisionTree<-rpart(Class~L+EMAcross,data=TrainingSet, cp=.005)
+DecisionTree<-rpart(Class~L+RSI3,data=TrainingSet, cp=.005)
+prp(DecisionTree, type=2, extra=8)
+https://inovancetech.com/blogML3.html
+**Other Packages
+library("evtree", lib.loc="~/R/win-library/3.2")
+DTev<-evtree(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet)
+plot(DTev)
+table(predict(DTev), TrainingSet$Class)
+1-mean(predict(DTev) ==TrainingSet$Class)
+library("maptree", lib.loc="~/R/win-library/3.2")
+library("cluster", lib.loc="C:/Program Files/R/R-3.2.1/library")
+draw.tree( clip.rpart (rpart (TrainingSet), best=7),nodeinfo=TRUE, units="species",cases="cells", digits=0)
+library("party", lib.loc="~/R/win-library/3.2")
+(ct = ctree(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet))
+plot(ct, main="Conditional Inference Tree")
+#Table of prediction errors
+table(predict(ct), TrainingSet$Class)
+# Estimated class probabilities
+tr.pred<-predict(ct, newdata=TestSet, type="prob")
+library("tree", lib.loc="~/R/win-library/3.2")
+tr<-tree(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet)
+summary(tr)
+plot(tr)
+text(tr)
+***BAGGING
+library("mlbench", lib.loc="~/R/win-library/3.2")
+library("adabag", lib.loc="~/R/win-library/3.2")
+BAgging<-bagging(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet)
+BAgging.pred<-predict.bagging(BAgging,newdata=TestSet)
+BAgging.pred$error
+BAgging.pred$confusion
+****RandomFOrest
+library("randomForest", lib.loc="~/R/win-library/3.2")
+RF<-randomForest(Class~L+U+RSI3+EMAcross+MACDsignal+Stochastic,data=DataSet)
+RF<-randomForest(Class~L+D+RSI3+EMAcross+MACDsignal+Stochastic,data=DataSet)
+print(RF)
+importance(RF)
+plot(RF)
+plot( importance(RF), lty=2, pch=16)
+lines(importance(RF))
+**
+library("CORElearn", lib.loc="~/R/win-library/3.2")
+## Random Forests
+RMcoremodel<-CoreModel(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, model="rf", selectionEstimator="MDL", minNodeWeightRF=5, rfNoTrees=20)
+plot(RMcoremodel)
+## decision tree with naive Bayes in the leaves
+RMcoremodelNB<-CoreModel(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, model="tree", modelType=4)
+plot(RMcoremodelNB,TrainingSet)
+RMcoremodelRT<-CoreModel(Class~RSI3+EMAcross+MACDsignal+Stochastic,data=TrainingSet, model="regTree", modelTypeReg=1) 
+summary(RMcoremodelRT)
+plot(RMcoremodelRT,TestSet, graphType="prototypes")
+pred<-predict(RMcoremodelRT,TestSet)
+print(pred)
+plot(pred)
+******Naive Bayes
+#DayofWeek<-wday(NDX, label=TRUE) #not effctive
+PriceChange<- Cl(NDX) - Op(NDX)
+Class<-ifelse(PriceChange>0,"UP","DOWN")
+indicator<-round(RSI(Op(NDX), n= 13))# indicator to add here
+DataSetNB<-data.frame(SI$D,indicator, Class)#SI$U effective but L is not
+DataSetNB<-na.omit(DataSetNB)
+set.seed(88)
+split<-sample.split(DataSetNB[,3], SplitRatio = 0.75)
+TrainingSet<-subset(DataSetNB, split == TRUE)
+TestSet<-subset(DataSetNB, split == FALSE)
+NBModel<-naiveBayes(TrainingSet[,1:2],TrainingSet[,3])
+table(predict(NBModel,TestSet),TestSet[,3],dnn=list('predicted','actual'))
+#other indicators
+EMA5<-EMA(Op(NDX),n = 5) 
+EMA10<-EMA(Op(NDX),n = 10)
+EMACross <- EMA5 - EMA10
+indicator<-round(EMACross,2)
+
+USD.CAD
+TQQQ/SQQQ
+TLT-NDX
+****
+PriceChange<- Cl(GSPC) - Op(GSPC)
+Class<-ifelse(PriceChange>0,"UP","DOWN")
+RSI<-round(RSI(Op(GSPC), n= 13))# indicator to add here
+EMA5<-EMA(Op(GSPC),n=5)
+#Calculate a 5-period exponential moving average (EMA)
+EMAcross<- Op(GSPC)-EMA5
+SMA50<-SMA(Op(GSPC),n=50)
+Trend<-Op(GSPC)-SMA50#Our measure of trend: the difference between the open price and the 50-period simple moving average.
+MACD<-MACD(Op(GSPC),fast = 12, slow = 26, signal = 9)
+#Calculate a MACD with standard parameters
+MACDsignal<-MACD[,2]
+#Grab just the signal line to use as our indicator.
+SMI<-SMI(Op(GSPC),n=13,slow=25,fast=2,signal=9) 
+#Stochastic Oscillator with standard parameters
+SMI<-SMI[,1]
+U<-ifelse(ROC(Cl(GSPC))>=0.01,4,ifelse(ROC(Cl(GSPC))>=0.0075 & ROC(Cl(GSPC))<0.01,3,ifelse(ROC(Cl(GSPC))>=0.004 & ROC(Cl(GSPC))<0.0075,2,ifelse(ROC(Cl(GSPC))>=0.002 & ROC(Cl(GSPC))<0.004,1,0))))
+D<-ifelse(ROC(Cl(GSPC))<=(-0.01),4,ifelse(ROC(Cl(GSPC))<=(-0.0075) & ROC(Cl(GSPC))>(-0.01),3,ifelse(ROC(Cl(GSPC))<=(-0.004) & ROC(Cl(GSPC))>(-0.0075),2,ifelse(ROC(Cl(GSPC))<=(-0.002) & ROC(Cl(GSPC))>(-0.004),1,0))))
+dataSVM<-data.frame(Class,Trend,EMAcross)
+colnames(dataSVM)<-c("Class","Trend","EMAcross")
+dataSVM<-na.omit(dataSVM)
+set.seed(886)
+split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
+trainSVM<-subset(dataSVM, split == TRUE)
+testSVM<-subset(dataSVM, split == FALSE)
+SVM<-svm(Class~Trend+EMAcross,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
+#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
+TrainingPredictions<-predict(SVM,testSVM,type="class")
+#Run the algorithm once more over the training set to visualize the patterns it found
+TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
+ggplot(testSVM,aes(x=EMAcross,y=Trend))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM Predictions",x="EMAcross",y="Trend",color="Training Predictions")
