@@ -136,6 +136,7 @@ atr<-atrVOL-atrMA
 S15<-Op(NDX)-SMA15
 S50<-Op(NDX)-SMA50
   *plot
+par(mfrow=c(3,3))
 plot(tail(wave,50))
 plot(tail(atr,50))
 plot(tail(S50,50))
