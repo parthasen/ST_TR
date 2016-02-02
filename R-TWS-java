@@ -1,3 +1,11 @@
+https://github.com/rlktradewright/ib-controller/tree/master/resources
+http://ibcontroller.sourceforge.net/
+http://www.amibroker.com/at/
+https://github.com/ib-controller/ib-controller/releases
+https://github.com/ib-controller
+https://github.com/ib-controller/ib-controller/blob/master/userguide.md
+https://groups.yahoo.com/neo/groups/TWSAPI/info
+https://github.com/parthasen/ibconnect.go
 #http://cran.r-project.org/web/packages/IBrokers/IBrokers.pdf
 #http://cran.r-project.org/web/packages/IBrokers/vignettes/RealTime.pdf
 #http://cran.r-project.org/web/packages/IBrokers/vignettes/IBrokers.pdf
@@ -8,6 +16,36 @@
 #install.packages("qmao", repos="http://R-Forge.R-project.org")
 #TTR,quantmod,FinancialInstrument
 http://rpackages.ianhowson.com/rforge/twsInstrument/man/twsInstrument-package.html
+***JAVA-IB API
+jar xf unicmacosx_latest.jar     
+## octo@octo:~$ sudo jar xf /home/octo/IBJts/unixmacosx_latest.jar
+cd IBJts                        
+##octo@octo:~$ cd IBJts
+java -cp jts.jar:total.2013.jar -Dsun.java2d.noddraw=true -Xmx512M ibgateway.GWClient
+##octo@octo:~/IBJts$ sudo java -cp jts.jar:total.2013.jar -Dsun.java2d.noddraw=true -Xmx512M ibgateway.GWClient
+***login and PWD to IB
+
+download API http://interactivebrokers.github.io/# 
+## keep in IBJts folder /home/octo/IBJts
+octo@octo:~/IBJts$ sudo jar xf /home/octo/IBJts/twsapi_macunix.971.01.jar 
+same instruction: https://www.interactivebrokers.com/en/?f=%2Fen%2Fcontrol%2Fstandalone_api.php%3Fbeta%3D1%26amp%3Bos%3Dunix%26amp%3Bib_entity%3D
+same instruction: http://ibkb.interactivebrokers.com/video/2222
+***
+Netbeans:
+->new project in NetBeans
+->In the Projects area, select Java Application and click Next.
+->In the New Java Application window, name your project, choose a location, and uncheck the check box for Create Main Class.
+    Click Finish.
+->To set up Java to use the API, right-click the project you just created, then select Properties.
+->From the source category click Add Folder.
+->home/octo/IBJts   Navigate to the folder where the TWS API is installed. 
+        source\JavaClient\com
+        samples\Java\apidemo. Click OK.
+->Press F6 to run the sample java project. 
+->When the message says "Project Samplejavacode does not have main class set" select apidemo and click OK.
+
+***R-IB
+#https://www.interactivebrokers.com/en/index.php?f=16042
 install.packages("IBrokers")
 tws <- twsConnect()
 id <- reqIds(tws)
