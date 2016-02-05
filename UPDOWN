@@ -286,7 +286,7 @@ NDXarimaforecasts
 acf(NDXarimaforecasts $residuals, lag.max=20)
 Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
 ##GARCH
-garchfit<-garchFit(~ garch(2,2), data =NDXdiff, trace = FALSE)
+garchfit<-garchFit(~ garch(2,2), data =logNDX, trace = FALSE)
 predict(garchfit, n.ahead = 1, plot=TRUE, crit_val=2)
 ##SVM
 ##source("e1071.R")#https://gist.github.com/ivannp/4180399  #copy and let run otherwise
