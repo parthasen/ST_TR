@@ -27,7 +27,9 @@ library("parallel")
 library("DMwR")
 library("randomForest")
 library(‘depmixS4’)
-library("forecast") 
+library("forecast")
+***
+source_gist("https://gist.github.com/ivannp/4180399")
 #***
 getSymbols(c("^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
 ***
