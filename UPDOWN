@@ -11,8 +11,7 @@ ipak <- function(pkg){
     sapply(pkg, require, character.only = TRUE)
 }
 
-packages <- c("quantmod","rpart","rpart.plot","caTools","caret","kernlab","nnet","foreign","ggplot2","reshape2","PerformanceAnalytics","car",
-"FinTS","fGarch","robustbase","MASS","klaR","lubridate","e1071","parallel","DMwR","randomForest",‘depmixS4’,"forecast")
+packages <- c("quantmod","rpart","rpart.plot","caTools","caret","kernlab","nnet","foreign","ggplot2","reshape2","PerformanceAnalytics","car","FinTS","fGarch","robustbase","MASS","klaR","lubridate","e1071","parallel","DMwR","randomForest","depmixS4","forecast")
 ipak(packages)
 ***LADING FUNCTION FROM GIT
 source_gist("https://gist.github.com/ivannp/4180399")
