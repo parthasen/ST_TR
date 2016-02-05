@@ -91,6 +91,48 @@ wave<-roc1*0.5+(roc5*0.3+roc10*0.3+roc15*15)*0.5
 atr<-atrVOL-atrMA
 S15<-Op(NDX)-SMA15
 S50<-Op(NDX)-SMA50
+****
+####dataSET###
+TD<-ROC(Cl(NDX))
+TD$CH<-ifelse((log(Cl(NDX))-log(Op(NDX)))>0,1,0)# NDX
+TD$NDX.Close<-NULL
+TD$NDX<-(log(Cl(NDX))-log(Op(NDX)))
+TD$GSPC<-(log(Cl(GSPC))-log(Op(GSPC)))
+TD$OEX<-(log(Cl(OEX))-log(Op(OEX)))
+TD$NDX_OEX<-Cl(NDX)/Cl(OEX)
+TD$NDX_GSPC<-Cl(NDX)/Cl(GSPC)
+TD$OEX_GSPC<-Cl(OEX)/Cl(GSPC)
+TD$TQQQ_SQQQ<-Cl(TQQQ)/Cl(SQQQ)
+TD$USD_CAD<-(log(Cl(`CAD=X`))-log(Op(`CAD=X`)))
+TD$TLT_EEM<-Cl(TLT)/Cl(EEM)
+TD$XLE<-(log(Cl(XLE))-log(Op(XLE)))
+TD$XLF<-(log(Cl(XLF))-log(Op(XLF)))
+TD$XLV<-(log(Cl(XLV))-log(Op(XLV)))
+TD$XLY<-(log(Cl(XLY))-log(Op(XLY)))
+TD$XLI<-(log(Cl(XLI))-log(Op(XLI)))
+TD$DWTI<-(log(Cl(DWTI))-log(Op(DWTI)))
+TD$USDCAD<-(log(Cl(`CAD=X`))-log(Op(`CAD=X`)))
+TD$PCUD<-PCUD
+TD$VCUD<-VCUD
+TD$PL<-PL
+TD$VL<-VL
+TD$vGK<-vGK
+TD$rollSD<-rollSD
+TD$stochOsc<-stochOsc
+TD$stochWPR<-stochWPR 
+TD$RSI5<-RSI5
+TD$EMAcross<-EMAcross
+TD$Trend<-Trend
+TD$MACDsignal<-MACDsignal
+TD$SMI<-SMI
+TD$wave<-wave
+TD$atr<-atr
+TD$P<-Cl(NDX)
+*Train and Test set
+set.seed(1000)
+split<-sample.split(TD$CH,SplitRatio = 0.75)
+train<-subset(TD,split=TRUE)
+test<-subset(TD,split=FALSE)    
 #PLOT
 #Price Incresed with increased volume or decreased volume
 plot(PL["2016"])
@@ -265,47 +307,6 @@ forecastSVM<-svmComputeForecasts(
     endDate="2016-01-07",
     featureSelection="all" ) ##for UBUNTU cores=8
     ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(GSPC)))[1]## predicted value by SVM regression
-####dataSET###
-TD<-ROC(Cl(NDX))
-TD$CH<-ifelse((log(Cl(NDX))-log(Op(NDX)))>0,1,0)# NDX
-TD$NDX.Close<-NULL
-TD$NDX<-(log(Cl(NDX))-log(Op(NDX)))
-TD$GSPC<-(log(Cl(GSPC))-log(Op(GSPC)))
-TD$OEX<-(log(Cl(OEX))-log(Op(OEX)))
-TD$NDX_OEX<-Cl(NDX)/Cl(OEX)
-TD$NDX_GSPC<-Cl(NDX)/Cl(GSPC)
-TD$OEX_GSPC<-Cl(OEX)/Cl(GSPC)
-TD$TQQQ_SQQQ<-Cl(TQQQ)/Cl(SQQQ)
-TD$USD_CAD<-(log(Cl(`CAD=X`))-log(Op(`CAD=X`)))
-TD$TLT_EEM<-Cl(TLT)/Cl(EEM)
-TD$XLE<-(log(Cl(XLE))-log(Op(XLE)))
-TD$XLF<-(log(Cl(XLF))-log(Op(XLF)))
-TD$XLV<-(log(Cl(XLV))-log(Op(XLV)))
-TD$XLY<-(log(Cl(XLY))-log(Op(XLY)))
-TD$XLI<-(log(Cl(XLI))-log(Op(XLI)))
-TD$DWTI<-(log(Cl(DWTI))-log(Op(DWTI)))
-TD$USDCAD<-(log(Cl(`CAD=X`))-log(Op(`CAD=X`)))
-TD$PCUD<-PCUD
-TD$VCUD<-VCUD
-TD$PL<-PL
-TD$VL<-VL
-TD$vGK<-vGK
-TD$rollSD<-rollSD
-TD$stochOsc<-stochOsc
-TD$stochWPR<-stochWPR 
-TD$RSI5<-RSI5
-TD$EMAcross<-EMAcross
-TD$Trend<-Trend
-TD$MACDsignal<-MACDsignal
-TD$SMI<-SMI
-TD$wave<-wave
-TD$atr<-atr
-TD$P<-Cl(NDX)
-*Train and Test set
-set.seed(1000)
-split<-sample.split(TD$CH,SplitRatio = 0.75)
-train<-subset(TD,split=TRUE)
-test<-subset(TD,split=FALSE)    
 ****correlation search
 M<-cor(tail(TD,5))
 diag(M)<-0    
