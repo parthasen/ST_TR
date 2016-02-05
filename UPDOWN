@@ -308,7 +308,7 @@ forecastSVM<-svmComputeForecasts(
     startDate="2014-12-15",
     endDate="2016-01-07",
     featureSelection="all" ) ##for UBUNTU cores=8
-    ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(GSPC)))[1]## predicted value by SVM regression
+    ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression
 ****correlation search
 M<-cor(tail(TD,5))
 diag(M)<-0    
