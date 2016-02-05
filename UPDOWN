@@ -3,32 +3,18 @@ F2:Volatility -ve
 F3: Technicals
 F4: Regression
 F5: Descriptive Analysis 
-#***
-library("quantmod")
-library("rpart")
-library("rpart.plot")
-library("caTools")
-library("caret")
-library("kernlab")
-library("nnet")
-library("foreign")
-library("ggplot2")
-library("reshape2")
-library("PerformanceAnalytics")
-library("car")
-library("FinTS")
-library("fGarch")
-library("robustbase")
-library("MASS")
-library("klaR")
-library("lubridate")#Makes it easier to work with the dates
-library("e1071")
-library("parallel")
-library("DMwR")
-library("randomForest")
-library(‘depmixS4’)
-library("forecast")
-***
+#***LOADING PACKAGES
+ipak <- function(pkg){
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        install.packages(new.pkg, dependencies = TRUE)
+    sapply(pkg, require, character.only = TRUE)
+}
+
+packages <- c("quantmod","rpart","rpart.plot","caTools","caret","kernlab","nnet","foreign","ggplot2","reshape2","PerformanceAnalytics","car",
+"FinTS","fGarch","robustbase","MASS","klaR","lubridate","e1071","parallel","DMwR","randomForest",‘depmixS4’,"forecast")
+ipak(packages)
+***LADING FUNCTION FROM GIT
 source_gist("https://gist.github.com/ivannp/4180399")
 #***
 getSymbols(c("^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
