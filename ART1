@@ -1,0 +1,191 @@
+MISSING OWN EARNING/GROWTH PREDICTION EFFECT ON PRICE AFTER ANNOUNCEMENT and ESTIMATION OF EVENT BY RATING
+Intraday investment opportunity for next 90 minutes post anouncement of news 
+
+Methodology:
+Last 3 months matched intraday traded stocks by the automatic ordering system based on second data feed are our sample of study. These stocks are matched with a profit target as a result of application strategies at automatic trading ecosystem. Here our ivestigation is to know the reason of price hike. We will consider twitter feed to know the sentiment and YAHOO,GOOGLE finance, The Street to find the target price and change, recommendation and change, corporate news. This research will help to know the opportunity of trading based on news other than technical support-resistance, mean reversion and momentum nature. 
+
+
+https://finance.yahoo.com/q/ao?s=AMZN+Analyst+Opinion
+
+Following large stock price increases, analysts are equally likely to upgrade or downgrade. Following large stock price declines, however, analysts are much more likely to downgrade the company’s stock.This asymmetry exists even after accounting for investment banking relationships and herding
+behavior. Further, this asymmetry cannot be explained by differences in the predictability of future returns. Analysts develop explicit (or implicit) valuation models. If the market price is sufficiently below the true value indicated by the model, the stock is accorded a buy recommendation; when the market price is above the model value, the stock is given a sell recommendation. Lin and McNichols (1998) stress,investment banking relationships can potentially bias analyst recommendations. Consistent with this, Barber, Lehavy and Trueman (2004) show that independent research analysts tend to
+outperform analysts employed by investment banks, and that a large source of the investment banks’ underperformance is a reluctance to downgrade stocks that had recently issued equity.One indication of these conflicting interests is the well-known upward bias in the distribution of recommendations documented by Stickel (1995) and others.
+Bradshaw (2004) finds that fundamental valuation models are not reliable predictors of analyst recommendations, he does find that heuristic valuation models have significant explanatory power. In particular, he finds that the PEG ratio, defined as the P/E ratio divided by the long-term growth rate, is correlated with the level of analyst recommendations. This result holds, furthermore, despite the fact that rankings of stock based on PEG ratios are often quite different than rankings based on the ratio of fundamental value to price and despite the fact that PEG ratios are no better predictors of future returns than value to price ratios.Bradshaw (2004) examines the correlation between analyst recommendations and the ratio of fundamental firm value to market price. Bradshaw calculates fundamental value by substituting analysts’ consensus earnings forecasts into the residual income version of the discounted cash flow model developed by Ohlson (1995).
+Surprisingly, he finds that analysts' recommendations are more (less) favorable for stocks with low (high) value relative to price. This finding is the reverse of what the capital budgeting interpretation predicts. Bradshaw’s results are consistent with the survey work of Block (1999). Based on a survey of analysts, Block reports extremely low reliance on valuation methods in the formation of stock recommendations.
+Cornell (2001) finds a puzzling relation between the innovations in market value and changes in analyst recommendations. Cornell examines the market reaction to an apparently minor news Barber et al. (2001) reported that a daily rebalancing portfolio following analysts’ recommendations can earn annual abnormal return more than four percent.There are two main theories about rating change announcement effect: (1) Information asymmetry and signalling hypothesis (IASH); and (2) wealth
+redistribution hypothesis (WRH). Both establish the expected behaviour of rerated firm returns around the announcement date but they state little on the
+expected systematic risk behaviour.
+In particular, the IASH states that rating agencies are supplied with considerable non-public information about a certain company and thus a rating
+reclassification may provide additional information to the market about total firm value. Besides, a credit rating change can be viewed as a signal to the market
+about future earnings and cash flow of the issuer. This way, bond rating changes provide information about changes in firm value. As a result, stock price of
+downgraded (upgraded) firms should decline (increase). Is important to notice that the IASH does not consider the possible reasons leading to rating changes.
+In the other hand, the WRH lies on the conflict of interest between bondholders and stockholders. The existence of limited liabilities may encourage
+stockholder to increase the expected return by taking on riskier investments. This strategy increases the default risk of outstanding bonds being the source of rating downgrades. Subsequently it causes a reduction of the bond value, which is expropriated from bondholders to stockholders, causing the share price to increase.
+The WRH predicts that this kind of rating downgrades (upgrades) will result in the respective issuers’ share price to increase (decrease). Hence, only rating
+changes that are related with changes in financial outlook, without affecting cash flow variance, have an effect on the market in the same direction (negative for
+downgrades and positive for upgrades).
+investors underreact to relevant new information about a firm and overreact to price movements caused by other factors (such as shifts in
+investor sentiment or liquidity shocks).When earnings surprises are measured by abnormal returns, this positive correlation holds only for information-based price shocks. When earnings surprises are measured using analyst forecasts or the seasonal random walk model, the relation holds for both types of price movements, but is significantly stronger for information-based ones. These results suggest analysts can determine whether a price shock was caused by fundamental news about the firm, and are consistent with the view that post-event momentum is based on gradual incorporation of such news into prices.A number of behavioral models try to explain momentum and reversals, either by grouping investors into those acting on private information and those trading on momentum (Hong and Stein, 1999) or by assuming investor behavior is driven by behavioral biases (Daniel,Hirshleifer, and Subrahmanyam, 1998; Barberis, Shleifer, and Vishny, 1998). Brav and
+Heaton (2002) show that (the appearance of) overreaction and underreaction can arise even with fully rational investors if they only possess incomplete information about the structure of the economy. Broadly speaking, these models all predict that investors underreact to relevant new information about a firm.
+The ratio of no-information to information-based price events is strongly correlated with average aggregate implied volatility, with an intriguing potential implication that during periods of high uncertainty, the relative importance of news about firm-specific fundamentals falls relative to other shocks to stock prices.
+Pritamani and Singal (2001) studied on stocks that experienced large price changes between 1990 and 1992. Conditional on a public announcement or volume
+increase associated with the event, these stocks exhibit momentum. Chan (2003) constructs an index of news headlines for a random subset of Center for Research in Security Prices (CRSP) stocks, and finds momentum after news and reversal after no news, with the effect mostly driven by loser stocks. Tetlock (2010) uses the entire daily Dow Jones news archive from 1979 to 2007 to study how presence of public news affects subsequent returns. He finds that reversals are significantly lower after news days and that for many stocks, volume-induced momentum exists only on these days.
+Altinkilic and Hansen (2009) dispute both sets of results, arguing that they stem from analysts’tendency to piggyback on corporate news. 10 Chen, Francis, and Schipper (2005) find that a typical analyst report does not produce a price reaction that is higher than the average on days without reports. Loh and Stulz (2011) report that the majority of analyst recommendations are not informative, but they also show that recommendations of a subset of analysts persistently impact stock prices. limited investor attention causes underreaction (Hirshleifer and Teoh, 2003; DellaVigna and Pollet, 2007, 2009), which leads to drift in stock prices. Stock prices can actually overreact when investors are paying less attention.
+Irvine,Lipson, and Puckett (2007) find that institutional buying increases in the presence of positive initiations. Using Nasdaq trading data, Juergens and Lindsey (2009) find that affiliated market makers increase selling volume in the two days preceding a downgrade,and Christophe, Ferri, and Hsieh (2010) find that short selling increases in anticipation of downgrades.[3 rd paper]
+Barber, Lehavy, McNichols, and Trueman (2001), traditional event studies can, at best, indicate that profitable investment strategies could potentially be designed in connection with recommendations. [3 rd paper]
+TP/P ratio over the period 2000-2005 is 1,15, that is target prices are 15% higher than current stock prices.We also provided evidence that target prices changes
+contain information since most downgrades (upgrades) are preceded by declines (increase) in target prices. Target prices are statements incorporating earnings forecasts, which have proven to be meaningfully correlated with rating actions.Target prices revisions are released much more frequently than rating actions. [4 th paper]
+Brav and Lehavy (2003), using a large database of US analysts’ target prices issued over the period 1997-1999, examine short-term market reactions
+ to target
+price revisions and long-term co-movement of target and stock prices. In the short term, standard event study analysis shows that target prices contain valuable information: in fact, the market reaction over the period beginning two days prior and ending two days subsequent to the firm’s target price announcement is significant.Cavezzali et al. (2011) focus on the publication of reports containing a change of recommendation or in the target price. The results show that the market reaction is negative in case of downgrade, while it is positive following an upgrade,both for the changes of recommendations or target price. The reaction is greater in magnitude for downgrades (-0.85%) than for upgrades (0.65%). Furthermore, when both the recommendation and the target price are revised, the market reaction is more intense in case of double upgrade or double downgrade; if the recommendation change goes in the opposite direction of the target price change, the information contained in the change in recommendation prevails.[5 th paper]
+SCHIMIDT and ZIMMERMAN (2003) investigate the price and volume behavior around buy,sell and hold recommendations, as published in the major financial
+newspaper. They find significative price reaction the week of the recommendation publication. JEGADEESH and KIM (2007) evaluate the value of analysts ́ recommendations, observing a significant reaction of stock prices to recommendation revisions.[6 th paper]
+Loh e Stulz (2010) depart from the standard event study approach, by computing stock-level abnormal returns rather than averaging returns across a large number of announcements, and find that only 12% of recommendation changes issued by US brokers from 1994 to 2006 affect returns. About 25% of analysts never had any influential recommendation change. Influential recommendations are more likely to come from a subset of skilled analysts; a deeper probit analysis shows that they are positively associated with analysts’ opinions going away from the consensus and analysts already having an influential recommendation in the past. Also 
+Altinkilic et al. (2009 e 2010), by using intraday returns rather than daily returns, point out that recommendation revisions are associated with economically insignificant mean price reactions and often piggyback on recent news, events, long-term momentum, and short-run contrarian return predictors, typically downgrading after bad news and upgrading after good news. Almost 80% of the revisions are in response to corporate events, which frequently release firm-specific information about earnings and investments a few hours before revisions are announced.[6 th paper]
+
+DAVID (2007) that examines the changes in average returns and standard deviations of stocks that were recommended to “buy”. The findings show a large increase in the returns and a significant decrease in the standard deviations in the time span before the publication of recommendation. After publication, however, there is a slight addition to the return accompanied by a large increase in the standard deviation. E RDOGAN et al (2010) state that the stocks quoted in the capital market, which are recommended by analyst do not exhibit superior stock return ability for both short and long term performance of analysts’ recommendations.BARBER et al. (2000) concluded that the buy recommendations of large brokerage houses performed better than the recommendations of their smaller peers, but that with respect to sell recommendations, the small brokers obtained better returns on average than those of large ones.
+
+M OKOALELI -M OKOTELI et al (2009) tests whether sell-side analysts are prone to behavioural errors when making stock recommendations as well as the impact of investment banking relationships on their judgments. The authors find first that new buy recommendations on average have no investment value whereas new
+sell recommendations do, and take time to be assimilated by the market. They also show that new buy recommendations are distinguished from new sells both by the level of analyst optimism and representativeness bias as well as with increased conflicts of interest.[6 th paper]
+
+Altınkılıç and Hansen (2009) suggests that the vast majority of recommendation revisions come closely after corporate news. Their intraday price reaction analysis documents disproportionately large price reactions in the pre-announcement window of the revisions.
+
+Reference paper:
+1 for methodology
+2 ,last few pages for variable defination ( page 25 and after)
+
+
+Findings
+1. Can create market trend and gap up
+2. Support and resistance have role 
+3. Change in sentiment or market consensus (web,social sites)
+4. Upgrade to strongly buy has greater positive price effect than upgrades to buy 
+5. Downgrade has greater impact than upgrade 
+6. Downgrade to strongly sell has greater negative price effect than downgrade to buy 
+7. jump up or down of the recommendation has greater price impact. ( 3 to 1 has more impact than 2 to 1)
+8. low priced stocks have higher impact than high priced stocked
+9. revision of earning and revenue with change in recommendation has more impact
+10. Target price above 15% and target price change signal upgrade, are important factors to explain the fluctuation in abnormal returns.
+11.Corporate bond rating changes
+12. Corporate news 
+
+Recommendation Scale
+1. strongly buy 2.buy 3.hold 4. sell 5.strongly sell
+
+Methodology
+Variables:
+CAR is the cumulative abnormal return
+MRPR change in an analyst’s recommendation on the stock concerned.
+RCR and is the analyst’s recommendation minus the consensus recommendation
+upgrade(x)x=1 to 4
+reiteration
+downgrade(y)=1 to 4
+analyst reputation
+divergence of analyst opinion
+number of analysts covering the stock
+STRONG =1 if recommendation change to strong buy or sell rather 0
+SKIPRANK=1 if 3-1 , 0 if 2-1
+
+Variables do capture much of what is known about large-sample tendencies in expected returns~
+Momentum and volume: Market-adjusted return for each stock in the six months preceding the month of the recommendation.Prior studies (e.g., Jegadeesh and Titman (1993)) show that firms with higher (lower) price momentum earn higher (lower) returns over the next 12 months.average daily volume turnover for the stock in the six months preceding the month of the recommendation. 7 Lee and Swaminathan (2000) show that high (low) volume stocks exhibit glamour (value) characteristics, and earn lower (higher) returns in subsequent months. If analysts based their recommendations on the predictive attributes of price momentum and trading volume, we would expect past winners and lower-volume stocks (past losers and higher-volume stocks) to receive the most favorable (least favorable) recommendations.
+
+Valuation Multiples: EP (the earnings-to-price ratio) and BP (the book-to-price ratio). Both variables are widely used in value based investment strategies. Starting with Basu (1977), a number of academic studies show that high EP firms subsequently outperform low EP firms. Similarly, Fama and French (1992), among others, show that high BP firms subsequently earn higher returns than low BP firms. Academic opinions differ on whether these higher returns represent contrarian profits or a fair reward for risk. 8 In either case, if analysts pay attention to the predictive attribute of these multiples, we would expect high EP (and high BP) firms to receive more favorable recommendations.
+
+Growth Indicators: LTG (the mean analyst forecast of expect long-term growth in earnings) and SGI (the rate of growth in sales over the past year). Lakonishok, Shleifer and Vishny (1994) show that firms with high past growth in sales earn lower subsequent returns. They argue that high growth firms are glamour stocks that are over-valued by the market.In the same spirit, La Porta (1996) shows that firms with high forecasted earnings growth (high LTG firms) also earn lower
+subsequent returns. If analysts rely on these large sample results, low SGI (and low LTG) firms should receive more favorable recommendations.
+
+Fundamental Signals: TATA (total accruals divided by total assets) and CFITA (Cash flow from investments divided by total assets). Sloan (1996) shows that firms with more positive (income increasing) accruals earn lower subsequent returns. He argues that the accrual-component of earnings is less persistent, and that the market does not take this effect into account in a timely fashion. Beneish, Lee, and Tarpley (2000) show that growth firms with high CFITA also tend to earn lower returns. They argue that high CFITA firms are growth firms that tend to over-extend themselves. Again, if analysts pay attention to these results, lower TATA (and lower CFITA) firms should receive more favorable recommendations.
+
+firms with positive price momentum and low trading volume  earned higher market-adjusted returns over the next six months. Similarly, high EP and BP firms, low LTG and SGI firms, low CFITA and TATA firms, earned higher subsequent returns. The highest absolute correlations are with price momentum, the expected long-term growth (LTG), the earnings-to-price ratio (EP), and past trading volume. Analysts prefer stocks with high recent turnover (trading volume) over stocks with low turnover. They also prefer low EP,low BP, high LTG, high SGI, high CFITA, and high TATA stocks. In fact, the only variable that analysts seem to get “right” is price momentum they prefer stocks that have been recent winners over stocks that have been recent losers.
+The stocks that receive more favorable recommendations typically have more positive price momentum, higher trading volume (turnover), higher past and projected
+growth, more positive accounting accruals, and more aggressive capital expenditures. In short, analysts seem to recommend a set of stocks that are quite different from the stocks that would have been nominated by
+ quantitative investment strategies.
+
+Strategy:
+Firms preferred by analysts earn higher returns when the variables agree. If recommendation and variables disagree then variables are more reliable.Buy best recommeded stocks with agreed variable based selection and sell worst recommended stock with disagreed variable selection. Higher weight is profitable. 
+
+Data
+15 second data for next 5 days or 1 week is the research window. 
+
+
+
+Result and recommendation
+expected result considerering daily data:
+1. Downgrades to strong sell or upgrades to storng buy has more impact
+2. jump in recommendation has more impact 
+3. Low priced stock has higher impact
+4. Earning forecast revision with change in recommendation has more impact. 
+My result:
+
+
+
+
+
+Aitken, M.J., J. Muthuswamy and K.L. Wong (2000), ‘The Impact of Brokers’ Recommendations: Australian Evidence’, www.sirca.org.au.
+Barber, B., R. Lehavy, M. McNichols and B. Trueman (2001), ‘Can Investors Profit from the Prophets? Security Analyst Recommendations and Stock Returns’, Journal of
+Finance, Vol. 56, No. 2 (April), pp. 531–563.
+Barber, B., R. Lehavy, M. McNichols and B. Trueman (2003), ‘Reassessing the Returns to Analysts’ Stock Recommendations’, Financial Analysts Journal, Vol. 59, No. 2
+(March / April), pp. 88–96.
+Beneish, M.D. (1991), ‘Stock Prices and the Dissemination of Analysts’ Recommendations’, Journal of Business, Vol. 64, No. 3 (July), pp. 393–416.
+Bjerring, J.H., J. Lakonishok and T. Vermaelen (1983), ‘Stock Prices and Financial Analyst Recommendations’, Journal of Finance, Vol. 38, No. 1 (March), pp. 187–
+204.
+Carleton, W.T., C.R. Chen and T.L. Steiner (1998), ‘Optimism Biases among Brokerage and Non-brokerage Firms’ Equity Recommendations: Agency Costs in the
+Investment Industry’, Financial Management, Vol. 27, No. 1 (Spring), pp. 17−30.
+Chan, H.W.H., R. Brown and Y.K. Ho (2006), ‘Initiation of Brokers’ Recommendations,Market Predictors and Stock Returns’, Journal of Multinational Financial
+Management, Vol. 16, No. 3 (July), pp. 213–231.
+Dhiensiri, N., G. Mandelker and A. Sayrak (2005), ‘The Information Content of Analysts Recommendations’, FMA conference paper, Chicago.
+Dugar, A. and S. Nathan (1995), ‘The Effect of Investment Banking Relationships on Financial Analysts’ Earnings Forecasts and Investment Recommendations’,
+Contemporary Accounting Research, Vol. 12, No. 1 (Fall), pp. 131–160.
+Francis, J. and L. Soffer (1997), ‘The Relative Informativeness of Analysts’ Stock Recommendations and Earnings Forecast Revisions’, Journal of Accounting
+Research, Vol. 35, No. 2 (Autumn), pp. 193–211.
+Ho, M.J. and R.S. Harris (2000), ‘Brokerage Analysts’ Rationale for Investment Recommendations: Market Responses to Different Types of Information’, Journal
+of Financial Research, Vol. 23, No. 4 (Winter), pp. 449–468.
+Irvine, P.A. (2003), ‘The Incremental Impact of Analysts Initiation of Coverage’, Journal of Corporate Finance, Vol. 9, No. 4 (September), pp. 431–451.
+Jegadeesh, N., J. Kim, S.D. Krische and C.M. Lee (2004), ‘Analyzing the Analysts:When Do Recommendations Add Value?’, Journal of Finance, Vol. 59, No. 3
+(June), pp. 1083–1124.
+McNichols, M. and P. O’Brien (1997), ‘Self-selection and Analyst Coverage’, Journal of Accounting Research (Supplement), Vol. 35, pp. 167–199.
+Michaely, R. and K.L. Womack (1999), ‘Conflict of Interest and the Credibility of Underwriter Analyst Recommendations’, Review of Financial Studies, Vol. 12,
+No. 4 (Special issue), pp. 653–686.
+O’Brien, P., M. McNichols and H. Lin (2005), ‘Analyst Impartiality and Investment Banking Relationships’, Journal of Accounting Research, Vol. 43, No. 4
+(September), pp. 623–650.
+Peterson, D. (1987), ‘Security Price Reactions to Initial Reviews of Common Stock by the Value Line Investment Survey’, Journal of Financial and Quantitative
+Analysis, Vol. 22, No. 4 (December), pp. 484–494.
+Ryan, P. and R.J. Taffler (2004), ‘Are Economically Significant Stock Returns and Trading Volumes Driven by Firm-specific News Releases?’, Journal of Business
+Finance & Accounting, Vol. 31, Nos. 1 and 2 (January / March), pp. 49–82.
+Sayrak, A. and N. Dhiensiri (2002), ‘The Effects of Analysts Coverage Initiations’, FMA conference paper, San Antonio.
+Stickel, S.E. (1990), ‘Predicting Individual Analyst Earnings Forecasts’, Journal of Accounting Research, Vol. 28, No. 2 (Autumn), pp. 409–417.
+Stickel, S.E. (1992), ‘Reputation and Performance among Security Analysts’, Journal of Finance, Vol. 47, No. 5 (December), pp. 1811–1836.
+Stickel, S.E. (1995), ‘The Anatomy of the Performance of Buy and Sell Recommendations’, Financial Analysts Journal, Vol. 51, No. 5 (September /
+October), pp. 25–39.
+Womack, K.L. (1996), ‘Do Brokerage Analysts’ Recommendations Have Investment Value?’, Journal of Finance, Vol. 51, No. 1 (March), pp. 137–167.
+Abarbanell, J. S., and R. Lehavy, 1999, Can stock recommendations predict earnings management and analyst earnings forecast errors? Working paper, UNC-Chapel Hill
+and UC-Berkeley, May.
+Barber, Brad, Reuven Lehavy, Maureen McNichols, and Brett Trueman, 2000, Can investors profit from the prophets? Security analyst recommendations and stock
+returns, Journal of Finance, forthcoming.
+Basu, Sanjoy, 1977, Investment performance of common stocks in relation to their price earnings ratios: A test of the efficient market hypothesis, Journal of Finance, 32, 663- 682.
+Beneish, M. Daniel, 1999, The detection of earnings manipulation, Financial Analysts Journal 55, September/October, 24-36.
+Beneish, D. M., C. M. C. Lee, and R. Tarpley, 2000, Predicting extreme stock price performance, working paper, Indiana University and Cornell University, May.
+Blattberg, R. C., and J. S. Hoch, 1990, Database models and managerial intuition: 50% model and 50% manager, Management Science, 36, 887-899.
+Bradshaw, Mark, 2000, How do analysts use their earnings forecasts in generating stock recommendations? University of Michigan working paper, January.
+Brown, Lawrence D., ed., 2000, I/B/E/S Research Bibliography, Sixth Edition, I/B/E/S International Incorporated.
+Elton, J. Edwin, Martin J. Gruber, and Seth Grossman, 1986, Discrete expectational data and portfolio performance, Journal of Finance, 41, 699-714.
+Fama, E. F. and K. R. French, 1992, The cross-section of expected stock returns, Journal of Finance 47, 427-465.
+Finger, Catherine A., and Wayne R. Landsman, 1999, What do analysts’ stock recommendations really mean? University of Illinois and U.N.C. – Chapel Hill
+working paper, March.
+Frankel, R., and C. M. C. Lee, 1998, Accounting valuation, market expectation, and cross-sectional stock returns, Journal of Accounting and Economics 25, 283-319.
+Jegadeesh, N., and S. Titman, 1993, Returns to buying winners and selling losers:Implications for stock market efficiency, Journal of Finance 48, 65-91.
+La Porta, Raphael, 1996, Expectations and the cross-section of stock returns, Journal of Finance 51, 1715-1742.
+Lakonishok, Josef, Andrei Shleifer, and Robert W. Vishny, 1994, Contrarian investment,extrapolation, and risk, Journal of Finance 49, 1541-1578.
+Lee, C. M. C., and B. Swaminathan, 2000, Price momentum and trading volume, Journal of Finance, 55, forthcoming.
+Libby, R., 1981, Accounting and human information processing: Theory and application. Englewood Cliffs, N. J.: Prentice-Hall.
+McNichols, M., and P. C. O’Brien, 1997, Self-selection and analyst coverage, Journal of Accounting Research, 35, 167-199.
+Nelson, M. W., S. D. Krische, and R. J. Bloomfield, 2000, Psychological factors affecting investors’ reliance on disciplined trading strategies, Cornell University working paper, September.
+O’Brien, P. C., and Ravi Bhushan, 1990, Analyst following and institutional ownership,Journal of Accounting Research 28, 55-82.
+Schipper, K., 1991, Analysts’ forecasts, Accounting Horizons 5, 105-121.
+Sloan, R. G., 1996, Do stock prices fully reflect information in accruals and cash flows about future earnings? The Accounting Review 71, 289-315.
+Stickel, Scott E., 1995, The anatomy of the performance of buy and sell recommendations, Financial Analysts Journal, September/October, 25-39.
+Stickel, Scott E., 1999, Analyst incentives and the financial characteristics of Wall Street darlings and dogs, La Salle University working paper, April.
+Welch, Ivo, 1999, Herding among security analysts, Journal of Financial Economics,forthcoming.
+Womack, Kent, 1996, Do brokerage analysts’ recommendations have investment value?Journal of Finance, 51, 137-167.
+
+
