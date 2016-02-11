@@ -1,0 +1,11 @@
+https://pypi.python.org/pypi/pystock-crawler/0.8.2
+sudo apt-get update
+sudo apt-get install -y gcc python-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev build-essential
+pip install pystock-crawler
+
+pystock-crawler prices GOOG,YHOO -o out.csv --sort
+pystock-crawler prices ./symbols.txt -o out.csv# daily price of stocks included in txt file
+pystock-crawler reports FB -o out.csv -s 20000101 -e 20160210#fundamental report
+pystock-crawler reports ./nyse.txt -o out.csv -l ./crawling.log# fundamental of stocks in txt file
+pystock-crawler symbols NYSE,NASDAQ,AMEX -o out.txt
+pystock-crawler -h
