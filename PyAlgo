@@ -1,0 +1,61 @@
+
+
+IPython/Jupyter Notebook and the Quant Platform
+implement financial algorithms in Python (e.g. mean-variance portfolio theory)
+implement typical financial analytics tasks in Python
+able to manage and plot real-time data streams and also analyze these in real time (e.g. for automated trading)
+implement derivatives and risk analytics in Python (e.g. Monte Carlo simulation, option pricing, calibration)
+
+Day 1: Introduction to Python Programming
+
+Learn the basics of Python programming and get accustomed to the most important development tools and processes. First examples and case studies drawn from finance will illustrate the topics covered.
+Day 2: Technical Python for Finance
+
+Learn about concepts, topics and idioms important for financial analytics and/or application development projects. Topics covered include: advanced concepts and approaches with NumPy and Pandas, time series management with Pandas as well as basic and advanced operations, performant IO operations with Numpy and Pandas as well as basic and advanced visualization techniques.
+Day 3: Applied Python for Finance
+
+Learn about further topics of importance for nearly every financial analytics and/or application project. Topics include: retrieving, processing and storing financial data, implementing basic backtests for automated trading strategies, optimizing trading strategies, doing in- vs out-of-sample testing, capturing live financial data streams and plotting them in real time, implementing automated trading strategies with real-time data streaming and buy/sell orders.
+Day 4: Python for Derivatives and Risk Analytics
+
+Learn about the implementation of derivatives and risk models in Python. Topics covered include: option pricing by Fourier-based
+
+techniques and Monte Carlo simulation, calibration of pricing models, simulation of such models, risk analytics approaches, and
+
+Open Source library DX Analytics.
+
+Python is fast becoming a key programming language. There has been an increase in jobs requiring Python skills globally and growing demand for formal education providing guided instruction on how to apply Python to financial settings. The Python for Finance Certification will help quantitative and IT professionals from both buy-side and sell-side financial organizations master Python for computational finance and can help accelerate professional growth.
+***
+1. Sensitization to Big Data Analytics and trends. Requires no knowledge of programming or database.
+2. How to make queries your own setup of Database and other scripts .Introduction to Python, R, SQL and MongoDB (noSQL)
+3. This course helps you understand how to pull big unstructured using NOSQL and do some computation using python. You have a choice of using R and Python after you have pulled data. Playing with missing data is the most important things and for that I will show five important commands.
+4.Contains right blend of learning and practice (Ratio 6:4). Highly flexible and tailored as per needs of individual based on his preferred choice of investment theme
+5.The more your reduce data before pulling the easier it would be do the computation. Utility functions for data cleaning, charting, looping, error handling will be explained. Charts and pictures in python are sometimes not so intuitive so we would see them on R.
+6.Essential Financial Libraries in Python and R. Exploring applications in Equity and CMBS (for linking all properties linked) Fixed Income Analytics.
+7.Optional: Introduction to Regression, clustering, Charting, Monte Carlo Simulation, Map Objects for Financial Modelling
+8.Optional Bonus: Essential SQL Queries – Linking SQL with Excel using VBA
+9.Optional Bonus: Charting, Visualization and Latex integration 
+****
+http://quant-platform.com/
+https://ep2013.europython.eu/media/conference/slides/derivatives-analytics-with-python-numpy.pdf
+https://www.youtube.com/watch?v=Cc0HlKKCSHU
+https://www.youtube.com/watch?v=M6UJlr-0FTI
+http://www.pythonquants.com/
+http://www.ibm.com/analytics/watson-analytics/?cm_mmc=search-gsn-_-unbranded-watson-analytics-_-financial%20analytics-Broad-_-ind-WW-WA-mkt-oww
+https://www.continuum.io/content/videos
+https://www.youtube.com/watch?v=ed2FWNWwE3I
+https://www.class-central.com/report/financial-engineering-first-steps-with-moocs/
+https://www.quantstart.com/articles/Free-Quantitative-Finance-Resources
+https://www.quantstart.com/articles/Quant-Reading-List-Python-Programming
+http://quant-econ.net/
+http://www.quantatrisk.com/accelerated-python-for-quants/
+http://worldquantuniversity.org/admissions/?target=application-instructions
+https://www.coursera.org/learn/computational-investing
+https://realpython.com/blog/python/web-scraping-with-scrapy-and-mongodb/
+https://api.stackexchange.com/docs
+https://www.codecademy.com/courses/python-intermediate-en-6zbLp/0/1
+http://www.quantsportal.com/getting-started-with-open-source-for-quantitative-finance/
+https://jrvcomputing.wordpress.com/2015/07/03/43/
+http://www.xignite.com/products
+http://fintechhack.com/nyc2013/
+https://mktstk.wordpress.com/2015/02/20/financial-network-visualization-clustering-by-estimize-analyst-coverage/
+http://blog.quantopian.com/2014/11/
