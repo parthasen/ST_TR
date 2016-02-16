@@ -1,0 +1,13 @@
+https://github.com/QuantConnect/Lean/tree/master/Algorithm.Python
+https://lean.quantconnect.com/docs#topic16.html
+https://www.quantconnect.com/terminal/#open/207453
+
+https://www.quantopian.com/help#overview-fetcher
+https://www.quantopian.com/posts/use-the-fetcher-for-any-quandl-dataset
+
+http://www.zipline.io/
+#loaded at PyAlgo environment
+#pip install zipline # this is not loading due to scipy package
+conda install -c Quantopian zipline # loaded
+#conda install jupyter # not needed for me as I use command line
+https://github.com/quantopian/zipline/blob/master/zipline/examples/dual_moving_average.py
