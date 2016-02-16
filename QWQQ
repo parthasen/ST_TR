@@ -7,8 +7,11 @@ https://www.quantopian.com/posts/use-the-fetcher-for-any-quandl-dataset
 
 https://quantiacs.com/For-Quants/GetStarted/PythonToolbox.aspx
 https://quantiacs.com/Download.aspx
+pip install quantiacsToolbox#installed at PyAlgo
 
 http://epchan.blogspot.in/2015/10/an-open-source-genetic-algorithm.html
+
+https://websim.worldquantchallenge.com/videos
 
 http://www.zipline.io/
 #loaded at PyAlgo environment
