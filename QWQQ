@@ -7,6 +7,8 @@ https://www.quantopian.com/posts/use-the-fetcher-for-any-quandl-dataset
 
 https://quantiacs.com/For-Quants/GetStarted/PythonToolbox.aspx
 
+http://epchan.blogspot.in/2015/10/an-open-source-genetic-algorithm.html
+
 http://www.zipline.io/
 #loaded at PyAlgo environment
 #pip install zipline # this is not loading due to scipy package
