@@ -1,0 +1,33 @@
+Improvement of accuracy by reducing bias,revealing the sentiment of investors through weighted consideration of news factor,rating change and price target consensus deviating from model output. 
+
+Consensus news effect on particular stock (effect on future revenue,earning),rating change and price target change lead investors to follow analyst forecast (blindly many times) exposes herding behaviour.  Analysts are more valued for providing corporate access, detailed research reports, and general industry information [Boni and Womack, 2002]. Professional forecasters’ livelihood depends on providing accurate information to buy side clients. However, forecasting ability of sell side is better. (In india sell side analysts are more accurate than buy side?)  In US vast majority uses professional sell side estimates from data sources such as Thomson Reuters’ I/B/E/S. there exists evidence of behavioral biases in sell side earnings estimates [Trueman, 1994; Hong et al, 2000].( Database for ratings and price target in India?)
+
+Any individual investor's prediction is based on uses own sense following most of the times different analysts because they lack in knowledge of application of predicting tools and no access to costly database. Many analysts fear to predict away from concensus because of fear of being exposed as incorrect. 
+
+Regulatory constraints on sell side analysts , also constrain an analyst’ ability to produce timely updates to their research, as several more compliance steps are now involved. As a result, changes in sell side forecasts tend to be fairly gradual. [estimize.com]
+
+Gain to participants: 
+Participants by using sense, sentiments,calculation in the platform predicsense.com have the flexibility to provide honest and timely estimates, can get others unbiased view to use theoir own investment. This platform helps to create unbiased database by incentatves to incentives to be accurate, including self-promotion, which could be particularly important for independent researchers,investors and students who would like to have a published track record of accurate estimates.
+
+Profit: 
+1. Selling trading signal
+2. Database API
+
+There is a growing body of literature that finds that crowdsourced forecasts can be particularly accurate[Avery et al, 2011; Wolfers and Zizewitz, 2006]. 
+We contribute to such studies by looking at the accuracy of Estimize consensus earnings estimates, and by measuring whether the market response to earnings announcements indicates that the Estimize community 
+is an accurate measure of market expectations.
+
+
+EFERENCES
+Avery, Christopher, Judity A. Chevalier, and Richard Zeckhauser. “The ‘CAPS’ Prediction System and Stock Market Returns”. NBER Working Paper No. 17298, 2011 
+Wolfers, Justin, and Eric Zitzewitz. “Prediction Markets in Theory and Practice.” NBER Working Paper No.12083, March 2006 
+Boni, Leslie, and Kent Womack. “Solving the Sell-Side Research Problem: Insight from Buy-Side Professionals.” Dartmouth College working paper, 8
+August 2002 
+Hong, Harrison, Jeffrey D. Kubik and Amit Solomon. “Security Analysts’ Career Concerns and the Herding of Earnings Forecasts.” RAND Journal of Economics 31, 2000 
+Trueman, Brett. “Analyst Forecasts and Herding Behavior.” The Review of Financial Studies Vol. 7, No.1,Spring 1994 
+
+
+
+
+
+   
