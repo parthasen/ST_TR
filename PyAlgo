@@ -1,4 +1,5 @@
-
+http://scikit-learn.org/stable/auto_examples/plot_kernel_ridge_regression.html#example-plot-kernel-ridge-regression-py
+conda install scikit-learn
 
 IPython/Jupyter Notebook and the Quant Platform
 implement financial algorithms in Python (e.g. mean-variance portfolio theory)
