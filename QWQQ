@@ -169,4 +169,190 @@ def mySettings():
     import quantiacsToolbox
     returnDict = quantiacsToolbox.runts('/home/octo/Desktop/trade.py')# trade.py is the name of earlier file with srategy, we can change name
     #####Quantopian-ZIPLINE
+    ****
+    #https://www.quantopian.com/posts/sentiment-analysis-algo
+#https://www.quantopian.com/posts/crowd-sourced-stock-sentiment-using-stocktwits
+https://www.quantopian.com/posts/method-to-get-historic-values-from-fetcher-data
+https://www.quantopian.com/help#api-order-target-percent
+https://www.quantopian.com/posts/earnings-drift-with-estimize
+https://www.quantopian.com/posts/qqq-market-open-trade-with-3x-long-slash-short-qqq-etfs-as-indicators
+https://www.quantopian.com/posts/market-sentiment-market-mood-finsents-signals-detection
+https://www.quantopian.com/posts/trading-strategy-mean-reversion
+https://www.quantopian.com/posts/dollar-value-averaging
+https://www.quantopian.com/posts/rebalance-algo-9-sector-etfs
+https://www.quantopian.com/posts/long-only-value-momentum-strategy-with-filter-first-algo# fundamental data
+https://www.quantopian.com/posts/equities-fundamental-data
+https://www.quantopian.com/posts/research-stepping-through-crowdsourced-earnings-data-with-estimize
+https://www.quantopian.com/posts/long-only-value-momentum-strategy-with-filter-first-algo
+https://www.quantopian.com/posts/kalman-filter-1
+https://www.quantopian.com/posts/mean-reversion-w-slash-scipy-dot-optimize-dot-minimize
+
+
+import numpy as np
+import talib
+import pandas as pd
+import statsmodels.api as sm
+from datetime import datetime, timedelta
+from pytz import timezone
+from scipy import stats
+from collections import deque
+from quantopian.algorithm import attach_pipeline, pipeline_output
+from quantopian.pipeline import Pipeline
+from quantopian.pipeline.data.builtin import USEquityPricing
+from quantopian.pipeline import CustomFactor
+
+batch_transform(window_length=201, refresh_period=0)
+def _history(data):
+    return data
+
+liveTrading = False
+
+window_days = 28 # window length in minutes
+window_minutes = window_days*390 # window length in minutes; each trading day has 390 minutes
+class AvgDailyDollarVolumeTraded(CustomFactor):
     
+    inputs = [USEquityPricing.close, USEquityPricing.volume]
+    window_length = 20
+    
+    def compute(self, today, assets, out, close_price, volume):
+        out[:] = np.mean(close_price * volume, axis=0)
+
+
+
+# The initialize function is the place to set your tradable universe and define any parameters. 
+def initialize(context):
+    set_symbol_lookup_date('2015-03-15')#Data loaded in is from 03/11/15 and should be tested from then on.
+    context.rebalance_date = None 
+    context.max_notional = 100000
+    context.min_notional = -100000
+    context.target_notional = 1*pow(10,6)
+    context.init_amts = True
+    context.vix = sid(40516)
+    context.spy = sid(8554)
+    context.TQQQ = sid(39214)
+    context.SQQQ = sid(39211)
+    context.QQQ = sid(19920)
+    context.secs = [sid(14516), sid(14517)]#EWA and EWC # symbols('SPY', 'NDX', 'GSPC', 'OEX', 'OIL', 'GLD', 'USO', 'LL', 'ACAD')
+    context.evec = [0.943, -0.822]
+    context.unit_shares = 20
+    context.Rebalance_Days = 7
+    # These other variables are used in the algorithm for leverage, trade time, etc.
+    context.rebalance_date = None
+    context.rebalance_hour_start = 10
+    context.rebalance_hour_end = 15
+    context.percentage = 0.99
+    context.dev_multiplier = 2
+    context.max_notional = 1000000
+    context.min_notional = -1000000
+    context.days_traded = 0
+    context.long_leverage = 0.5
+    context.short_leverage = -0.5
+    context.lower_percentile = 5
+    context.upper_percentile = 85
+    context.returns_lookback = 5
+    #need to be defined-- dynamic stock ticker choosing not allowed otherwise
+    context.stock = {'st_%s' % stock.symbol: stock for stock in context.secs} 
+    context.previous_datetime = None
+    context.new_day = None  
+    set_commission(commission.PerShare(cost=.0075, min_trade_cost=1.0))
+    set_slippage(slippage.VolumeShareSlippage(volume_limit=.025, price_impact=0.1))  
+
+    # Use the top 1% of stocks defined by average daily trading volume.
+    set_universe(universe.DollarVolumeUniverse(99, 100))
+
+           
+    # Rebalance every Monday (or the first trading day if it's a holiday).
+    # At 11AM ET, which is 1 hour and 30 minutes after market open.
+    schedule_function(rebalance, 
+                      date_rules.week_start(days_offset=0),
+                      time_rules.market_open(hours = 1, minutes = 30))  
+
+# The handle_data function is run every bar.    
+def handle_data(context,data):    
+    # Record and plot the leverage of our portfolio over time. 
+    record(leverage = context.account.leverage)
+
+    # We also want to monitor the number of long and short positions 
+    # in our portfolio over time. This loop will check our positition sizes 
+    # and add the count of longs and shorts to our plot.
+    longs = shorts = 0
+    for position in context.portfolio.positions.itervalues():
+        if position.amount > 0:
+            longs += 1
+        if position.amount < 0:
+            shorts += 1
+    record(long_count=longs, short_count=shorts)
+    # Cancel any order at the end of day. 
+    open_orders = get_open_orders()
+    if open_orders:
+        log.info("*** EOD: Stoping Orders & Printing Held ***")
+
+    # Print what positions we are holding overnight
+    for stock in context.secs:
+        if context.portfolio.positions[stock.sid].amount != 0:
+            log.info("{0:s} has remaining {1:,d} Positions worth ${2:,.2f}"\
+                     .format(stock.symbol,
+                             context.portfolio.positions[stock.sid].amount,
+                             context.portfolio.positions[stock.sid].cost_basis\
+                             *context.portfolio.positions[stock.sid].amount))
+
+    if open_orders:  
+        for security, orders in open_orders.iteritems():
+            for oo in orders:
+                log.info("X CANCLED {0:s} with {1:,d} / {2:,d} filled"\
+                                     .format(security.symbol,
+                                             oo.filled,
+                                             oo.amount))
+                cancel_order(oo)
+
+
+
+
+# This rebalancing is called according to our schedule_function settings.     
+def rebalance(context,data):
+    # Get the last N days of prices for every stock in our universe.
+    prices = history(context.returns_lookback, '1d', 'price')
+    
+    # Calculate the past 5 days' returns for each security.
+    returns = (prices.iloc[-1] - prices.iloc[0]) / prices.iloc[0]
+    
+    # Remove stocks with missing prices.
+    # Remove any stocks we ordered last time that still have open orders.
+    # Get the cutoff return percentiles for the long and short portfolios.
+    returns = returns.dropna()
+    open_orders = get_open_orders()
+    if open_orders:
+        eligible_secs = [sec for sec in data if sec not in open_orders]
+        returns = returns[eligible_secs]
+
+    # Lower percentile is the threshhold for the bottom 20%, upper percentile is for the top 20%.
+    lower, upper = np.percentile(returns, [context.lower_percentile,
+                                           context.upper_percentile])
+    
+    # Select the X% worst performing securities to go long.
+    long_secs = returns[returns <= lower]
+    
+    # Select the Y% best performing securities to short.
+    short_secs = returns[returns >= upper]
+    
+    # Set the allocations to even weights in each portfolio.
+    long_weight = context.long_leverage / len(long_secs)
+    short_weight = context.short_leverage / len(short_secs)
+    
+    for security in data:
+        
+        # Buy/rebalance securities in the long leg of our portfolio.
+        if security in long_secs:
+            order_target_percent(security, long_weight)
+            
+        # Sell/rebalance securities in the short leg of our portfolio.
+        elif security in short_secs:
+            order_target_percent(security, short_weight)
+            
+        # Close any positions that fell out of the list of securities to long or short.
+        else:
+            order_target(security, 0)
+            
+    log.info("This week's longs: "+", ".join([long_.symbol for long_ in long_secs.index]))
+    log.info("This week's shorts: "  +", ".join([short_.symbol for short_ in short_secs.index]))
+
