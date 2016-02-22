@@ -186,7 +186,14 @@ https://www.quantopian.com/posts/research-stepping-through-crowdsourced-earnings
 https://www.quantopian.com/posts/long-only-value-momentum-strategy-with-filter-first-algo
 https://www.quantopian.com/posts/kalman-filter-1
 https://www.quantopian.com/posts/mean-reversion-w-slash-scipy-dot-optimize-dot-minimize
-
+https://www.quantopian.com/posts/simple-moving-average-ratio-strategy
+https://www.quantopian.com/help#api-account
+https://www.quantopian.com/posts/simple-moving-average-vs-current-price-compare
+https://www.quantopian.com/posts/moving-average-crossover-help
+https://www.quantopian.com/posts/moving-average-crossover-help
+https://www.quantopian.com/posts/moving-average-crossover-1
+https://www.quantopian.com/help#api-symbollookupdate
+https://www.quantopian.com/help#api-toplevel
 
 import numpy as np
 import talib
