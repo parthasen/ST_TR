@@ -1,0 +1,299 @@
+"""
+    This is a PEAD strategy based off Estimize's earnings estimates. Estimize (estimize.com) is a service that aggregate financial estimates from independent, buy-side, sell-side analysts as well as students and professors. The data that we're using here will be called from our custom 'fetch_estimize' method and contains the following columns:
+    - date: the date that the company announced it's earnings
+    - actual_eps: the actual earnings announcement on that date
+    - wallstreet_eps: the Wall Street consensus' estimates for that earnings announcement
+    - estimize_eps: the Estimize estimates for that earnings announcement
+    - ticker: the stock ticker
+
+    Much of the variables are meant for you to be able to play around with them:
+        1. context.algo_type: defines whether you want a long/short strategy
+        2. context.days_to_hold: defines the number of days you want to hold before exiting a position
+        3. context.min/max_surprise: defines the min/max % surprise you want before trading on a signal
+        4. context.which_eps: defines that you're using the 'estimize_eps' rather than the 'wallstreet_eps' as your benchmark. Change it to 'wallstreet_eps' if you'd rather use that.
+"""
+
+from pytz import timezone
+from datetime import datetime, timedelta
+
+import numpy as np
+
+def initialize(context):
+    
+    set_slippage(TradeAtTheOpenSlippageModel(.1)) # https://www.quantopian.com/posts/trade-at-the-open-slippage-model
+    
+    #: Declares whether we're doing a short/long/both strategy
+    context.algo_type = 'both'
+    
+    #: Declaring the days to hold, change this to what you want)))
+    context.days_to_hold = 3
+    
+    #: Declares which stocks we currently held and how many days we've held them dict[stock:days_held]
+    context.stocks_held = {}
+    
+    #: Declares which eps estimate to benchmark against
+    context.which_eps = 'estimize_eps'
+    
+    #: Declares the minimum magnitude of percent surprise
+    context.min_surprise = .01
+    context.max_surprise = .06
+    
+    #: Declares the number of ticks that we've used in the current day
+    context.ticks = 0
+    
+    #: Boolean holding the memory whether or not we've already ordered for the current day
+    context.ordered = False
+    
+    #: Boolean holding the memory whether or not we need to retry closing out our positions
+    context.retry = False
+    
+    #: Initialize our Hedge
+    context.spy = sid(8554)
+    
+    #: Get our tickers and set them as our data
+    fetch_estimize(
+              pre_func=pre_func,
+              symbol_column='ticker')
+    
+    #: Get the same tickers and set them as our universe
+    fetch_estimize(
+              pre_func=pre_func,
+              symbol_column='ticker',
+              universe_func=my_universe)
+
+def handle_data(context, data):
+    #: Converting the time in to the Eastern Timezone
+    #: This will be made obsolete with the `schedule_function` method. Coming out soon! 
+    current_time = get_datetime().astimezone(timezone('US/Eastern'))
+    
+    """
+        Setting starting positions
+    """
+    if current_time.hour == 9 and current_time.minute == 31:
+        context.ticks = 0
+        
+    """
+        Log current positions at 10:00 AM
+    """
+    if current_time.hour == 10 and current_time.minute == 0 and context.ordered == True:
+        #: Get all positions
+        all_positions = "Current positions for %s : " % (str(get_datetime()))
+        for pos in context.portfolio.positions:
+            all_positions += "%s at %s shares, " % (pos.symbol, context.portfolio.positions[pos].amount)
+        log.info(all_positions)
+        
+    """
+        Main ordering conditions
+    """
+    if context.ticks <= 30 and context.ordered == False:
+        
+        #: Create a dict of stocks to buy/sell and the position (long/short)
+        stocks_to_order = {}
+        for stock in data:
+            
+            #: First check if data exists and we're using 'all' because it's easier to read but
+            #: it's the same as 'and'
+            if all([context.which_eps in data[stock],
+                  'reports_at_2' in data[stock],
+                  stock in data]):
+                
+                date_format = "%Y-%m-%d"
+                trade_date = datetime.strptime(data[stock]['reports_at_2'], date_format)
+                
+                #: Next check if it's the correct date to trade
+                if all([trade_date.year == get_datetime().year,
+                       trade_date.month == get_datetime().month,
+                       trade_date.day == get_datetime().day]):
+                    
+                    estimize_eps = data[stock][context.which_eps]
+                    actual_eps = data[stock]['actual_eps']
+                    
+                    #: Getting the percent surprise needed before we trade on that signal
+                    percent_surprise = (actual_eps - estimize_eps)/(estimize_eps + 0.0)
+                   
+                    #: Positive Surprise
+                    if (percent_surprise >= context.min_surprise and percent_surprise <= context.max_surprise) and (context.algo_type == 'both' or context.algo_type == 'long') :
+                        stocks_to_order[stock] = 'long'
+                        
+                    #: Negative Surprise
+                    if (percent_surprise <= -context.min_surprise and percent_surprise >= -context.max_surprise) and (context.algo_type == 'both' or context.algo_type == 'short'):
+                        stocks_to_order[stock] = 'short'
+                        
+                    #: If neither positive nor negative surprise, do nothing
+                    else:
+                        pass
+        
+        #: Create weights for each of our long and short positions based on the number of longs/shorts we have
+        if len(stocks_to_order) != 0:
+            
+            #: Get total number of stocks and divide by 1.0
+            total_long = len([s for s in stocks_to_order if stocks_to_order[s] == 'long'])
+            total_short = len([s for s in stocks_to_order if stocks_to_order[s] == 'short'])
+            long_weight = 1.0/total_long if total_long != 0 else 0
+            short_weight = -1.0/total_short if total_short != 0 else 0 
+            
+        #: Go through our stocks to order and order them
+        for stock in stocks_to_order:
+            
+            #: Check if we have data for the stock
+            if stock in data:
+                
+                #: Check whether it's a long or a short
+                if stocks_to_order[stock] == 'long':
+                    weight = long_weight
+                elif stocks_to_order[stock] == 'short':
+                    weight = short_weight
+                    
+                log.info("Entering position on %s at %s" % (stock.symbol, str(get_datetime())))                
+                order_target_percent(stock, weight)
+                
+                #: Set the number of days held = 0 
+                context.stocks_held[stock] = 0
+                context.ordered = True
+        
+        #: Finally, we hedge our positions by getting the net dollar ordered and matching that to 0
+        if context.ordered == True:
+            
+            #: Get the total amount ordered for the day
+            amount_ordered = 0 
+            for order in get_open_orders():
+                for oo in get_open_orders()[order]:
+                    amount_ordered += oo.amount * data[oo.sid].price
+
+            #: Order our hedge
+            order_target_value(context.spy, -amount_ordered)
+            context.stocks_held[context.spy] = 0
+            log.info("We currently have a net order of $%0.2f and will hedge with SPY by ordering $%0.2f" % (amount_ordered, -amount_ordered))
+        
+                    
+    """
+        Exit position/days held update logic
+    """
+    #: Go through each held stock and update the number of days held and close out any positions
+    #: that have been held past context.days_to_hold
+    if (current_time.hour == 15 and current_time.minute == 45) or context.retry == True:
+        for stock in context.portfolio.positions:
+            
+            #: Get the number of days that we've currently held this stock
+            days = context.stocks_held.get(stock)
+            
+            #: None is the condition for a security that we don't currently hold
+            if days == None:
+                continue
+                
+            #: If days_to_hold is set to 1, close out any position at the end of the day
+            if context.days_to_hold == 1:
+                
+                #: If we don't have data for the stock, break and retry
+                if stock not in data:
+                    context.retry = True
+                    break
+                
+                #: If we just placed an order for the stock, don't bother ordering again
+                if stock not in get_open_orders():
+                    log.info("Exiting position on %s at %s" % (stock.symbol, str(get_datetime())))
+                    order_target_percent(stock, 0)
+                    
+                    #: Refresh all variables
+                    context.retry = False
+                    context.ordered = False
+                    
+            #: Same order logic but for when context.days_to_hold != 1
+            elif context.days_to_hold > 1:
+                if days >= context.days_to_hold:
+                    if stock not in data:
+                        context.retry = True
+                        break
+                    elif stock not in get_open_orders():
+                        log.info("Exiting position on %s at %s" % (stock.symbol, str(get_datetime())))
+                        order_target_percent(stock, 0)
+                        context.retry = False
+                        context.ordered = False
+                        context.stocks_held[stock] = None
+                else:
+                    context.stocks_held[stock] += 1
+                    
+            
+    context.ticks += 1
+                    
+        
+"""
+    Fetcher helper methods
+"""
+
+def pre_func(df):
+    """
+        This takes in our dataframe, cleans up the dates in it because I want to just buy it the day after the earnings are released
+    """
+    
+    #: We're going to shift the dates according to when we should be trading the ticker
+    df['date'] = df['date'].apply(lambda x: shift_dates(x))
+    
+    #: We're going to make a copy of the date column to make sure we know when to trade at the appropriate date
+    df['reports_at_2'] = df['date']
+    df = df[(df['num_participants'] > 19)]
+    df = df[(df['ticker'] != 0)]
+    df = df.drop(["Unnamed: 0"], axis=1)
+    return df
+
+def shift_dates(row):
+    """
+        This function is going to take all the dates in the dataframe, test whether it's before market or after market close, and shift the dates appropriately.
+        1. If it's before market open, keep the date the same
+        2. If it's after market open, shift the date by 1 day 
+    """
+    
+    row_date = datetime.strptime(row, "%Y-%m-%d %H:%M:%S")
+    if row_date.hour > 9:
+        row_date = row_date + timedelta(days=1)
+    elif row_date.hour == 9 and row_date.minute >= 30:
+        row_date = row_date + timedelta(days=1)
+    else:
+        row_date = row_date
+    row = row_date.strftime("%Y-%m-%d")
+    return row
+
+def my_universe(context, fetcher_data):
+    """
+        Method for setting our universe of stocks which we will use to determine
+        our weights for each security as well
+    """
+    
+    #: Setting our universe of stocks
+    sids = set(fetcher_data['sid'])  
+    symbols = [s.symbol for s in sids] 
+    log.info("Our daily universe size is %s sids" % len(symbols))
+    return sids
+
+########################################################  
+# Slippage model to trade at the open or at a fraction of the open - close range.  
+class TradeAtTheOpenSlippageModel(slippage.SlippageModel):  
+    '''Class for slippage model to allow trading at the open  
+       or at a fraction of the open to close range.  
+    '''  
+    # Constructor, self and fraction of the open to close range to add (subtract)  
+    #   from the open to model executions more optimistically  
+    def __init__(self, fractionOfOpenCloseRange):
+
+        # Store the percent of open - close range to take as the execution price  
+        self.fractionOfOpenCloseRange = fractionOfOpenCloseRange
+
+    def process_order(self, trade_bar, order):  
+        openPrice = trade_bar.open_price  
+        closePrice = trade_bar.price  
+        ocRange = closePrice - openPrice  
+        ocRange = ocRange * self.fractionOfOpenCloseRange  
+        if (ocRange != 0.0):  
+            targetExecutionPrice = openPrice + ocRange  
+        else:  
+            targetExecutionPrice = openPrice  
+        # log.info('\nOrder:{0} open:{1} close:{2} exec:{3} side:{4}'.format(  
+            # trade_bar.sid.symbol, openPrice, closePrice, targetExecutionPrice, order.direction))
+
+        # Create the transaction using the new price we've calculated.  
+        return slippage.create_transaction(  
+            trade_bar,  
+            order,  
+            targetExecutionPrice,  
+            order.amount  
+        )
