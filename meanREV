@@ -1,0 +1,61 @@
+import pandas as pd  
+import numpy as np
+import talib
+
+hold_period = 1 # hold period in days
+threshold = -10 # price difference threshold in percent
+
+def initialize(context): 
+    
+    context.stocks =[sid(8554),sid(39214),sid(39211)]  # 0==SPY 1==TQQQ 2=SQQQ
+    #context.spy = symbol('SPY')
+    context.max_drawdown = 0.3
+    context.day_counter = 0
+    set_commission(commission.PerTrade(cost=1.0))
+def handle_data(context, data):
+    context.previous_price = 1
+    minutely = history(15*390, '1m', 'price')[context.stocks[0]]  
+    minutely_v = history(15*390, '1m', 'volume')[context.stocks[0]]  
+    daily = pd.rolling_mean(minutely,390)[389:][::390]   
+    #current_price = data[context.stocks[0]].price*data[context.stocks[0]].volume
+    rsi   =  talib.RSI(daily, timeperiod=14)[-1]  
+    cp_3 = talib.MA(minutely_v, timeperiod=3*390)[-1]
+    cp_15 = talib.MA(minutely_v, timeperiod=15*390)[-1]
+    ma_3  =  talib.MA(minutely, timeperiod=3*390)[-1]  
+    ma_15 =  talib.MA(minutely, timeperiod=15*390)[-1]
+    #price_diff = 100*(current_price/context.previous_price-1)
+    trendp =  minutely[0]>= minutely[1]>= minutely[2]>= minutely[3]
+            # or falling?
+    trendn =  minutely[0]<= minutely[1]<= minutely[2]<= minutely[3]
+            
+    if get_open_orders():
+        return
+    p_TQQQ= data[context.stocks[1]].price #['price']
+    toInvest = ((context.portfolio.cash)/10) * (context.max_drawdown**0.75)
+    numShares_TQQQ = max(0,np.round(toInvest/p_TQQQ))
+    p_SQQQ= data[context.stocks[2]].price #['price']
+    numShares_SQQQ = max(0,np.round(toInvest/p_SQQQ))                
+    
+    #(price_diff < threshold) and and rsi < 20 and rsi > 80
+    if trendn and ma_3 < ma_15 and cp_3 < cp_15  and rsi < 40 and  data[context.stocks[0]].returns < (-0.01):
+        order(context.stocks[1],numShares_TQQQ) 
+        #order_target_percent(context.stocks[0],numShares)  
+    elif trendp and ma_3 > ma_15 and cp_3 > cp_15  and rsi > 60 and data[context.stocks[0]].returns > 0.01:
+        order(context.stocks[2],numShares_SQQQ) 
+        #order_target_percent(context.stocks[0],numShares)     
+    elif context.portfolio.positions[context.stocks[1]].amount>0 and data[context.stocks[1]].price > context.portfolio.positions[context.stocks[1]].cost_basis*1.015:  
+        order(context.stocks[1],-context.portfolio.positions[context.stocks[1]].amount)
+    elif context.portfolio.positions[context.stocks[2]].amount>0 and data[context.stocks[2]].price > context.portfolio.positions[context.stocks[2]].cost_basis*1.015:  
+        order(context.stocks[2],-context.portfolio.positions[context.stocks[2]].amount)    
+        #order_target_percent(context.stocks[0],-numShares)
+    else:
+        pass
+        #order_target_percent(context.stocks[0],0)
+    #context.previous_price = current_price
+    record(leverage = context.account.leverage)
+    record(rsi = rsi)  
+    record(ma_3 = ma_3)  
+    record(ma_15 = ma_15)
+    #record(price_diff  = log(price_diff))
+    
+    #log.info('Buy ' + str(shares) + ' ' + sym + ' for total $' + "%.2f" % value)
