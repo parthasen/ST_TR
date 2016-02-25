@@ -194,6 +194,19 @@ https://www.quantopian.com/posts/moving-average-crossover-help
 https://www.quantopian.com/posts/moving-average-crossover-1
 https://www.quantopian.com/help#api-symbollookupdate
 https://www.quantopian.com/help#api-toplevel
+https://www.quantopian.com/posts/trading-earnings-surprises-with-estimize-data
+https://www.quantopian.com/posts/earnings-drift-with-estimize
+https://www.quantopian.com/posts/trading-strategy-moving-average-mean-reversion
+https://www.quantopian.com/posts/returns
+https://www.quantopian.com/posts/function-returns-not-behaving-as-expected
+https://www.quantopian.com/posts/sliding-linear-regression
+https://www.quantopian.com/posts/ma-cross-over-w-slash-rsi
+https://www.quantopian.com/posts/my-attempt-at-natural-gas-trading-algo
+https://www.quantopian.com/posts/trend-follow-algo
+https://www.quantopian.com/posts/comparing-olps-algorithms-olmar-up-et-al-dot-on-etfs
+https://www.quantopian.com/posts/quantopian-tutorial-with-sample-momentum-algorithm-lesson-1-the-basics-of-the-ide
+https://www.quantopian.com/posts/using-the-cnn-fear-and-greed-index-as-a-trading-signal
+https://www.quantopian.com/posts/google-search-terms-predict-market-movements
 
 import numpy as np
 import talib
