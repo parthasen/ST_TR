@@ -207,6 +207,9 @@ https://www.quantopian.com/posts/comparing-olps-algorithms-olmar-up-et-al-dot-on
 https://www.quantopian.com/posts/quantopian-tutorial-with-sample-momentum-algorithm-lesson-1-the-basics-of-the-ide
 https://www.quantopian.com/posts/using-the-cnn-fear-and-greed-index-as-a-trading-signal
 https://www.quantopian.com/posts/google-search-terms-predict-market-movements
+https://www.quantopian.com/algorithms/56c5ab2770a1538e83000328/56cc958da3ebb00de63021d8#algorithm
+https://www.quantopian.com/posts/equity-long-short
+https://www.quantopian.com/posts/mebane-faber-relative-strength-strategy-with-ma-rule
 
 import numpy as np
 import talib
