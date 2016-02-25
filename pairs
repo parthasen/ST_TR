@@ -1,0 +1,130 @@
+import datetime
+import pytz
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+WINDOW_LENGTH = 50 
+
+def ols_transform(prices, sid1, sid2): # receives constantly updated dataframe
+    """Computes regression coefficient (slope)
+    via Ordinary Least Squares between two SIDs.
+    """
+    prices = prices.fillna(method='bfill')
+    p0 = prices[sid1].values
+    p1 = prices[sid2].values
+        
+    slope = sm.OLS(p0, p1).fit().params[0]
+    return slope
+
+def initialize(context):
+    context.gld = sid(26807)
+    context.iau = sid(26981)
+    
+    context.rebalance_date = None
+    context.rebalance_trigger = 20
+
+    # maximum total exposure (longs - shorts) in $US allowed
+    context.max_notional = 1000000 #$30,000
+
+    context.spreads = []
+    
+    set_commission(commission.PerTrade(cost=1.00))
+    set_slippage(slippage.FixedSlippage(spread=0.00))
+
+def handle_data(context, data):
+    
+    price_history = history(50, '1d', 'price')
+    price_history = price_history.fillna(method='ffill')
+    
+    # Get the current exchange time, in local timezone 
+    exchange_time = pd.Timestamp(get_datetime()).tz_convert('US/Eastern')   
+    
+    
+    # Only run the OLS regression once per day at 10:30am
+    if exchange_time.hour != 10 or exchange_time.minute != 30:
+        return
+    
+    ######################################################
+    # 1. Compute regression coefficient between GLD and IAU using the Ordinary Least Squares method
+    # ref: http://en.wikipedia.org/wiki/Ordinary_least_squares
+    params = ols_transform(price_history, context.gld, context.iau)
+    
+    context.slope = params
+
+    ######################################################
+    # 2. Compute zscore of spread (remove mean and divide by std), require at least 20 data points before 1st trade
+    zscore = compute_zscore(context, data)
+    record(zscore=zscore)
+    
+    if len(context.spreads)<20:
+        log.info('fewer than 20 data points to z-score')
+        return
+    ######################################################
+    # 3. Place orders (if its been the required # days since the position was initiated)
+    if context.rebalance_date == None:
+       place_orders(context, data, zscore, exchange_time)
+        
+    elif context.rebalance_date and exchange_time > context.rebalance_date + datetime.timedelta(days=context.rebalance_trigger):
+        place_orders(context, data, zscore, exchange_time)
+
+def compute_zscore(context, data):
+    """1. Compute the spread given slope from the OLS regression
+       2. zscore the spread.
+    """
+    spread = data[context.gld].price - (context.slope * data[context.iau].price)
+    # Positive spread means that GLD is priced HIGHER than it should be relative to IAU
+    # Negative spread means that GLD is priced LOWER than it should be relative to IAU
+    
+    context.spreads.append(spread)
+          
+    zscore = (spread - np.mean(context.spreads[-WINDOW_LENGTH:])) / np.std(context.spreads[-WINDOW_LENGTH:])
+    return zscore
+
+def place_orders(context, data, zscore, exchange_time):
+    """Buy spread if zscore is > 2, sell if zscore < -2
+    """
+    # calculate the current notional value of each position
+    notional1 = context.portfolio.positions[context.gld].amount * data[context.gld].price
+    notional2 = context.portfolio.positions[context.iau].amount * data[context.iau].price
+    #record(gld_pos_x10k=(0.0001)*notional1,iau_pos_x10k=(0.0001)*notional2)
+    
+
+    bet_size = 500000 #allocate $10,000 per side to the trade
+    bet_shares_gld = bet_size / data[context.gld].price
+    bet_shares_iau = bet_size / data[context.iau].price
+    
+    # if our notional invested is non-zero check whether the spread has narrowed to where we want to close positions:
+    if abs(notional1) + abs(notional2) != 0:
+        if zscore <= 0.5 and zscore >= -0.5:
+            close_position(context, context.gld, data)
+            close_position(context, context.iau, data)
+            log.info('closing positions')
+        else:
+            return
+        
+    # if our notional invested is zero, check whether the spread has widened to where we want to open positions:
+    elif abs(notional1) + abs(notional2) == 0:
+        if zscore >= 2.0:
+            # sell the spread, betting it will narrow since it is over 2 std deviations
+            # away from the average
+            order(context.gld, -1 * bet_shares_gld)
+            order(context.iau, bet_shares_iau)
+            log.info('z-score > 2, selling the spread')
+            context.rebalance_date = exchange_time
+    
+        elif zscore <= -2.0:
+            # buy the spread
+            order(context.gld, bet_shares_gld)
+            order(context.iau, -1 * bet_shares_iau)
+            log.info('z-score < 2, buying the spread')
+            context.rebalance_date = exchange_time
+
+
+def close_position(context, stock, data):
+    """
+    decrease exposure to zero, regardless of position long/short.
+    buy for a short position, sell for a long.
+    """
+    pos_amount = context.portfolio.positions[stock].amount
+    order(stock, -1 * pos_amount)
