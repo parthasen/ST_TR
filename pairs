@@ -1,3 +1,39 @@
+https://www.quantopian.com/posts/$gld-slash-$iau-pairs-trading-template
+https://www.quantopian.com/posts/pairs-trading-algorithm
+https://www.quantopian.com/posts/how-to-build-a-pairs-trading-strategy-on-quantopian
+https://www.quantopian.com/posts/augmented-dickey-fuller-adf-test-spy-and-sh-dollar-volume
+https://www.quantopian.com/posts/pairs-trading-algorithm
+https://www.quantopian.com/posts/multiple-pairs-trading-algo
+https://www.quantopian.com/posts/pairs-trading-algorithm-1
+https://www.quantopian.com/posts/first-attempt-at-pairs-trading
+https://www.quantopian.com/posts/questions-on-trading-cointegrated-pairs
+https://www.quantopian.com/posts/identifying-cointegrated-pairs-in-a-sector
+http://econ.schreiberlin.de/software/vecmclass.py
+http://www.ccsenet.org/journal/index.php/ijef/article/view/33007
+https://www.quantopian.com/posts/pairs-trading-with-error-correction-model
+https://www.quantopian.com/posts/kalman-filter-multiple-pairs-trading
+https://www.quantopian.com/posts/pair-trade-using-a-risk-factor-model
+https://www.quantopian.com/posts/trading-strategy-worthy-of-q-fund
+https://www.quantopian.com/posts/ernie-chan-uso-slash-gld-oil-slash-gold-pair-spread-trading-at-constant-leverage
+https://www.quantopian.com/posts/pair-trade-with-cointegration-and-mean-reversion-tests
+https://www.quantopian.com/posts/quantopian-lecture-series-this-time-youre-more-wrong?c=1
+https://www.quantopian.com/posts/augmented-dickey-fuller-adf-test-spy-and-sh-dollar-volume
+https://www.quantopian.com/posts/apt-and-pairs-trading-by-pca-between-spy-and-10-us-market-sectors-2
+https://www.quantopian.com/posts/sensitivity-analysis-aka-parameter-optimization-of-pair-trade-input-parameters
+https://www.quantopian.com/posts/cointegration-rsi-signals-long-only
+https://www.quantopian.com/posts/machine-learning-turn-$10k-into-2-dollars-dot-25m-in-two-years-plus-22407-percent-returns-by-trading-brk-a-berkshire-hathaway-with-random-forest
+https://www.quantopian.com/posts/trading-strategy-statistical-arbitrage-and-mean-reversion
+https://www.quantopian.com/posts/brent-slash-wti-spread-fetcher-example
+https://www.quantopian.com/posts/cvxvsxom
+https://www.quantopian.com/posts/what-about-vxup-slash-vxdn
+https://www.quantopian.com/posts/further-experiments-with-randomness
+https://www.quantopian.com/posts/ernie-chans-ewa-slash-ewc-pair-trade-with-kalman-filter
+https://www.quantopian.com/posts/october-prize-number-1-algo-disqualified-worthy-of-the-q-fund
+https://www.quantopian.com/posts/very-simple-2-sharpe-algo-on-xle-components
+https://www.quantopian.com/posts/improved-minimum-variance-portfolio
+
+https://www.quantopian.com/posts/russell-2000-statistical-arbitrage-with-hedged-stock-pairs-mean-reversion-strategy
+
 import datetime
 import pytz
 import numpy as np
