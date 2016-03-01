@@ -332,3 +332,58 @@ def computeHoldingsPct(yShares, xShares, yPrice, xPrice):
     return (y_target_pct, x_target_pct)
 
 *****
+getSymbols(c("SPY","USO","UCO","IWM","EEM","ECH","TLT","EWB","IWO","RSP","EWRS","TNA","UDOW","UPRO","VXX","XXV","KOLD","BOIL","ERX","ERY","NUGT","DUST"))
+
+y1<-BOIL
+y2<-KOLD
+y<-merge(tail(y1,1000),tail(y2,1000))
+rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
+plot(rolling_correlation)
+
+##Rolling Correlation
+getSymbols(c("FAS","FAZ"))
+y1<-Cl(FAS)
+y2<-Cl(FAZ)
+y<-merge(tail(y1,1000),tail(y2,1000))
+rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
+plot(tail(rolling_correlation,250))
+##Rolling Regression
+rr <- rollapply(y, width = 36,FUN = function(y) coef(lm(y[,1] ~ y[,2], data = as.data.frame(y))),by.column = FALSE, align = "right")
+plot(tail(rr[,1],50))
+plot(tail(rr[,2],50))
+
+
+KOLD-BOIL
+ERX-ERY
+NUGT-DUST
+SQQQ-TQQQ
+FAS FAZ
+
+
+
+
+
+    DBO - DTO (PowerShares DB Oil Fund - Powershares DB Crude Oil Double Short ETN)
+    DBO - GAZ (PowerShares DB Oil Fund - iPath Dow Jones-UBS Natural Gas Subindex Total Return ETN)
+    DBO - USO (PowerShares DB Oil Fund - United States Oil Fund LP )
+    AMJ - DBO (JPMorgan Alerian MLP Index ETN - PowerShares DB Oil Fund )
+    DBO - UNG (PowerShares DB Oil Fund - United States Natural Gas Fund, LP)
+    DBO - OIL (PowerShares DB Oil Fund - iPath S&P GSCI Crude Oil Total Return)
+    DBO - SCO (PowerShares DB Oil Fund - ProShares UltraShort DJ-UBS Crude Oi ETF)
+    DBO - UGA (PowerShares DB Oil Fund - United States Gasoline Fund, LP)
+    DTO - UCO (Powershares DB Crude Oil Double Short ETN - ProShares Ultra DJ-UBS Crude Oil)
+    GAZ - UCO (iPath Dow Jones-UBS Natural Gas Subindex Total Return ETN - ProShares Ultra DJ-UBS Crude Oil)
+    UCO - USO (ProShares Ultra DJ-UBS Crude Oil - United States Oil Fund LP )
+    UCO - UNG (ProShares Ultra DJ-UBS Crude Oil - United States Natural Gas Fund, LP)
+    OIL - UCO (iPath S&P GSCI Crude Oil Total Return - ProShares Ultra DJ-UBS Crude Oil)
+    SCO - UCO (ProShares UltraShort DJ-UBS Crude Oi ETF - ProShares Ultra DJ-UBS Crude Oil)
+    DTO - GAZ (Powershares DB Crude Oil Double Short ETN - iPath Dow Jones-UBS Natural Gas Subindex Total Return ETN)
+    DTO - USO (Powershares DB Crude Oil Double Short ETN - United States Oil Fund LP )
+    AMJ - DTO (JPMorgan Alerian MLP Index ETN - Powershares DB Crude Oil Double Short ETN)
+    DTO - UNG (Powershares DB Crude Oil Double Short ETN - United States Natural Gas Fund, LP)
+    DTO - UGA (Powershares DB Crude Oil Double Short ETN - United States Gasoline Fund, LP)
+    GAZ - USO (iPath Dow Jones-UBS Natural Gas Subindex Total Return ETN - United States Oil Fund LP )
+
+http://www.pairslog.com/pairsList.php?startPos=20&
+
+
