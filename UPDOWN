@@ -16,7 +16,7 @@ ipak(packages)
 ***LADING FUNCTION FROM GIT
 source_gist("https://gist.github.com/ivannp/4180399")
 #***
-getSymbols(c("^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
+getSymbols(c("SPY","^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
 ***
 F1: PRICE-VOLUME convergence or divergence ??
 #Price and Volume change
