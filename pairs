@@ -402,3 +402,76 @@ http://www.pairslog.com/pairsList.php?startPos=20&
 http://seekingalpha.com/article/3070136-shorting-leveraged-etf-pairs-easier-said-than-done
 http://seekingalpha.com/article/1254391-3-leveraged-etf-pairs-to-short
 
+getSymbols(c("SPY","USO","UCO","IWM","EEM","ECH","TLT","EWB","IWO","RSP","EWRS","TNA","UDOW","UPRO","VXX","XXV","KOLD","BOIL","ERX","ERY","NUGT","DUST"))
+
+y1<-BOIL
+y2<-KOLD
+y<-merge(tail(y1,1000),tail(y2,1000))
+rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
+plot(rolling_correlation)
+
+##Rolling Correlation
+getSymbols(c("FAS","FAZ"))
+y1<-Cl(FAS)
+y2<-Cl(FAZ)
+y<-merge(tail(y1,1000),tail(y2,1000))
+rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
+plot(tail(rolling_correlation,250))
+##Rolling Regression
+rr <- rollapply(y, width = 36,FUN = function(y) coef(lm(y[,1] ~ y[,2], data = as.data.frame(y))),by.column = FALSE, align = "right")
+plot(tail(rr[,1],50))
+plot(tail(rr[,2],50))
+
+getSymbols(c("NUGT","DUST"))
+ratio<-na.omit(Cl(NUGT)/Cl(DUST))
+ra <- rollapply(ratio, width = 36,FUN = function(ratio) forecast.Arima(arima(ratio, order=c(2,1,2)), data = as.data.frame(ratio),by.column = FALSE, align = "right") 
+
+arima <- arima(na.omit(ratio), order=c(2,0,2)) # fit an ARIMA(p,d,q) model
+arimaforecasts <- forecast.Arima(arima, h=1)
+arimaforecasts 
+http://gekkoquant.com/2013/01/21/statistical-arbitrage-trading-a-cointegrated-pair/
+http://www.rfortraders.com/lecture-4-regression-and-pairs-trading/
+http://www.r-bloggers.com/simulating-backtests-of-stock-returns-using-monte-carlo-and-snowfall-in-parallel/
+http://www.r-bloggers.com/pair-trading-strategy-how-to-use-pairtrading-package/
+library("zoo", lib.loc="~/R/win-library/3.1")
+coke_dates <- as.Date(coke[,1])
+pep_dates  <- as.Date(pep[,1])
+cc         <- zoo(coke[,5], coke_dates)
+pp         <- zoo(pep[,5], pep_dates)
+t.zoo      <- merge(cc, pp, all=FALSE)
+t          <- as.data.frame(t.zoo)
+r1         <- princomp( ~ log(coke$Close) + log(pep$Close))
+slope1     <- r1$loadings[2,1]/r1$loadings[1,1]
+prd        <- t$cc - slope1*t$pp
+library(tseries)
+ht         <- adf.test(prd, alternative="stationary", k=0)
+
+
+http://repository.upenn.edu/cgi/viewcontent.cgi?article=1095&context=wharton_research_scholars
+http://www.gauravbiware.com/pairs-trading-using-correlation-in-r/
+https://www.stat.berkeley.edu/~aldous/Research/Ugrad/Amy_Zhang.pdf
+http://mysimplequant.blogspot.in/2011/02/learning-spread-trades.html
+https://www.quantopian.com/posts/writing-a-thesis-on-pair-trading-strategies-should-i-use-quantopian-for-research
+
+http://stackoverflow.com/questions/30178611/pairs-trading-in-r-calculating-and-maximizing-profit
+http://www.yats.com/doc/cointegration-en.html
+https://sinamotamedi.wordpress.com/2009/04/16/pairs-trading-in-r/
+http://swfa2015.uno.edu/B_Asset_Pricing_III/paper_196.pdf
+https://www3.nd.edu/~pgao/papers/EngelbergGaoJag_31August2008.pdf
+http://mobile.library2.smu.ca/bitstream/handle/01/26133/Bharadwaj_MandaRaghavaSantosh_MRP_2014.pdf?sequence=1&isAllowed=y
+http://files.meetup.com/1704326/TradingStrategies.pdf
+
+https://cran.r-project.org/web/views/TimeSeries.html
+https://cran.r-project.org/web/views/Econometrics.html
+https://cran.r-project.org/web/views/Finance.html
+https://github.com/ljump12/Pairs-Trading/blob/master/pairs.R
+http://r.789695.n4.nabble.com/How-to-test-pairs-trading-strategy-td3558776.html
+http://remington-research.blogspot.in/2013/04/cointegration-pair-trading.html
+http://coin.wne.uw.edu.pl/pwojcik/hfd_en.html
+https://www.coursehero.com/file/6904571/Section-7-R-code/
+http://waxworksmath.com/authors/n_z/vidyamurthy/writeup/weatherwax_vidyamurthy_notes.pdf
+http://brage.bibsys.no/xmlui/bitstream/handle/11250/221265/masterthesis.pdf?sequence=1
+http://ses.library.usyd.edu.au/bitstream/2123/4072/1/Thesis_Schmidt.pdf
+http://www.aueb.gr/conferences/Crete2011/more%20recent/Schizas.pdf
+https://www.ucc.ie/en/media/research/centreforinvestmentresearch/wp/PT2.5.pdf
+
