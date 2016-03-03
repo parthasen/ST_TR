@@ -514,3 +514,33 @@ http://ses.library.usyd.edu.au/bitstream/2123/4072/1/Thesis_Schmidt.pdf
 http://www.aueb.gr/conferences/Crete2011/more%20recent/Schizas.pdf
 https://www.ucc.ie/en/media/research/centreforinvestmentresearch/wp/PT2.5.pdf
 
+************
+Pairs trading is typically classified as an EMN investment strategy that is based on short term price reversal.  The strategy, characterised in industry as a form of statistical arbitrage, involves finding two stocks that follow a similar trading pattern.  When the stock prices deviate from a specified trading rule, positions are taken long in the lower priced security and short in the higher priced security, with the expectation that prices will converge.  The strategy derives returns from the well documented cross autocorrelation in stocks.  Recent microstructure research has documented the relationship between liquidity and cross-autocorrelation and Engelberg,Gao, and Jagannathan (2009)  show that when information is common, market frictions such as illiquidity cause a lead lag relationship in pairs of stocks,  leading to profitable pairs trading. 
+
+Elliott, Van Der Hoek, and Malcolm (2005) use a Gaussian Markov chain model for the spread while Do, Faff, and Hamza (2006) make adaptations for spread measurement based on theoretical asset pricing methods and mean reversion. Vidyamurthy (2004) and Burgess (2005) utilize cointegration for pairs selection, while Papadakis and Wysocki (2007) expand on the methodology of Gatev et al. (2006) by examining the impact of accounting information events 
+(i.e. earnings announcements and analyst forecasts) on the level of returns of the pairs trading strategy.
+
+1. Evidence on the profitability of the strategy in the INDIA
+2. Analysis of the strategy during the 2008 financial crisis highlighting that unlike other EMN strategies, pairs trading performed 
+well in the crisis.
+3. Comprehensive analysis of the risks in the strategy using a multi-factor model framework
+4. Time series performance of the strategy with equity market liquidity, price impact and different estimates of bid ask spreads.
+5. We provide an analysis of the performance of the strategy across different market and economic states
+6. 
+
+
+Elliott, Van Der Hoek, and Malcolm (2005) use a Gaussian Markov chain model for the spread while Do, Faff, and Hamza (2006) make adaptations for spread measurement based on theoretical asset pricing methods and mean reversion. Vidyamurthy (2004) and Burgess (2005) utilize cointegration for pairs selection, while Papadakis and Wysocki (2007) expand on the methodology of Gatev et al. (2006) by examining the impact of accounting information events 
+(i.e. earnings announcements and analyst forecasts) on the level of returns of the pairs trading strategy.
+
+
+To examine the risk exposure of the pairs trading portfolios, the returns are regressed against the common equity factors, market, size, value, momentum, and reversal.  Overall, only the market factor is significantly related to the top five and twenty pairs trading portfolios and the factor model has low explanatory power.  When the portfolio is separated into long and short portfolios the exposure to common risk factors greatly increases.  Exposure to the market and size factor is positive and significant for the long portfolios and negative and significant for the short portfolios, whereas when the portfolios are combined the systematic risk exposure is hedged.   
+
+
+To ensure our results are directly comparable to the US, and to avoid potential data-mining bias, the methodology closely follows the work of Gatev et al. (2006).  The pairs trading portfolio is formed over two periods, a formation and trading period.  Pairs of stocks are matched during a twelve month formation period, based on a specified trading rule and traded during a six month period immediately following the formation period. Transaction costs are modelled using an estimate of the bid ask spread.  Later in the paper, to test the robustness of transaction cost estimates from Gatev et al. (2006), we provide additional transaction cost estimates based upon both the quoted spread and effective spread (Roll (1984)). 
+
+Pairs are formed by matching each stock with a second     stock   that   has   the   minimum sum of squared deviations between the normalized price series over the twelve month formation period.  The top five and twenty pairs, ranked by minimum sum of squared deviation, are matched at the end of each formation period and are traded over the following six month trading period.
+
+https://www.ucc.ie/en/media/research/centreforinvestmentresearch/wp/PT2.5.pdf
+http://www.aueb.gr/conferences/Crete2011/more%20recent/Schizas.pdf
+http://www.r-bloggers.com/using-cart-for-stock-market-forecasting/
+http://www.quantinsti.com/blog/epat-project-student-jacques-joubert/
