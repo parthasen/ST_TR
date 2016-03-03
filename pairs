@@ -1,3 +1,42 @@
+Step 1: 2 related securities ( two securities those have similiraties: same sector / industry/ similar market capitalization/average volume traded.)
+Step 2: spread ( pair ratio to indicate the spread==price of asset A / price asset B)
+Step 3: mean, standard deviation, and z-score of the pair ratio / spread.
+Step 4: Test for co-integration(Augmented Dicky Fuller Test (ADF Test) to test for co-integration. all tests have to reject the null hypothesis that the pair is not co-integrated)
+Step 5: Generate trading signals
+Step 6: Process transactions based on signals
+Step 7: Reporting
+
+#Imports
+require(tseries)
+require(urca) #Used for the ADF Test
+require(PerformanceAnalytics)
+
+
+
+#Add Columns to csvDataframe
+AddColumns <- function(csvData){
+csvData$spread <- 0
+csvData$adfTest <- 0
+csvData$mean <- 0
+csvData$stdev <- 0
+csvData$zScore <- 0
+csvData$signal <- 0
+csvData$BuyPrice <- 0
+csvData$SellPrice <- 0
+csvData$LongReturn <- 0
+csvData$ShortReturn <- 0
+csvData$Slippage <- 0
+csvData$TotalReturn <- 0
+return(csvData)
+}
+
+
+
+
+
+
+
+***
 http://economics-notepad.blogspot.in/2011/12/markov-switching-pairs-trading-rule.html
 http://ses.library.usyd.edu.au/bitstream/2123/4072/1/Thesis_Schmidt.pdf
 http://gekkoquant.com/2013/01/21/statistical-arbitrage-trading-a-cointegrated-pair/
