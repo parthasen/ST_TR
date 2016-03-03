@@ -5,6 +5,19 @@ Step 4: Test for co-integration(Augmented Dicky Fuller Test (ADF Test) to test f
 Step 5: Generate trading signals
 Step 6: Process transactions based on signals
 Step 7: Reporting
+*Charting:
+An Equity curve
+Drawdown curve
+Daily returns bar chart
+Statistics:
+*Annual Returns
+Annualized Sharpe Ratio
+Maximum Drawdown
+Total trades
+Success ratio
+PnL ratio
+*Table:
+Top 5 Drawdowns and their duration
 
 #Imports
 require(tseries)
