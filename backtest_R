@@ -1,0 +1,22 @@
+# Load/attach packages
+require(quantmod)
+require(PerformanceAnalytics)
+# Step 1: Get the data
+getSymbols("SPY")
+# Step 2: Create your indicators
+longSMA <- SMA(Cl(SPY['2007-01-02/2016-03-03']), 25)
+shortSMA <- SMA(Cl(GSPC['2007-01-02/2016-03-03']), 5)
+rsi <- RSI(Cl(SPY), n = 14, wilder = TRUE )
+# Step 3: Construct your trading rule
+# Remember to lag the indicator to remove look-ahead bias
+signals <- Lag(ifelse(shortSMA > longSMA, 1, -1))
+##Position Sizes
+# Remember to lag the indicator to remove look-ahead bias
+positionSize <- Lag(ifelse(rsi < 30, 0.3, ifelse(rsi > 70, 0.3, 1)))
+# Step 4: Get the returns
+returns <- ROC(Cl(SPY), type = "discrete")*signals*positionSize
+returns <- returns['2007-01-02/2016-03-03']
+# Step 5: Evaluate strategy performance
+charts.PerformanceSummary(returns)
+table.Drawdowns(returns, top=5)
+table.DownsideRisk(returns)
