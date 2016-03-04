@@ -862,7 +862,6 @@ http://waxworksmath.com/authors/n_z/vidyamurthy/writeup/weatherwax_vidyamurthy_n
 http://brage.bibsys.no/xmlui/bitstream/handle/11250/221265/masterthesis.pdf?sequence=1
 http://ses.library.usyd.edu.au/bitstream/2123/4072/1/Thesis_Schmidt.pdf
 http://www.aueb.gr/conferences/Crete2011/more%20recent/Schizas.pdf
-https://www.ucc.ie/en/media/research/centreforinvestmentresearch/wp/PT2.5.pdf
 
 ************
 Pairs trading is typically classified as an EMN investment strategy that is based on short term price reversal.  The strategy, characterised in industry as a form of statistical arbitrage, involves finding two stocks that follow a similar trading pattern.  When the stock prices deviate from a specified trading rule, positions are taken long in the lower priced security and short in the higher priced security, with the expectation that prices will converge.  The strategy derives returns from the well documented cross autocorrelation in stocks.  Recent microstructure research has documented the relationship between liquidity and cross-autocorrelation and Engelberg,Gao, and Jagannathan (2009)  show that when information is common, market frictions such as illiquidity cause a lead lag relationship in pairs of stocks,  leading to profitable pairs trading. 
@@ -891,6 +890,22 @@ To ensure our results are directly comparable to the US, and to avoid potential 
 Pairs are formed by matching each stock with a second     stock   that   has   the   minimum sum of squared deviations between the normalized price series over the twelve month formation period.  The top five and twenty pairs, ranked by minimum sum of squared deviation, are matched at the end of each formation period and are traded over the following six month trading period.
 
 https://www.ucc.ie/en/media/research/centreforinvestmentresearch/wp/PT2.5.pdf
+the SPDR S&P 500 ETF (SPY) is used as a proxy for the market and the iShares Barclays 1-3 Year Treasury Bond Fund (SHY) is used as a proxy for the risk-free rate. The statistical programing language, R is used for the implementation of the strategy and the R packages RTAQ and PerformanceAnalytics are used for handling raw tick-by-tick data and performance analysis of portfolios. We define a pair is compatible with a pairs trading strategy if their
+CAPM β's are with 0.15 of each other and if the logs of their price processes are cointegrated.β 's based on the Capital Asset Pricing Model (CAPM) differ by at most 0.15 and testing if they are cointegrated. 
+
+The CAPM predicts the return of an asset, i as E(ri)=(E(rm)−rf)βi+rf , where rf is the return on the riskfree asset, and rm is the return on the market. From this equation, βi can be interpreted as the correlation of a security's return to the market's return. Thus, if the ratio βi /βj for two separate securities, i and j is close to one, then we expect them to be affected by market movements in the same fashion, a condition that favors pairs-trading compatibility. 
+
+We then test the prices of the two assets for cointegration, an feature of attractive pairs. Cointegration, as defined by Engle and Granger is a statistical property that tests if two processes tend 
+
+We test for cointegration using the Engle-Granger two step cointegration test. To do this, we performed the following steps. These steps are adapted from the procedure outlined in Vidyamurthy (2004):
+ Fit a best fit line using Least Squares Linear Regression to the equation log(P1)=log(P2)∗βcoint , where P1 and P2 refer to the respective prices of each stock in the pair and the fitted parameter, βcoint , will be referred to as the cointegration ratio. We constrain the intercept to 0 since if pair is cointegrated, then we expect 0 returns on one asset to predict 0 returns on the other. 
+ Construct the spread between the two assets after stripping out the effects of cointegration where the spread at time t, S t=log(P1)−βcoint∗log(P2)
+ Test spread of pair for stationarity using an Augmented-Dickey Fuller (ADF) Test,which tests the null hypothesis that a process has a unit root (is not stationary). If the pair is cointegrated, then the spread should be stationary.
+***page onwards
+http://repository.upenn.edu/cgi/viewcontent.cgi?article=1095&context=wharton_research_scholars  
+
+
+
 http://www.aueb.gr/conferences/Crete2011/more%20recent/Schizas.pdf
 http://www.r-bloggers.com/using-cart-for-stock-market-forecasting/
-http://www.quantinsti.com/blog/epat-project-student-jacques-joubert/
+
