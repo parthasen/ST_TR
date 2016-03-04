@@ -908,4 +908,29 @@ http://repository.upenn.edu/cgi/viewcontent.cgi?article=1095&context=wharton_res
 
 http://www.aueb.gr/conferences/Crete2011/more%20recent/Schizas.pdf
 http://www.r-bloggers.com/using-cart-for-stock-market-forecasting/
+Keywords: statistical arbitrage, pairs trading, mean reversion, Markow regime switching,
+JEL Classification: C53, G12
 
+[proposed strategy exhibit excess returns of 16.38% per year, Sharpe Ratio of 1.34 and low correlation with the market.]
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2196391&rec=1&srcabs=1213802&alg=1&pos=1
+
+Bock & Mestel use a two-state markov-switching mean and variance model to describe the price ratio of two stocks and offer an intuitive trading rule. 
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1213802
+
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2152324&rec=1&srcabs=2196391&alg=1&pos=1
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2432061&rec=1&srcabs=1213802&alg=1&pos=2
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=952782&rec=1&srcabs=1213802&alg=1&pos=3
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2222196&rec=1&srcabs=1213802&alg=1&pos=4
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1666799&rec=1&srcabs=1213802&alg=1&pos=5
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2140091&rec=1&srcabs=1666799&alg=1&pos=1
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1585517&rec=1&srcabs=1666799&alg=1&pos=3
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2018681&rec=1&srcabs=1666799&alg=1&pos=9
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1361293&rec=1&srcabs=1213802&alg=1&pos=6
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2491201&rec=1&srcabs=2150217&alg=1&pos=3
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2196391&rec=1&srcabs=2150217&alg=1&pos=2
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2432061&rec=1&srcabs=2150217&alg=1&pos=7
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2545440&rec=1&srcabs=2150217&alg=1&pos=8
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2150217&rec=1&srcabs=1213802&alg=1&pos=10
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=962461&rec=1&srcabs=1213802&alg=1&pos=9
+http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1594066&rec=1&srcabs=1361293&alg=1&pos=1
+http://papers.ssrn.com/sol3/results.cfm?RequestTimeout=50000000
