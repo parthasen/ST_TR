@@ -1,0 +1,42 @@
+http://shiny.rstudio.com/articles/tag-glossary.html
+http://shiny.rstudio.com/articles/layout-guide.html
+http://getbootstrap.com/css/#grid
+http://shiny.rstudio.com/articles/layout-guide.html#grid-layouts-in-depth
+http://getbootstrap.com/getting-started/
+http://shiny.rstudio.com/articles/layout-guide.html
+http://shiny.rstudio.com/articles/tag-glossary.html
+http://shiny.rstudio.com/articles/html-tags.html
+
+Output function 	creates
+htmlOutput 	raw HTML
+imageOutput 	image
+plotOutput 	plot
+tableOutput 	table
+textOutput 	text
+uiOutput 	raw HTML
+verbatimTextOutput 	text
+
+renderImage 	images (saved as a link to a source file)
+renderPlot 	plots
+renderPrint 	any printed output
+renderTable 	data frame, matrix, other table like structures
+renderText 	character strings
+renderUI 	a Shiny tag object or HTML
+
+* NET sales , cyclicity,Impact of new models
+
+http://www.autocarpro.in/analysis-sales/india-sales-analysis-february-2015-7829
+http://indiaautoreport.com/category/segment-analysis/
+http://www.knowindia.net/auto.html
+http://economictimes.indiatimes.com/taglist.cms?query=net%20sales
+http://economictimes.indiatimes.com/industry/auto/news/industry/ford-india-sales-up-38-at-17306-units-in-february/articleshow/51212706.cms
+http://economictimes.indiatimes.com/topic/weak-consumer-demand
+http://economictimes.indiatimes.com/topic/sales
+http://economictimes.indiatimes.com/industry/auto/news/bajaj-auto-motorcycle-sales-rise-9-in-february/articleshow/51222129.cms
+http://www.siamindia.com/siam-registration.aspx?mpgid=42&pgidtrail=45
+http://www.siamindia.com/publications.aspx?mpgid=42&pgidtrail=45
+http://www.siamindia.com/pressrelease-details.aspx?mpgid=48&pgidtrail=50&pid=384
+http://www.siamindia.com/
+http://www.siamindia.com/pressrelease-details.aspx?mpgid=48&pgidtrail=50&pid=375
+http://www.livemint.com/Industry/DDV38D8jZZKg7ORN9wq9tN/Car-sales-rise-for-14th-month-in-a-row-Siam.html
+http://www.firstpost.com/business/india-car-sales-rise-9-5-in-sept-rate-cuts-new-models-to-boost-sales-6-8-this-year-2462258.html
