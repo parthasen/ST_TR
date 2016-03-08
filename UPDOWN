@@ -1,3 +1,16 @@
+Predicting movement directions of stock index futures by support vector models with data preprocessing rough set selection model
+Rule-based daily trading system that has been augmented by a neural network market predictor
+Improving support vector machine by preprocessing data with decision tree 
+Forecasting stock composite index by fuzzy support vector machines regression (FSVMR)
+Least Squares Support Vector Regression Based CARRX Model for Stock Index Volatility Forecasting
+Stock market forecasting model based on a hybrid ARMA and support vector machines
+Forecasting Model of Index by Stochastic Time Effective Neural Network
+
+http://ieeexplore.ieee.org/xpl/abstractReferences.jsp?arnumber=4664688
+
+http://jonathankinlay.com/index.php/category/forecasting/direction-prediction/
+
+**
 F1: Vol-Price factor, -ve
 F2:Volatility -ve
 F3: Technicals
