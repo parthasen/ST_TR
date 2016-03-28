@@ -16,18 +16,10 @@ F2:Volatility -ve
 F3: Technicals
 F4: Regression
 F5: Descriptive Analysis 
-#***LOADING PACKAGES
-ipak <- function(pkg){
-    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-    if (length(new.pkg)) 
-        install.packages(new.pkg, dependencies = TRUE)
-    sapply(pkg, require, character.only = TRUE)
-}
-
-packages <- c("quantmod","rpart","rpart.plot","caTools","caret","kernlab","nnet","foreign","ggplot2","reshape2","PerformanceAnalytics","car","FinTS","fGarch","robustbase","MASS","klaR","lubridate","e1071","parallel","DMwR","randomForest","depmixS4","forecast","devtools")
-ipak(packages)
 ***LADING FUNCTION FROM GIT
-source_gist("https://gist.github.com/ivannp/4180399")
+source_gist("https://gist.github.com/parthasen/459331b1b8120f217664")
+source_gist("https://gist.github.com/parthasen/ccaf2c1061494bc8bc27")
+ipak(packages)
 #***
 getSymbols(c("SPY","^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
 ***
