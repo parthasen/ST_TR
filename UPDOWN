@@ -74,38 +74,19 @@ plot(tail(Trend,50))
 plot(tail(MACDsignal,50))
 plot(tail(SMI,50))
 ##F5****** Rolling Correlation
-y1<-TD$USD_CAD
-y2<-TD$TQQQ_SQQQ
-y<-merge(y1,y2)
-rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
 plot(rolling_correlation)
 ##F5****Rolling Regression
-rr <- rollapply(y, width = 36,FUN = function(y) coef(lm(y ~ y[,1] + y[,2], data = as.data.frame(y))),by.column = FALSE, align = "right")
 plot(rr)
 ##F5# VOlume and price relation
-par(mfrow=c(3,1))
-PriceChange<- (log(Cl(NDX)) - log(Op(NDX)))
-par(mfrow=c(3,1))
-y1<-PriceChange
-y2<-ROC(NDX[,4])
-y<-merge(y1,y2)
-rolling_correlation<-rollapply(y,width=50,FUN=function(y) cor(y[,1],y[,2]),by.column = FALSE, align = "right")
 plot(rolling_correlation["2015/2016"])
-rr <- rollapply(y, width = 36,FUN = function(y) coef(lm(y[,2] ~ y[,1], data = as.data.frame(y))),by.column = FALSE, align = "right")
 plot(rr[,1])
 plot(rr[,2])
 ##F5****CYCLE
 #??lubridate
-DayofWeek<-wday(TD, label=TRUE)
-TD1<-data.frame(DayofWeek,TD)
 table(TD1$DayofWeek,TD$PL)
 table(TD1$DayofWeek,TD$VL)
-TDm<-month(TD, label = TRUE)
-TD2<-data.frame(TDm,TD)
 table(TD2$TDm,TD2$PL)
 table(TD2$TDm,TD2$VL)
-TDm15<-month(TD["2015"], label = TRUE)
-TD15<-data.frame(TDm15,TD["2015"])
 table(TD15$TDm15,TD15$PL)
 table(TD15$TDm15,TD15$VL)
 ##F4####HMM
@@ -157,57 +138,32 @@ ggplot(testSVM,aes(x=***,y=***))+stat_density2d(geom="contour",aes(color=Trainin
 plot(tail(***,50))
 
 ##F4#REGRESSION PREDICTION
-logNDX<- log(Cl(NDX))-log(Op(NDX))
-acf(na.omit(logNDX), lag.max=20) #16
-pacf(na.omit(logNDX), lag.max=20)#16 
-##ARIMA
-NDXarima <- arima(logNDX, order=c(2,0,2)) # fit an ARIMA(p,d,q) model
-NDXarimaforecasts <- forecast.Arima(NDXarima, h=1)
 NDXarimaforecasts 
-
 acf(NDXarimaforecasts $residuals, lag.max=20)
 Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
 ##GARCH
-garchfit<-garchFit(~ garch(2,2), data =logNDX, trace = FALSE)
-predict(garchfit, n.ahead = 1, plot=TRUE, crit_val=2)
+predictGARCH
 ##SVM
-##source("e1071.R")#https://gist.github.com/ivannp/4180399  #copy and let run otherwise
-tt<-get( getSymbols( "^NDX") )
-rets<-na.trim((log(Cl(tt))-log(Op(tt))), type="discrete" )
-# only the first two features so that we may see some results in reasonable time
-dataSVM<-svmFeatures( tt )[,c(1,2)]
-#data <- na.exclude(merge(rets,dataSVM))
-rets<- rets[index(dataSVM)]
-data<-dataSVM[index(rets)]
-stopifnot( NROW( rets ) == NROW( data ) )
-forecastSVM<-svmComputeForecasts(
-    data=data,
-    history=100,
-    response=rets,
-    cores=8,#for wondow =1
-    trace=T,
-    modelPeriod="days",
-    startDate="2014-12-15",
-    endDate="2016-01-07",
-    featureSelection="all" ) ##for UBUNTU cores=8
-    ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression
+##source("e1071.R")#in my gist
+ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression
 ****correlation search
 M<-cor(tail(TD,5))
 diag(M)<-0    
 M<-na.omit(M)
 ##F4#Regression prediction
-glmNDX<-glm(CH ~OEX+DWTI+USDCAD+XLF+XLV+XLY+PL+VCUD,data=train,family=binomial)
+glmNDX
 #plot(glmNDX)
 #exp(coef(glmNDX))
-predictedNDXglm<-predict(glmNDX,test,type = "response")
+predictedNDXglm
 plot(tail(predictedNDXglm,5))
 last(predict(lm(formula = NDX ~ GSPC+XLE + XLF + XLV + XLY+XLI+VL+VCUD, data =train),test))
 #F3:TREE
-DecisionTree<-rpart(CH~PL+VL+PCUD+VCUD+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.003)
+#DecisionTree<-rpart(CH~PL+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.008)
+DecisionTree
 prp(DecisionTree, type=2)
 tail(TD)
-DecisionTree<-rpart(CH~PL+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.008)
-prp(DecisionTree, type=2)
+DecisionTree1
+prp(DecisionTree1, type=2)
 ******
 ***MODEL NDX
 NDX_logit<-glm(CH ~ OEX+XLF+XLV+XLB+XLY+XLI,data=TD,family=binomial)#y1
