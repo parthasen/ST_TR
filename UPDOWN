@@ -1,25 +1,11 @@
-Predicting movement directions of stock index futures by support vector models with data preprocessing rough set selection model
-Rule-based daily trading system that has been augmented by a neural network market predictor
-Improving support vector machine by preprocessing data with decision tree 
-Forecasting stock composite index by fuzzy support vector machines regression (FSVMR)
-Least Squares Support Vector Regression Based CARRX Model for Stock Index Volatility Forecasting
-Stock market forecasting model based on a hybrid ARMA and support vector machines
-Forecasting Model of Index by Stochastic Time Effective Neural Network
-
-http://ieeexplore.ieee.org/xpl/abstractReferences.jsp?arnumber=4664688
-
-http://jonathankinlay.com/index.php/category/forecasting/direction-prediction/
-#***
 source_gist("https://gist.github.com/parthasen/459331b1b8120f217664")
 source_gist("https://gist.github.com/parthasen/ccaf2c1061494bc8bc27")#LADING FUNCTION FROM GIT
 ipak(packages)
 getSymbols(c("SPY","^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
-#****
 source_gist("https://gist.github.com/parthasen/175960015dfb791c264e")# F1F2F3TD loading
-**
-#F1: Vol-Price factor, -ve
-#F2:Volatility -ve
-#F3: Technicals
+[#F1: Vol-Price factor,-ve|#F2:Volatility,-ve|#F3: Technicals]
+
+
 #F4: Regression
 #F5: Descriptive Analysis 
 #F1: PRICE-VOLUME convergence or divergence ??
