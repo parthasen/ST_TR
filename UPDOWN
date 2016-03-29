@@ -135,6 +135,9 @@ acf(NDXarimaforecasts $residuals, lag.max=20)
 Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
 ##GARCH
 predictGARCH
+##ARIMA
+acf(na.omit(logNDX), lag.max=20) #16
+pacf(na.omit(logNDX), lag.max=20)#16 
 ##SVM
 ##source("e1071.R")#in my gist
 ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression
