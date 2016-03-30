@@ -1,5 +1,6 @@
-source_gist("https://gist.github.com/parthasen/459331b1b8120f217664")
-source_gist("https://gist.github.com/parthasen/ccaf2c1061494bc8bc27")#LADING FUNCTION FROM GIT
+source_gist("https://gist.github.com/parthasen/459331b1b8120f217664")# pkgdwld.R for loading packages
+source_gist("https://gist.github.com/parthasen/ccaf2c1061494bc8bc27")#LOADING FUNCTION FROM GIT [e1071.R]
+packages <- c("quantmod","rpart","rpart.plot","caTools","caret","kernlab","nnet","foreign","ggplot2","reshape2","PerformanceAnalytics","car","FinTS","fGarch","robustbase","MASS","klaR","lubridate","e1071","parallel","DMwR","randomForest","depmixS4","forecast","devtools")
 ipak(packages)
 getSymbols(c("SPY","^GSPC",'^NDX','^OEX','^VIX','UWTI','DWTI','SQQQ','TQQQ','XLE','XLF','XLV','XLY','XLI','TLT','SST','EEM','CAD=X'))
 source_gist("https://gist.github.com/parthasen/175960015dfb791c264e")# F1F2F3TD loading
