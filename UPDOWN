@@ -129,30 +129,10 @@ TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the pre
 ggplot(testSVM,aes(x=***,y=***))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM *** and *** Predictions",x="***",y="***",color="Training Predictions")
 **
 plot(tail(***,50))
-
-##F4#REGRESSION PREDICTION
-NDXarimaforecasts 
-acf(NDXarimaforecasts $residuals, lag.max=20)
-Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
-##GARCH
-predictGARCH
-##ARIMA
-acf(na.omit(logNDX), lag.max=20) #16
-pacf(na.omit(logNDX), lag.max=20)#16 
-##SVM
-##source("e1071.R")#in my gist
-ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression
-****correlation search
+##****CORRELATION SEARCH
 M<-cor(tail(TD,5))
 diag(M)<-0    
 M<-na.omit(M)
-##F4#Regression prediction
-glmNDX
-#plot(glmNDX)
-#exp(coef(glmNDX))
-predictedNDXglm
-plot(tail(predictedNDXglm,5))
-last(predict(lm(formula = NDX ~ GSPC+XLE + XLF + XLV + XLY+XLI+VL+VCUD, data =train),test))
 #F3:TREE
 #DecisionTree<-rpart(CH~PL+Trend+EMAcross+RSI5+MACDsignal+SMI+wave+atr,data=TD, cp=.008)
 DecisionTree
@@ -160,57 +140,31 @@ prp(DecisionTree, type=2)
 tail(TD)
 DecisionTree1
 prp(DecisionTree1, type=2)
-******
-***MODEL NDX
-NDX_logit<-glm(CH ~ OEX+XLF+XLV+XLB+XLY+XLI,data=TD,family=binomial)#y1
-lmOEX<-lm(formula = OEX_R ~ NDX_R +FTSE_R+HSI_R+XLE_R + XLF_R + XLV_R + XLI_R, data =TD)#y2
-lmNDX<-lm(formula = NDX_R ~ OEX_R +XLE_R + XLF_R +TQQQ_SQQQ, data = TD)#y3
-fitOEX<-garchFit(~ garch(1, 1), data =TD$OEX_R, trace = FALSE, cond.dist="QMLE")
-pOEX<-predict(fitOEX, n.ahead = 1)
-fitNDX<-garchFit(~ garch(1, 1), data = TD$NDX_R, trace = FALSE, cond.dist="QMLE")
-pNDX<-predict(fitNDX, n.ahead = 1)
-fitFTSE<-garchFit(~ garch(1, 1), data =TD$FTSE_R, trace = FALSE, cond.dist="QMLE")
-fitNDX<-garchFit(~ garch(1, 1), data = TD$NDX_R, trace = FALSE, cond.dist="QMLE")
-pNDX<-predict(fitNDX, n.ahead = 1)
-pFTSE<-predict(fitFTSE, n.ahead = 1)
-fitHSI<-garchFit(~ garch(1, 1), data =TD$HSI_R, trace = FALSE, cond.dist="QMLE")
-pHSI<-predict(fitHSI, n.ahead = 1)
-fitXLE<-garchFit(~ garch(1, 1), data = TD$XLE_R, trace = FALSE, cond.dist="QMLE")
-pXLE<-predict(fitXLE, n.ahead = 1)
-fitXLF<-garchFit(~ garch(1, 1), data = TD$XLF_R, trace = FALSE, cond.dist="QMLE")
-pXLF<-predict(fitXLF, n.ahead = 1)
-fitXLV<-garchFit(~ garch(1, 1), data = TD$XLV_R, trace = FALSE, cond.dist="QMLE")
-pXLV<-predict(fitXLV, n.ahead = 1)
-fitXLI<-garchFit(~ garch(1, 1), data = TD$XLI_R, trace = FALSE, cond.dist="QMLE")
-pXLI<-predict(fitXLI, n.ahead = 1)
-fitXLB<-garchFit(~ garch(1, 1), data =TD$XLB_R, trace = FALSE, cond.dist="QMLE")
-pXLB<-predict(fitXLB, n.ahead = 1)
-fitXLY<-garchFit(~ garch(1, 1), data =TD$XLY_R, trace = FALSE, cond.dist="QMLE")
-pXLY<-predict(fitXLY, n.ahead = 1)
-fitTQQQ_SQQQ<-garchFit(~ garch(1, 1), data =TD$TQQQ_SQQQ, trace = FALSE, cond.dist="QMLE")
-pTQQQ_SQQQ<-predict(fitTQQQ_SQQQ, n.ahead = 1)
-#pNDX$meanForecast
-fOEX<-sum(lmOEX$coefficients[2]*(pNDX$meanForecast)+lmOEX$coefficients[3]*(pFTSE$meanForecast)-lmOEX$coefficients[4]*(pHSI$meanForecast)+lmOEX$coefficients[5]*(pXLE$meanForecast)+lmOEX$coefficients[6]*(pXLF$meanForecast)+lmOEX$coefficients[7]*(pXLV$meanForecast)+lmOEX$coefficients[8]*(pXLI$meanForecast))
-fNDX<-sum(lmNDX$coefficients[2]*(pOEX$meanForecast)+lmNDX$coefficients[3]*(pXLE$meanForecast)+lmNDX$coefficients[4]*(pXLF$meanForecast)+lmNDX$coefficients[5]*(pTQQQ_SQQQ$meanForecast))
-chOEX<-ifelse(fOEX>0,1,0)
-chFTSE<-ifelse(pFTSE>0,1,0)
-chHSI<-ifelse(pHSI>0,1,0)
-chXLE<-ifelse(pXLE>0,1,0)
-chXLV<-ifelse(pXLV>0,1,0)
-chXLF<-ifelse(pXLF>0,1,0)
-chXLI<-ifelse(pXLI>0,1,0)
-chXLB<-ifelse(pXLF>0,1,0)
-chXLY<-ifelse(pXLI>0,1,0)
-y1e<-exp(coef(NDX_logit))[1]+exp(coef(NDX_logit))[2]*chOEX+exp(coef(NDX_logit))[3]*chXLF+exp(coef(NDX_logit))[4]*chXLV+exp(coef(NDX_logit))[5]*chXLB+exp(coef(NDX_logit))[6]*chXLY+exp(coef(NDX_logit))[7]*chXLI
-PE<-first(y1e/(1+y1e))[1]*100#probablity of UP/DOWN OF sp500
-y1<-exp(coef(NDX_logit))[1]+exp(coef(NDX_logit))[2]*last(TD$OEX)[1]+exp(coef(NDX_logit))[3]*last(TD$XLF)[1]+exp(coef(NDX_logit))[4]*last(TD$XLV)[1]+exp(coef(NDX_logit))[5]*last(TD$XLB)[1]+exp(coef(NDX_logit))[6]*last(TD$XLY)[1]+exp(coef(NDX_logit))[7]*last(TD$XLI)[1]
-P<-first(y1/(1+y1))[1]*100#probablity of UP/DOWN OF sp500
-*RESULT
-PE
-P
-ts((1+fOEX)*last(OEX$OEX.Close))[1]# forcasted OEX 
-ts((1+fNDX)*last(NDX$NDX.Close))[1]# forcasted NDX 
-***
+##F4#REGRESSION PREDICTION
+##ARIMA
+NDXarimaforecasts #acf(NDXarimaforecasts $residuals, lag.max=20) #Box.test(NDXarimaforecasts $residuals, lag=20, type="Ljung-Box")
+##GARCH
+predictGARCH#NDX
+pXLE
+pXLF
+pXLV
+pXLY
+pXLI
+pXLB
+pPL
+pVCUD
+#OLS
+olsNDX1#[GSPC+XLE + XLF + XLV + XLY+XLI+VL+VCUD]
+olsNDX2#[XLE+XLV+XLY+XLI+VCUD+PL]
+##SVM
+ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression ##source("e1071.R")#in my gist
+# Logistics
+predictedNDXglm#[OEX+DWTI+USDCAD+XLF+XLV+XLY+PL+VCUD]#[glmNDX,plot(glmNDX),exp(coef(glmNDX))]
+plot(tail(predictedNDXglm,5))
+predictedNDX_logit#[XLF+XLY+XLI+PL+VCUD]
+plot(tail(predictedNDX_logit,5))
+
+##SVM classification
 NDX_R<-(Cl(NDX)/Op(NDX))-1# NDX
 OIL_R<-(Cl(OIL)/Op(OIL))-1#OIL return
 dataSVM<-data.frame(NDX_R,OIL_R)
@@ -269,43 +223,6 @@ last(rollapply(as.xts(NDX[,4]),width=50,FUN="quantile",0.90,na.rm=TRUE))# quanti
 *
 last(rollapply(as.xts(Cl(NDX)),width=50,FUN="quantile",0.90,na.rm=TRUE))# quantile check of NDX above 90% 
 
-
-***
-DIRECTION OF INDEX MOVEMENT PREDICTION USING MACHINE LEARNING
-Introduction
-The basic form of effcient market hypothesis postulates that publicly available information is incorporated into stock prices.
-The stronger form of the hypothesis asserts that all information are immediately reflected in the market as soon as they become 
-available; whereas the weaker form allows a certain lag period in which the information is digested by the public and stock prices move
-gradually towards the effcient target.
-stock  price  series  are  generally quite noisy,dynamic,nonlinear,complicated,nonparametric, and chaotic by nature[1-4]. The noisy 
-characteristic  refers  to  the  unavailability  of  complete information   from   the   past   behavior   of   financial markets  to 
-fully  capture  the  dependency  between future and past prices[5-9].
-Investors  could  effectively hedge against potential market risk and speculators as well   as   arbitrageurs   could   have  
-opportunity   of making  profit  by  trading  stock  index  whenever  they could  obtain  the  accurate  prediction  of  stock  price 
-direction.  That  is  why  there  have  been  a  number  of studies  looking  at  direction  or  trend  of  movement  of various kinds
-of financial instruments [10-14]. 
-Because  of  the  high  nonlinearity  of  the  stock market,  it  is  difficult  to  reveal  the  inside  law  by  the traditional
-forecast  methods
-[18]. The  difficulty  of prediction   lies   in   the   complexities   of   modeling human  behavior  [19]. In  response  to  such 
-difficulty, data mining  (or  machine  learning)  techniques  have been   introduced   and   applied   for   this  
-financial prediction.   Recent   studies   reveal  that   nonlinear models are able to simulate the volatile stock markets well and 
-produce   better   predictive   results   than traditional  linear models  in  stock  market  tendency exploration[20].  With  the
-development  of  artificial intelligence (AI) techniques investors are hoping that the market  mysteries can be  unraveled because
-these methods  have  great  capability  in  pattern  recognition problems such as classification andprediction.
-Many factors:(political  events,economic events,stock specific events,sector specific events,traders expectations,technical analysis 
-output,machine learning output)
-Several methods have been proposed for making prediction on stock market and devising profit-generating trading strategies:
-Software
-http://nlp.stanford.edu/software/lex-parser.shtml
-http://nlp.stanford.edu/software/classifier.shtml
-http://nlp.stanford.edu/software/tagger.shtml
-Reference
-http://nlp.stanford.edu/
-http://nlp.stanford.edu/courses/
-http://nlp.stanford.edu/courses/cs224n/2008/reports/21.pdf
-http://nlp.stanford.edu/pubs/lrecstanforddeps_final_final.pdf
-http://www.ijera.com/papers/Vol4_issue6/Version%202/Q04602106117.pdf
-****
 ****
 VIX mean chart
 VIX tango
