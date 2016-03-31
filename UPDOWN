@@ -110,25 +110,16 @@ plot(tail(Cl(NDX),50))
 ##RSI3==good to check
 ##stochOsc==good to check
 ###svm CLASSIFICATION
-****
-PriceChange<- Cl(NDX) - Op(NDX)
-Class<-ifelse(PriceChange>0,"UP","DOWN")
-**
-dataSVM<-data.frame(tail(Class,2000),tail(***,2000),tail(***,2000))
-colnames(dataSVM)<-c("Class","***","***")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$Class, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-SVM<-svm(Class~***+***,data=trainSVM, kernel="radial",cost=1,gamma=1/2)
-#Build our support vector machine using a radial basis function as our kernel, the cost, or C, at 1, and the gamma function at &frac12;, or 1 over the number of inputs we are using
-TrainingPredictions<-predict(SVM,testSVM,type="class")
-#Run the algorithm once more over the training set to visualize the patterns it found
-TestData<-data.frame(testSVM,TrainingPredictions)#Create a data set with the predictions
-ggplot(testSVM,aes(x=***,y=***))+stat_density2d(geom="contour",aes(color=TrainingPredictions))+labs(title="SVM *** and *** Predictions",x="***",y="***",color="Training Predictions")
-**
-plot(tail(***,50))
+source_gist("https://gist.github.com/parthasen/b9e12b3ed3788b49858ee5889c7e9099")#LOADING FUNCTION FROM GIT [e1071.R]
+PLRSI
+PLEMA
+PLTrend
+PLMACD
+PLSMI
+PLwave
+PLatr
+PLrollSD
+PLVL
 ##****CORRELATION SEARCH
 M<-cor(tail(TD,5))
 diag(M)<-0    
