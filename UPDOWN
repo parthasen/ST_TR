@@ -104,6 +104,16 @@ PLwave
 PLatr
 PLrollSD
 PLVL
+###three variables at end of [SVMclassi.R]
+first<-rollSD
+second<-(Cl(VIX)/Op(VIX))-1#2nd variable
+third<-PL
+last(predictedY)
+last(TestData) 
+last(tunedModelY) 
+table(last(tunedModelY,500),testSVM$Class)
+##SVM REGRESSION
+ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression ##source("e1071.R")#in my gist
 ##****CORRELATION SEARCH
 M<-cor(tail(TD,5))
 diag(M)<-0    
@@ -131,49 +141,13 @@ pVCUD
 #OLS
 olsNDX1#[GSPC+XLE + XLF + XLV + XLY+XLI+VL+VCUD]
 olsNDX2#[XLE+XLV+XLY+XLI+VCUD+PL]
-##SVM
-ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression ##source("e1071.R")#in my gist
 # Logistics
 predictedNDXglm#[OEX+DWTI+USDCAD+XLF+XLV+XLY+PL+VCUD]#[glmNDX,plot(glmNDX),exp(coef(glmNDX))]
 plot(tail(predictedNDXglm,5))
 predictedNDX_logit#[XLF+XLY+XLI+PL+VCUD]
 plot(tail(predictedNDX_logit,5))
 
-##SVM classification
-NDX_R<-(Cl(NDX)/Op(NDX))-1# NDX
-OIL_R<-(Cl(OIL)/Op(OIL))-1#OIL return
-dataSVM<-data.frame(NDX_R,OIL_R)
-colnames(dataSVM)<-c("CH","OIL")
-dataSVM<-na.omit(dataSVM)
-set.seed(886)
-split<-sample.split(dataSVM$CH, SplitRatio = 0.75)
-trainSVM<-subset(dataSVM, split == TRUE)
-testSVM<-subset(dataSVM, split == FALSE)
-***
-model<-svm(CH~OIL,dataSVM)
-predictedY <- predict(model, dataSVM)
-last(predictedY)
-**
-tuneResult <- tune(svm, CH ~ OIL,  data = dataSVM,ranges = list(epsilon = seq(0.94,1,0.01), cost = 1.2^(2:4))) 
-print(tuneResult)
-plot(tuneResult)
-***
-tunedModel <- tuneResult$best.model
-tunedModelY <- predict(tunedModel, dataSVM) 
-***
-mysvm_lin<-svm (TD$NDX_R,TD$CH, type='C', kernel='linear')
-predsvm_lin<-predict (mysvm_lin,TD$NDX_R)
-table(predsvm_lin,TD$CH)
-#
-mysvm_pol<-svm (TD$NDX_R,TD$CH, type='C', kernel='polynomial', degree=2)
-predsvm_pol<-predict (mysvm_pol,TD$NDX_R)
-table(predsvm_pol,TD$CH)
-#
-mysvm_gam<-svm (train$NDX_R,train$CH, type='C', kernel='radial', gamma=0.1)
-predsvm_gam<-predict (mysvm_gam,test$NDX_R)
-table(predsvm_gam,test$CH)
-
-******Naive Bayes
+#******Naive Bayes
 #DayofWeek<-wday(NDX, label=TRUE) #not effctive
 D_NB<-ifelse(ROC(Cl(GSPC))<=(-0.01),4,ifelse(ROC(Cl(GSPC))<=(-0.0075) & ROC(Cl(GSPC))>(-0.01),3,ifelse(ROC(Cl(GSPC))<=(-0.004) & ROC(Cl(GSPC))>(-0.0075),2,ifelse(ROC(Cl(GSPC))<=(-0.002) & ROC(Cl(GSPC))>(-0.004),1,0))))
 PriceChange<- Cl(GSPC) - Op(GSPC)
