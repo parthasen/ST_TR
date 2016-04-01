@@ -113,7 +113,7 @@ last(TestData)
 last(tunedModelY) 
 table(last(tunedModelY,500),testSVM$Class)
 ##SVM REGRESSION
-ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression ##source("e1071.R")#in my gist
+ts(last(forecastSVM)$Forecasts)[1]*ts(last(Cl(NDX)))[1]## predicted value by SVM regression ##source("e1071.R") and [F4F5.R]
 ##****CORRELATION SEARCH
 M<-cor(tail(TD,5))
 diag(M)<-0    
