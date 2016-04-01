@@ -79,21 +79,8 @@ table(TD2$TDm,TD2$VL)
 table(TD15$TDm15,TD15$PL)
 table(TD15$TDm15,TD15$VL)
 ##F4####HMM
-LogReturns <- log(Cl(NDX)) - log(Op(NDX)) #calculate the logarithmic returns
-dataHMM<-na.omit(data.frame(tail(LogReturns,1000),tail(***,1000)))
-colnames(dataHMM)<-c("LogReturns","***") #name our columns 
-set.seed(1)
-HMM<-depmix(list(LogReturns~1,***~1),data=dataHMM,nstates=4,family=list(gaussian(),gaussian())) 
-HMMfit<-fit(HMM, verbose = FALSE)
-print(HMMfit)
-summary(HMMfit) 
-HMMpost<-posterior(HMMfit)
-head(HMMpost)
-par(mfrow=c(3,1))
-plot(HMMpost$state)
-plot(tail(***,50))
-plot(tail(Cl(NDX),50))
-
+col<-wave# change for second variable, 1st variable 
+source_gist("https://gist.github.com/parthasen/25af584bf1ab5c339eda22b912abd17a")#LOADING FUNCTION FROM GIT [HMMclassi.R]
 ##vGK#good to check
 ##TQQQ/SQQQ ratio   #Not significant 
 ##NDX/GSPC ratio   #Not significant
@@ -105,7 +92,7 @@ plot(tail(Cl(NDX),50))
 ##trend==not significant
 ##RSI3==good to check
 ##stochOsc==good to check
-###svm CLASSIFICATION
+###SVM CLASSIFICATION
 source_gist("https://gist.github.com/parthasen/b9e12b3ed3788b49858ee5889c7e9099")#LOADING FUNCTION FROM GIT [SVMclassi.R]
 par(mfrow=c(3,3))
 PLRSI
