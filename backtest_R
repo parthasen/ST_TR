@@ -20,3 +20,50 @@ returns <- returns['2007-01-02/2016-03-03']
 charts.PerformanceSummary(returns)
 table.Drawdowns(returns, top=5)
 table.DownsideRisk(returns)
+
+# Load/attach packages
+require(quantmod)
+require(PerformanceAnalytics)
+library("fBasics")
+# Step 1: Get the data
+getSymbols(c("SQQQ","TQQQ"), src = 'yahoo', from = '2005-01-01', env = data, auto.assign = T)
+# Step 2: Create your indicators
+ROC(Cl(SQQQ,5)>0.02 and 
+longSMA <- SMA(Cl(SPY['2007-01-02/2016-03-03']), 25)
+shortSMA <- SMA(Cl(GSPC['2007-01-02/2016-03-03']), 5)
+rsi <- RSI(Cl(SPY), n = 14, wilder = TRUE )
+# Step 3: Construct your trading rule
+# Remember to lag the indicator to remove look-ahead bias
+signals <- Lag(ifelse(shortSMA > longSMA, 1, -1))
+##Position Sizes
+# Remember to lag the indicator to remove look-ahead bias
+positionSize <- Lag(ifelse(rsi < 30, 0.3, ifelse(rsi > 70, 0.3, 1)))
+# Step 4: Get the returns
+returns <- ROC(Cl(SPY), type = "discrete")*signals*positionSize
+returns <- returns['2007-01-02/2016-03-03']
+# Step 5: Evaluate strategy performance
+charts.PerformanceSummary(returns)
+table.Drawdowns(returns, top=5)
+table.DownsideRisk(returns)
+SQ<-na.omit(Cl(SQQQ))
+TQ<-na.omit(Cl(TQQQ))
+chSQ<-SQ-lag(SQ,1)
+chSQ<-ifelse(chSQ>1,1,ifelse(chSQ<-1,-1,0))
+chTQ<-TQ-lag(TQ,1)
+chTQ<-ifelse(chTQ>1,1,ifelse(chTQ<-1,-1,0))
+rolling_max_SQ<-rollapply(SQ,width=90,FUN=function(y) max(y),by.column = FALSE, align = "right")
+rolling_min_SQ<-rollapply(SQ,width=90,FUN=function(y) min(y),by.column = FALSE, align = "right")
+rolling_max_TQ<-rollapply(TQ,width=90,FUN=function(y) max(y),by.column = FALSE, align = "right")
+rolling_min_TQ<-rollapply(TQ,width=90,FUN=function(y) min(y),by.column = FALSE, align = "right")
+ma_SQ<-SMA(SQ,20)
+ma_TQ<-SMA(TQ,20)
+strTD<-na.omit(data.frame(tail(rolling_max_SQ,1000),tail(rolling_min_SQ,1000),tail(rolling_max_TQ,1000),tail(rolling_min_TQ,1000),tail(ma_SQ,1000),tail(ma_TQ,1000),tail(chSQ,1000),tail(chTQ,1000),tail(SQ,1000),tail(TQ,1000)))
+colnames(strTD)<-c("maxSQ","minSQ","maxTQ","minTQ","maSQ","maTQ","chSQ","chTQ","SQ","TQ") #name our columns 
+
+http://www.thertrader.com/
+http://www.christophpfeiffer.org/2014/03/16/statistically-sound-backtesting-of-trading-strategies/
+https://systematicinvestor.wordpress.com/2014/03/
+https://inovancetech.com/backtesttutorialr.html
+
+
+
