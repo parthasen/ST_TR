@@ -1,3 +1,4 @@
+library("devtools")
 source_gist("https://gist.github.com/parthasen/459331b1b8120f217664")# pkgdwld.R for loading packages
 source_gist("https://gist.github.com/parthasen/ccaf2c1061494bc8bc27")#LOADING FUNCTION FROM GIT [e1071.R]
 packages <- c("quantmod","rpart","rpart.plot","caTools","caret","kernlab","nnet","foreign","ggplot2","reshape2","PerformanceAnalytics","car","FinTS","fGarch","robustbase","MASS","klaR","lubridate","e1071","parallel","DMwR","randomForest","depmixS4","forecast","devtools")
