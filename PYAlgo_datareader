@@ -1,0 +1,17 @@
+#pandas-datareader
+#https://github.com/pydata/pandas-datareader
+#pip install pandas-datareader
+
+
+#import pandas.io.data as web
+import pandas_datareader.data as web
+import datetime
+#pdr.get_data_yahoo('AAPL')
+
+start = datetime.datetime(2010, 1, 1)
+end = datetime.datetime(2015, 5, 9)
+#DAX=web.DataReader('^GDAXI', 'yahoo-actions', start, end)
+f = web.DataReader("F", 'yahoo', start, end)
+f.ix['2010-01-04']
+web.DataReader('AAPL', 'yahoo-actions', start, end)
+fd = web.DataReader("F", 'yahoo-dividends', start, end)
