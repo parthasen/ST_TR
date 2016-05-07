@@ -1,0 +1,28 @@
+python
+spyder
+Atom
+Scrapy# for building spider at anaconda cloud
+sudo apt-get install git #git
+sudo apt-get install build-essential python-dev libxml2-dev libxslt-dev # C compiler
+curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | sudo python
+pip --version 
+#look alike--- pip 1.5.6 from /Users/lynn/.virtualenvs/gui/lib/python2.7/site-packages (python 2.7)
+sudo pip install --upgrade setuptools
+#If you use the anaconda python distribution you must use conda to make and manage your virtual environments.
+conda -V
+conda update conda
+conda info -e
+#create new ENV
+``conda create -n ENV anaconda``
+source activate ENV
+#Deactivate new ENV 
+source deactivate
+#delete ENV
+conda remove --all -n ENV
+#to install packages
+conda install -n yourenvname [package]
+
+conda remove -n yourenvname -all
+
+http://newcoder.io/scrape/
+
