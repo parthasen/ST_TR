@@ -17,53 +17,6 @@ import datetime
 #%matplotlib inline
 import matplotlib.pyplot as plt
 #Retrieving Stock Price Data
-def import_yahoo():
-    #df=pd.read_csv("***.csv")
-    start = datetime.datetime(2010, 1, 1)
-    end = datetime.datetime(2015, 5, 9)
-    TQQQa=web.DataReader('TQQQ', 'yahoo-actions', start, end)
-    #TQQQp= web.DataReader('TQQQ', data_source='yahoo')#full data set
-    TQQQp = web.DataReader('TQQQ', 'yahoo', start, end)
-    #TQQQd = web.DataReader('TQQQ', 'yahoo-dividends', start, end)
-    #DAX.info()
-    #DAX.tail()
-    #DAX['Close'].plot(figsize=(8,5))
-    print TQQQa.tail()
-    print TQQQp['Adj Close'].tail()
-    #print TQQQp.ix['2014-01-04']
-    #%time
-    TQQQp['Return'] = np.log(TQQQp['Close']/TQQQp['Close'].shift(1))
-    #another method to get return using shift(1)
-    TQQQp[['Close','Return']].tail()
-    #del DAX['Ret_Loop']# one return column is to delete
-    TQQQp[['Close','Return']].plot(subplots=True,style='b',figsize=(8,5))
-    #TQQQp['Adj Close'].plot()
-    #TQQQp['Return'].plot()
-    plt.show()
-
-if __name__ == '__main__':
-    #main()
-    import_yahoo()
-*****IMPROVEMENT
-#pandas-datareader
-#https://github.com/pydata/pandas-datareader
-#pip install pandas-datareader
-#import pandas.io.data as web # not in use
-#Necessary Imports
-import numpy as np  # array operations
-import pandas as pd  # time series management
-import pandas_datareader.data as web
-#from pandas_datareader import data as web  # data retrieval
-# source activate PyAlgo
-#python /home/octo/Desktop/QTPY/qt.py
-#pip install seaborn
-import seaborn as sns
-sns.set()  # nicer plotting style
-import datetime
-# put all plots in the notebook itself
-#%matplotlib inline
-import matplotlib.pyplot as plt
-#Retrieving Stock Price Data
 def import_yahoo(symbol):
     #df=pd.read_csv("***.csv")
     start = datetime.datetime(2010, 1, 1)
