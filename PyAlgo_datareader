@@ -54,3 +54,44 @@ if __name__ == '__main__':
     #import_yahoo()
     data_analysis()
 
+****NOT A GOOD FUNCTION
+def data_frame():
+    #df=pd.read_csv("***.csv")
+    #dfSPY=pd.read_csv(",csv",index_col="Date",parse_dates=True,usecols=['Date','Adj Close'],na_values=['nan'])
+    start = datetime.datetime(2010, 1, 1)
+    end = datetime.datetime(2016,5,7)
+    TQQQp= web.DataReader('TQQQ', 'yahoo', start, end)
+    SQQQp= web.DataReader('SQQQ', 'yahoo', start, end)
+    UWTIp= web.DataReader('UWTI', 'yahoo', start, end)
+    DWTIp= web.DataReader('DWTI', 'yahoo', start, end)
+    UPROp= web.DataReader('UPRO', 'yahoo', start, end)
+    SPXUp= web.DataReader('SPXU', 'yahoo', start, end)
+    SPXSp= web.DataReader('SPXS','yahoo', start, end)
+#    STp['Return'] = np.log(STp['Close']/STp['Close'].shift(1))
+#    STp[['Close','Return']].tail()
+    start_day='2010-01-01'
+    end_day='2016-05-07'
+    dates=pd.date_range(start_day,end_day)
+    df1=pd.DataFrame(index=dates)
+    df1=df1.join(TQQQp['Close'])
+    df1=df1.join(SQQQp['Close'])
+    df1=df1.join(UWTIp['Close'])
+#http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.join.html
+    return df1.dropna()
+***NOT WORKING 
+def data_analysis():
+    start = datetime.datetime(2010, 1, 1)
+    end = datetime.datetime(2016,5,7)
+    start_day='2010-01-01'
+    end_day='2016-05-07'
+    dates=pd.date_range(start_day,end_day)
+    df1=pd.DataFrame(index=dates)
+    for symbol in ['TQQQ','SQQQ','UWTI','DWTI','UPRO','SPXU','SPXS']:
+        #print "max value and mean value"
+        #print symbol,import_yahoo(symbol)
+        STp = web.DataReader(format(symbol), 'yahoo', start, end)
+        df_temp=STp['Close'].rename(columns={'Close':symbol})
+        df1=df1.join(df_temp)
+        #http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.join.html
+    print df1.dropna()
+    
