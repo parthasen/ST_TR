@@ -1,9 +1,7 @@
 #pandas-datareader
 #https://github.com/pydata/pandas-datareader
 #pip install pandas-datareader
-
-
-#import pandas.io.data as web
+#import pandas.io.data as web # not in use
 import pandas_datareader.data as web
 import datetime
 #pdr.get_data_yahoo('AAPL')
@@ -32,3 +30,26 @@ for i in range(1,len(DAX)):
 #del DAX['Ret_Loop']# one return column is to delete
 #DAX[['Close','Return']].plot(subplots=True,style='b',figsize=(8,5))
 **
+#Necessary Imports
+import numpy as np  # array operations
+import pandas as pd  # time series management
+from pandas_datareader import data as web  # data retrieval
+# source activate PyAlgo
+#python /home/octo/Desktop/QTPY/qt.py
+#pip install seaborn
+import seaborn as sns
+sns.set()  # nicer plotting style
+import datetime
+# put all plots in the notebook itself
+#%matplotlib inline
+import matplotlib.pyplot as plt
+#Retrieving Stock Price Data
+def import_yahoo():
+    AAPL = web.DataReader('AAPL', data_source='yahoo')
+    print AAPL['Adj Close'].tail()
+    AAPL['Adj Close'].plot()
+    plt.show()
+
+if __name__ == '__main__':
+    #main()
+    import_yahoo()
