@@ -1,1 +1,189 @@
+#pandas-datareader
+#https://github.com/pydata/pandas-datareader
+#pip install pandas-datareader
+#import pandas.io.data as web # not in use
+#Necessary Imports
+import numpy as np  # array operations
+import pandas as pd  # time series management
+import pandas_datareader.data as web
+#from pandas_datareader import data as web  # data retrieval
+# source activate PyAlgo
+#python /home/octo/Desktop/QTPY/qt.py
+#pip install seaborn
+import seaborn as sns
+sns.set()  # nicer plotting style
+import datetime
+# put all plots in the notebook itself
+#%matplotlib inline
+import matplotlib.pyplot as plt
+import warnings; warnings.simplefilter('ignore')
+
+ST = web.DataReader('SPY', data_source='yahoo')
+
+symbols = ['AAPL', 'MSFT', 'YHOO', 'AMZN', 'GOOG']  # our symbols
+data = pd.DataFrame()  # empty DataFrame
+for sym in symbols:
+    data[sym] = web.DataReader(sym, data_source='yahoo')['Adj Close']
+
+#print type(AAPL)
+#print AAPL.info()
+#print AAPL.tail(2)
+#print AAPL['Close'].head(2)
+#print AAPL[['Open','Adj Close']].head(3)
+#print AAPL.loc['2016-04-05']  # single row via index value
+#ST['Adj Close'].plot()
+#plt.show()
+#AAPL['Adj Close'].plot(figsize=(10, 6));
+#plt.show()
+# fully vectorized operation for log return calculation
+#rets = np.log(AAPL['Adj Close'] / AAPL['Adj Close'].shift(1))
+#rets.hist(figsize=(10, 6), bins=35).plot()
+#plt.show()
+# fully vectorized calculation of 50 days moving average/trend
+ST['MA42'] = pd.rolling_mean(ST['Adj Close'], window=42)
+ST['MA252'] = pd.rolling_mean(ST['Adj Close'], window=252)
+#ST['SD50'] = pd.rolling_std(ST['Adj Close'], window=50)
+#ST['M50'] = pd.rolling_max(ST['Adj Close'], window=50)
+#ST[['Adj Close','MA42','MA252']].plot(figsize=(10, 6));
+#plt.show()
+#http://pandas.pydata.org/pandas-docs/stable/remote_data.html
+#http://pandas.pydata.org/pandas-docs/stable/10min.html
+#http://pandas.pydata.org/pandas-docs/stable/computation.html
+#http://pandas.pydata.org/pandas-docs/stable/visualization.html
+#Hilpisch, Yves (2014): Python for Finance. O'Reilly, ch. 6.
+#McKinney, Wes (2012): Python for Data Analysis. O'Reilly.
+# vectorized evaluation of the trading condition/signal generation
+ST['position'] = np.where(ST['MA42'] > ST['MA252'], 1, -1)
+#ST[['Adj Close', 'position']].plot(subplots=True, figsize=(10, 6))
+#plt.ylim(-1.1, 1.1)  # adjust y-axis limits
+#plt.show()
+#BACKTESTING
+# vectorized calculation of log returns
+ST['market'] = np.log(ST['Adj Close'] / ST['Adj Close'].shift(1))
+# vectorized calculation of strategy returns
+ST['strategy'] = ST['position'].shift(1) * ST['market']
+#print ST[['market', 'strategy']].cumsum().apply(np.exp).tail(2)
+#ST[['market', 'strategy']].cumsum().apply(np.exp).plot(figsize=(10, 6))
+
+#Risk and Return
+arets = ST[['market', 'strategy']].mean() * 252  # annualized returns
+#print arets
+astds = ST[['market', 'strategy']].std() * 252 ** 0.5  # annualized volatility
+#print astds
+#plt.show()
+#zipline and pyalgotrade loaded pip install ***
+#https://gbeced.github.io/pyalgotrade/docs/v0.17/html/tutorial.html
+#https://github.com/quantopian/zipline
+#MEAN REVERSION PORTFOLIO
+#print data.tail()  # the final five rows
+#(data / data.ix[0] * 100).plot(figsize=(10, 6));#normalization
+#plt.show()
+# vectorized calculation of the log returns
+log_rets = np.log(data / data.shift(1))
+# annualized average log returns
+rets = log_rets.mean() * 252
+#print rets
+weights = np.array([0.2, 0.2, 0.2, 0.2, 0.2])  # equal weightings
+np.dot(weights, rets)  # portfolio return (equal weights)
+#print log_rets.cov() * 252  # annualized covariance matrix
+# portfolio variance
+pvar = np.dot(weights.T, np.dot(log_rets.cov() * 252, weights))
+#print pvar
+pvol = pvar ** 0.5
+#print pvol
+#Random weight
+weights = np.random.random(5)  # random numbers
+weights /= np.sum(weights)  # normalization to 1
+#print weights  # random portfolio composition
+#print np.dot(weights, rets)  # portfolio return (random weights)
+#print np.dot(weights.T, np.dot(log_rets.cov() * 252, weights))# portfolio vatriance
+#Monte Carlo simulation
+#%%time
+prets = []
+pvols = []
+for p in xrange(5000):
+    weights = np.random.random(5)
+    weights /= np.sum(weights)
+    prets.append(np.sum(log_rets.mean() * weights) * 252)
+    pvols.append(np.sqrt(np.dot(weights.T,
+                        np.dot(log_rets.cov() * 252, weights))))
+prets = np.array(prets)
+pvols = np.array(pvols)
+portfolio = pd.DataFrame({'return': prets, 'volatility': pvols})
+#portfolio.plot(x='volatility', y='return', kind='scatter', figsize=(10, 6));
+#plt.show()
+#write Python code to find the minimum variance portfolio
+#write Python code to find the portfolio compositions that make up the efficient frontier
+#write Python code to determine the capital market line given a risk-free asset
+# DATASTORE
+#%%time
+h5 = pd.HDFStore('data.h5', 'w')  # open database for writing
+h5['data'] = data  # writing DataFrame object to database
+h5.close()  # closing the database
+#%%time
+h5 = pd.HDFStore('data.h5', 'r')  # open database for reading
+data_copy = h5['data']  # reading DataFrame object from database
+h5.close()  # closing the database
+#print data_copy.head()  # quick check whether data is the same ...
+#%time
+data.to_csv('data.csv')
+with open('data.csv') as f:  # open text file
+    for i in xrange(5):  # iteration
+        f.readline()#print f.readline()  # reading a line
+#%time
+data_csv = pd.read_csv('data.csv', index_col=0, parse_dates=True)
+data_csv.head()
+#%time
+data.to_excel('data.xlsx')
+#%time
+data_xlsx = pd.read_excel('data.xlsx')
+#print data_xlsx.head()
+#!ls -n data.*
+#!rm data.*
+#work with PyTables directly and store the NumPy ndarray object in a respective database
+#
+#OPTION #Monte Carlo Simulation -- parametrizations
+# vectorized calculation of the log returns
+ST1=ST['Adj Close']
+log_rets = np.log(ST1 / ST1.shift(1))
+# annualized average log returns
+mu = log_rets.mean() * 252
+# annualized volatility
+sigma = log_rets.std() * 252 ** 0.5
+S0 = ST1.ix[-1]  # final value = initial value
+sigma = sigma #sigma.values[0]  # volatility of the stock
+mu = mu#mu.values[0]  # average return
+T = 1.0  # horizon 1 year
+M = 252  # number of time intervals
+dt = T / M  # fixed length time interval
+I = 20000  # number of simulated paths
+# simulation routine
+rand = np.random.standard_normal((M + 1, I))  # radnom number array
+S = np.zeros_like(rand)  # array for stock prices
+S[0] = S0  # all paths start at initial value
+for t in xrange(1, M + 1):
+    S[t] = S[t-1] * np.exp((mu - 0.5 * sigma ** 2) * dt + sigma * dt ** 0.5 * rand[t])
+plt.figure(figsize=(10, 6))
+plt.plot(S[:, :10])
+plt.xlim(0, M)
+#index = pd.date_range(start=ST1.index[-1], periods=M + 1, freq='B')
+#ax = ST['Adj Close'].plot(figsize=(10, 6), legend=False);# not working 
+#pd.DataFrame(S[:, :20], index=index).plot(ax=ax, legend=False);
+plt.show()
+#Option Pricing
+r = 0.01  # risk-less short rate
+for t in xrange(1, M + 1):
+    S[t] = S[t-1] * np.exp((r - 0.5 * sigma ** 2) * dt + sigma * dt ** 0.5 * rand[t])
+# vectorized payoff calculation
+payoff = np.maximum(S[-1] - 110, 0)
+plt.figure(figsize=(10, 6));
+plt.hist(payoff, bins=50);
+plt.show()
+C0 = np.exp(-r * T) * np.sum(payoff) / I
+print C0  # estimated call option price
+#estimate the value of a European put option with the same parameters
+#estimate the values of European call/put options for a wide range of strikes
+#estimate the values for European options with more exotic payoffs (e.g. lookback features)
+#replace the geometric Brownian motion model by a more realistic one with jumps and/or stochastic volatility
+#go through the documentation of the library DX Analytics to learn more about derivatives analytics with Python
 
