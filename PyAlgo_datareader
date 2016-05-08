@@ -26,7 +26,7 @@ def import_yahoo(symbol):
     #TQQQd = web.DataReader('TQQQ', 'yahoo-dividends', start, end)
     #return STa[5:7]#rows between 5 and 6 sp only 1 not 2
     #return STa.tail()
-    #return STp.ix['2011-01-03':'2011-01-09',['Close','Adj Close']]
+    return STp.ix['2011-01-03':'2011-01-09',['Close','Adj Close']]
     #return STp['Adj Close'].tail()
     #return STa.tail(),STp['Close'].max(),STp['Volume'].mean(),# set return at end after plot then plot will be visible and cross out max value visisble
     #http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
@@ -44,14 +44,6 @@ def import_yahoo(symbol):
     #plt.show()
     #return STa.tail(),STp['Close'].max(),STp['Volume'].mean(),# set return at end after plot then plot will be visible and cross out max value visisble
 
-
-
-
-def data_analysis():
-    for symbol in ['TQQQ','SQQQ','UWTI','DWTI','UPRO','SPXU','SPXS']:
-        #print "max value and mean value"
-        print symbol,import_yahoo(symbol)
-
 def multiple_stocks():
     start = datetime.datetime(2013, 1, 1)
     end = datetime.datetime(2016,5,7)
@@ -65,10 +57,29 @@ def multiple_stocks():
         df_temp=STp.ix['2013-01-01':'2016-05-07',[format(symbol)]]
         df1=df1.join(df_temp)
         #http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.join.html
-    print df1.dropna()
+        df1=df1.dropna()
+    return df1
+    #print df1.ix[0]
 
+def data_analysis_single():
+    for symbol in ['TQQQ','SQQQ','UWTI','DWTI','UPRO','SPXU','SPXS']:
+        #print "max value and mean value"
+        print symbol,import_yahoo(symbol)
+
+def data_analysis_multi():
+    df=multiple_stocks()
+    #print df
+    #print df.ix[0]#first element
+    df1 = df / df.ix[0]# data normalization df1 = df / df.ix[0,:]# data normalization
+    print df1.head()
+    title="Normalized"
+    ax=df.plot(title=title,fontsize=2)# df1 for Normalized graph
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Price')
+    plt.show()
 
 if __name__ == '__main__':
     #main()
-    #data_analysis()
-    multiple_stocks()
+    #data_analysis_single()
+    #multiple_stocks()
+    data_analysis_multi()
