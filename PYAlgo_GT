@@ -1,4 +1,8 @@
 #https://classroom.udacity.com/me
+#http://quantsoftware.gatech.edu/Manipulating_Financial_Data_in_Python
+#Machine_Learning_for_Trading_Course
+#https://www.coursera.org/learn/computational-investing/
+
 """Slice and plot"""
 
 import os
