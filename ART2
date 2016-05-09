@@ -1,2 +1,118 @@
 SENTIMENT FACTOR on AUTOMATIC TRADE
 Based on 5 months live trade
+
+Google Trends,Twitts from Twitter and Analyst rating/Recommendation to reflect current state and to anticipate the future trend of the Auto stocks and Index in National Stock Exchange (NSE). 
+
+OIL,OIL future,Interest Rate,
+
+
+
+http://www.ncbi.nlm.nih.gov/pubmed/22966419
+http://www.ncbi.nlm.nih.gov/pubmed/24688442
+http://www.ncbi.nlm.nih.gov/pubmed/21857954
+http://www.ncbi.nlm.nih.gov/pubmed/24376577
+http://www.ncbi.nlm.nih.gov/pubmed/22586086
+http://www.ncbi.nlm.nih.gov/pubmed/26327593
+http://www.ncbi.nlm.nih.gov/pubmed/22966419
+http://www.ncbi.nlm.nih.gov/pubmed/24421888
+http://www.ncbi.nlm.nih.gov/pubmed/24699376
+http://www.ncbi.nlm.nih.gov/pubmed/26435898
+http://www.ncbi.nlm.nih.gov/pubmed/23762258
+http://www.ncbi.nlm.nih.gov/pubmed/26258498
+http://www.ncbi.nlm.nih.gov/pubmed/22829871
+http://www.ncbi.nlm.nih.gov/pubmed/26720074
+http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0040014
+http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3400625/pdf/pone.0040014.pdf
+http://www.ncbi.nlm.nih.gov/pubmed/26513371
+http://www.ncbi.nlm.nih.gov/pubmed/24429767
+http://www.ncbi.nlm.nih.gov/pubmed/24356666
+http://www.ncbi.nlm.nih.gov/pubmed/26808833
+http://www.ncbi.nlm.nih.gov/pubmed/23861791
+http://www.ncbi.nlm.nih.gov/pubmed/23762258
+http://www.ncbi.nlm.nih.gov/pubmed/21935403
+http://www.ncbi.nlm.nih.gov/pubmed/24849598
+http://www.ncbi.nlm.nih.gov/pubmed/23690737
+http://www.ncbi.nlm.nih.gov/pubmed/25162697
+http://www.ncbi.nlm.nih.gov/pubmed/25054439
+http://www.ncbi.nlm.nih.gov/pubmed/25197616
+
+
+
+INTRODUCTION
+Massive new data sources resulting from human interaction with the Internet may offer a new perspective on the behavior of market participants in periods of large market movements. By analyzing changes in Google query volumes for search terms related to finance, we find patterns that may be interpreted as “early warning signs” of stock market moves. Our results illustrate the potential that combining extensive behavioral data sets offers for a better understanding of collective human behavior. Recently, the search engine Google has begun to provide access to aggregated information on the volume of queries for different search terms and how these volumes change over time, via the publicly available service Google Trends. 
+
+we investigate the intriguing possibility of analyzing search query data from Google Trends to provide new insights into the information gathering process that precedes the trading decisions recorded in the stock market data(Bordino).
+
+Choi and Varian have shown that data from Google Trends can be linked to current values of various economic indicators. What are other terms I can include here (100 terms)?
+
+A very recent study has shown that Internet users from countries with a higher per capita GDP are more likely to search for information about years in the future than years in the past(Preis,2012).
+
+Google Trends data  not only reflect the current state(Preis,2010) of the stock markets but may have also been able to anticipate certain future trends. Iinvestors may search for more information about the market, before eventually deciding to buy or sell. 
+Our results suggest that, following this logic, during the period 2004 to 2011 Google Trends search query volumes for certain terms could have been used in the construction of profitable trading strategies.
+
+
+Search engine query data deliver insight into the behaviour of individuals who are the smallest possible scale of our economic life. Individuals are submitting several hundred million search engine queries around the world each day. We study weekly search volume data for various search terms from 2004 to 2010 that are offered by the search engine Google for scientific use, providing information about our economic life on an aggregated collective level. We ask the question whether there is a link between search volume data and financial market fluctuations on a weekly time scale. Both collective ‘swarm intelligence’ of Internet users and the group of financial market participants can be regarded as a complex system of many interacting subunits that react quickly to external changes. We find clear evidence that weekly transaction volumes of S&P 500 companies are correlated with weekly search volume of corresponding company names. Furthermore, we apply a recently introduced method for quantifying complex correlations in time series with which we find a clear tendency that search volume time series and transaction volume time series show recurring patterns.
+
+
+Empirical analyses have been focused on quantifying and testing the robustness of power-law distributions that characterize large movements in stock market activity. The use of estimators that are designed for serially and cross-sectionally independent data supports the hypothesis that the power-law exponents that characterize fluctuations in stock price, trading volume and the number of trades (Fama 1963; Lux & Marchesi 1999; Plerou et al. 2002a) are seemingly ‘universal’ in the sense that they do not change their values significantly for different markets, different time periods or different market conditions
+http://rsta.royalsocietypublishing.org/content/368/1933/5707#sec-2
+
+
+We ask the question whether there is a link between search volume data and financial market fluctuations on a weekly time scale. Both collective 'swarm intelligence' of Internet users and the group of financial market participants can be regarded as a complex system of many interacting subunits that react quickly to external changes. We find clear evidence that weekly transaction volumes of S&P 500 companies are correlated with weekly search volume of corresponding company names. Furthermore, we apply a recently introduced method for quantifying complex correlations in time series with which we find a clear tendency that search volume time series and transaction volume time series show recurring patterns.
+
+http://www.ncbi.nlm.nih.gov/pubmed/21078644?dopt=Abstract&holding=npg
+
+
+
+QUESTIONS
+
+Notable drops in the financial market are preceded by periods of investor concern. In such periods, investors may search for more information about the market, before eventually deciding to buy or sell. From assymetric volatility concept any uncertainty causes for search and volatility and reduce the price. Testing needed!
+
+
+Is there any link between stock market transaction volume and search volume has also been replicated using Yahoo data?
+
+Significant terms and companies?
+Our findings are consistent with the intriguing proposal that notable drops in the financial market are preceded by periods of investor concern?
+
+Google Trends search query volumes for certain terms could have been used in the construction of profitable trading strategies?
+
+LOGIC BEHIND CONSIDERATION OF TERMS
+Term debt, a keyword with an obvious semantic connection to the most recent financial crisis, and overall the term which performed best in our analyses.
+
+
+METHODS
+
+Term debt, a keyword with an obvious semantic connection to the most recent financial crisis, and overall the term which performed best in our analyses.
+
+To uncover the relationship between the volume of search queries for a specific term and the overall direction of trader decisions, we analyze closing prices p(t) of the Dow Jones Industrial Average (DJIA) on the first trading day of week t. We use Google Trends to determine how many searches n(t – 1) have been carried out for a specific search term such as debt in week t – 1, where Google defines weeks as ending on a Sunday, relative to the total number of searches carried out on Google during that time. We find that search volume data change slightly over time due to Google's extraction procedure. For each search term, we therefore average over three realizations of its search volume time series, based on three independent data requests in consecutive weeks. The variability of Google Trends data across different dates of access is irrelevant for our results, and it can be shown that the data are consistent with reported real world events
+We rank the full list of the 98 investigated search terms by their trading performance when using search data from global users, In order to ensure the robustness of our results, the overall performance of a strategy based on a given search term is determined as the mean value over the six returns obtained for Δt = 1...6 weeks. Returns of the strategies are calculated as the logarithm of relative portfolio changes, following the usual definition of returns. The distribution of final portfolio values resulting from the random investment strategies is close to log-normal. Cumulative returns from the random investment strategy, derived from the logarithm of these portfolio values, therefore follow a normal distribution, with a mean value of <R>RandomStrategy = 0. Here we report R, the cumulative returns of a strategy, in standard deviations of the cumulative returns of these uncorrelated random investment strategies.
+
+STRATEGY
+‘Google Trends strategy' in the following. Profit can only be made in a trading strategy if at least some future changes in the stock price are correctly anticipated, in particular around large market movements. We implement this strategy by selling the DJIA at the closing price p(t) on the first trading day of week t, if Δn(t − 1, Δt) > 0, and buying the DJIA at price p(t + 1) at the end of the first trading day of the following week. Note that mechanisms exist which make it possible to sell assets in financial markets without first owning them. If instead Δn(t − 1, Δt) < 0, then we buy the DJIA at the closing price p(t) on the first trading day of week t and sell the DJIA at price p(t + 1) at the end of the first trading day of the coming week. At the beginning of trading, we set the value of all portfolios to an arbitrary value of 1. If we take a ‘short position’—selling at the closing price p(t) and buying back at price p(t + 1)—then the cumulative return R changes by log(p(t)) − log(p(t + 1)). If we take a ‘long position’—buying at the closing price p(t) and selling at price p(t + 1)—then the cumulative return R changes by log(p(t + 1)) − log(p(t)). In this way, buy and sell actions have symmetric impacts on the cumulative return R of a strategy's portfolio. In using this approach to analyze the relationship between Google search volume and stock market movements, we neglect transaction fees, since the maximum number of transactions per year when using our strategy is only 104, allowing a closing and an opening transaction per week.
+
+Compare with mean reversion and momentum strategy in figure and statistical test.
+
+
+REFERENCES
+Preis, T., Reith, D. & Stanley, H. E. Complex dynamics of our economic life on different scales: insights from search engine query data. Phil. Trans. R. Soc. A 368, 5707–5719 (2010).
+Bordino, I. et al. Web Search Queries Can Predict Stock Market Volumes. PLoS One 7, e40014 (2012).
+Choi, H. & Varian, H. Predicting the Present with Google Trends. The Economic Record 88, 2–9 (2012).
+Preis, T., Moat, H. S., Stanley, H. E. & Bishop, S. R. Quantifying the Advantage of Looking Forward. Scientific Reports 2, 350 (2012).
+
+http://www.nature.com/articles/srep01684 and http://www.nature.com/article-assets/npg/srep/2013/130425/srep01684/extref/srep01684-s1.pdf
+
+http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3400625/pdf/pone.0040014.pdf
+
+
+
+Unemployment Insurance Data
+http://workforcesecurity.doleta.gov/unemploy/data.asp
+
+Bank of Japan (BOJ) did not change rate. QE is expected in near future
+
+FOMC decision:
+BoE decision:  is on tap for Thursday, when even Switzerland and Norway’s banks might make waves.
+
+
+http://feargreedindex.com/FGI_Data.aspx
+
