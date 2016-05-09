@@ -154,3 +154,4 @@ order_desc.m_action = 'SELL'
 ibgw_conTradeChannel.placeOrder(newOrderID, order_ticker, order_desc)
 
 print 'disconnected', ibgw_conTradeChannel.disconnect()
+#http://www.elitetrader.com/et/index.php?threads/ib-api-howtos-and-guidelines-for-beginners.279658/page-5
