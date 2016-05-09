@@ -1,0 +1,81 @@
+Car or bike?
+New or used?
+New or popular model(‘Top-hat’)?
+
+if Bike:
+Scooter or Motorcycle
+Head Light, Side, Back,Weight,Milage
+
+Company:
+Model:
+
+
+if Car:
+Entry, Medium or Utility
+Approximate journey per month? if journey above level then petrol or disel choice
+Price range ? Price range flexible for disel model if desel not selected already
+Front,Side, Back, Space, Milage
+Electric/hybrid car? yes no
+Maximum with higher price, medium with extra price or usual?
+Budget range and flexibility ( <20%,<40% and <60%)
+APP for handsfree facility?
+APP for position, map, voice guide, calling. <Choices> any other facility? 
+Company:
+Model:
+Safety rating:
+
+
+Recall cost, profitability of new model including cannibalising and use of data analytics  
+
+A notable trend the industry has witnessed is that of car recalls.
+
+New model launches have helped maintain volumes for the leading players but new launches have effectively cannibalised older models.
+
+The two-wheeler segment had a welcome month with Scooters delivering strong growth numbers once again.
+Motorcycles in the volume segments saw a strong uptick in sales.
+National Electric Mobility Mission 2020 to encourage the progressive induction of reliable, affordable and efficient electric and hybrid vehicles in the country.
+
+‘Make in India’ initiative, as it expects passenger vehicles market to triple to 9.4 million units by 2026, as highlighted in the Auto Mission Plan (AMP) 2016-26.
+
+Domestic sales of Passenger Vehicles grew by 8.13 per cent in April-January 2016 over the same period last year. Within the Passenger Vehicles, Passenger Cars rose by 10.18 per cent, during April-January 2016 over April-January 2015.
+
+The industry accounts for 7.1 per cent of the country's Gross Domestic Product (GDP). As of FY 2014-15, around 31 per cent of small cars sold globally are manufactured in India.
+
+consumers who drive medium or low cost vehicles are interested to have latest features in their vehicles but they are very price sensitive.
+
+Economic growth, government policies, rising interest rates and fuel costs are critical elements which a buyer tends to consider before making a purchase decision.
+
+We are also involved in integration of connectivity features like Wi-Fi, Bluetooth, DLNA and MirrorLink which enables user to have access to content on the move.
+
+Another area that we foresee growth would be investments in Hybrids, especially with the Government backing the cause by investing in R&D to bring down the high emissions in the country. Tata Elxsi has been working with car manufacturers and suppliers as part of their product roadmaps in building software & hardware solutions that goes into hybrid systems. 
+
+Investments
+In order to keep up with the growing demand, several auto makers have started investing heavily in various segments of the industry during the last few months. The industry has attracted Foreign Direct Investment (FDI) worth US$ 14.32 billion during the period April 2000 to December 2015, according to data released by Department of Industrial Policy and Promotion (DIPP).
+Some of the major investments and developments in the automobile sector in India are as follows:
+Japanese two-wheeler manufacturer Honda Motorcycle and Scooter India (HMSI) has opened its fourth and world’s largest scooter plant in Gujarat, set up to initially produce 600,000 scooters per annum to be scaled up to 1.2 million scooters per annum by mid-2016.
+American car maker Ford has unveiled its iconic Ford Mustang in India and will make its debut in second quarter of FY2016 within the price band of Rs 45 lakh (US$ 66,146) and Rs 50 lakh (US$ 73,496) in the Indian market.
+Nissan Motor Co. Ltd is in discussion with Government of India to bring electric and hybrid technologies to India as the government plans to reduce air pollution caused by vehicles.
+Global auto major Ford plans to manufacture in India two families of engines by 2017, a 2.2 litre diesel engine codenamed Panther, and a 1.2 litre petrol engine codenamed Dragon, which are expected to power 270,000 Ford vehicles globally.
+The world’s largest air bag suppliers Autoliv Inc, Takata Corp, TRW Automotive Inc and Toyoda Gosei Co are setting up plants and increasing capacity in India.
+General Motors plans to invest US$ 1 billion in India by 2020, mainly to increase the capacity at the Talegaon plant in Maharashtra from 130,000 units a year to 220,000 by 2025.
+US-based car maker Chrysler has planned to invest Rs 3,500 crore (US$ 513.5 million) in Maharashtra, to manufacture Jeep Grand Cherokee model.
+Mercedes Benz has decided to manufacture the GLA entry SUV in India. The company has doubled its India assembly capacity to 20,000 units per annum.
+Germany-based luxury car maker Bayerische Motoren Werke AG’s (BMW) local unit has announced to procure components from seven India-based auto parts makers.
+Mahindra Two Wheelers Limited (MTWL) acquired 51 per cent shares in France-based Peugeot Motorcycles (PMTC).
+
+If you look at cost incurred by OEMs, warranty and recall costs are quite significant, and are eaten away from their bottom line. OEMs are now taking a more holistic approach, by using data analytics, to minimize the impact on the bottom line. 
+
+Data Analytics:
+average car comes equipped with dozens of chips running everything from the fuel injectors to the brakes. These machines, though powerful, have offered little connected to the outside world.
+
+That's changing. Car manufacturers aren't blind to the fact that the next generation of car owners are more interested in a fast smartphone than a fancy car. The speed and sophistication of the Internet has made poking along in traffic more unbearable. And if cars are going to compete in the coming market, they'll need to give people access to their music, the news, and much more.
+
+Supporting the automobile as a development platform will be a significant challenge. But with the likely incursion of robot drivers and autonomous cars to come, developing apps for cars may be our toughest task yet. While there are currently no autonomous cars for sale, Google and all the major car companies have demonstrated working prototypes that are tantalizing.
+
+Delivering data to cars, autonomous or not, will take a whole new way of thinking. Rectangles will always be rectangles, but automobile network connections are spotty and the user interface needs to compete -- if that's the right word -- with the objects on the road for the right amount of attention from the driver.
+
+
+https://github.com/yonicd/Elections/blob/master/shiny/global.R
+https://github.com/EconometricsBySimulation/Shiny-Demos/tree/master/Survey
+https://twitter.com/ShinyappsRecent
+
