@@ -6,12 +6,28 @@ git clone https://github.com/blampe/IbPy# download gitclone
 cd IbPy
 #(PyAlgo)octo@ALPHA:~/IBAPI_py/IbPy$
 
+#Another pack https://github.com/Komnomnomnom/swigibpy
+
 # Automatic ordering code
 from ib.opt import Connection, message
 from ib.ext.Contract import Contract
 from ib.ext.Order import Order
 
+def error_handler(msg):
+    """Handles the capturing of error messages"""
+    print "Server Error: %s" % msg
+
+def reply_handler(msg):
+    """Handles of server replies"""
+    print "Server Response: %s, %s" % (msg.typeName, msg)
+
 def make_contract(symbol, sec_type, exch, prim_exch, curr):
+    """
+    symbol - The ticker symbol for the contract
+    sec_type - The security type for the contract ('STK' is 'stock')
+    exch - The exchange to carry out the contract on
+    prim_exch - The primary exchange to carry out the contract on
+    curr - The currency in which to purchase the contract"""
 
     Contract.m_symbol = symbol
     Contract.m_secType = sec_type
@@ -23,6 +39,11 @@ def make_contract(symbol, sec_type, exch, prim_exch, curr):
 
 
 def make_order(action,quantity, price = None):
+    """Create an Order object (Market/Limit) to go long/short.
+
+    order_type - 'MKT', 'LMT' for Market or Limit orders
+    quantity - Integral number of assets to order
+    action - 'BUY' or 'SELL'"""
 
     if price is not None:
         order = Order()
@@ -37,7 +58,7 @@ def make_order(action,quantity, price = None):
         order.m_totalQuantity = quantity
         order.m_action = action
 
-        
+
     return order
 
 
@@ -45,14 +66,19 @@ cid = 303
 
 while __name__ == "__main__":
 
-    conn = Connection.create(port=7496, clientId=999)
+    conn = Connection.create(port=7496, clientId=123)
     conn.connect()
+    # Assign the error handling function defined above
+    # to the TWS connection
+    conn.register(error_handler, 'Error')
+    # Assign all of the server reply messages to the
+    # reply_handler function defined above
+    conn.registerAll(reply_handler)
     oid = cid
-    cont = make_contract('TSLA', 'STK', 'SMART', 'SMART', 'USD')
-    offer = make_order('BUY', 1, 200)
+    cont = make_contract('SQQQ', 'STK', 'SMART', 'SMART', 'USD')
+    #offer = make_order('BUY', 1, 200)
+    offer = make_order('BUY', 1,'MKT')
     conn.placeOrder(oid, cont, offer)
     conn.disconnect()
     x = raw_input('enter to resend')
     cid += 1
-
-
