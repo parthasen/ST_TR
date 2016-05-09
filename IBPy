@@ -154,4 +154,9 @@ order_desc.m_action = 'SELL'
 ibgw_conTradeChannel.placeOrder(newOrderID, order_ticker, order_desc)
 
 print 'disconnected', ibgw_conTradeChannel.disconnect()
+
+#https://www.quantstart.com/articles/Using-Python-IBPy-and-the-Interactive-Brokers-API-to-Automate-Trades
 #http://www.elitetrader.com/et/index.php?threads/ib-api-howtos-and-guidelines-for-beginners.279658/page-5
+#http://stackoverflow.com/questions/25299539/getting-parameters-of-listed-options-futures-in-interactive-brokers-api/34754857#34754857
+#http://stackoverflow.com/questions/34561626/ibpy-getting-portfolio-information-interactive-broker-python/34755680#34755680
+#https://www.quantopian.com/posts/ibpython3
