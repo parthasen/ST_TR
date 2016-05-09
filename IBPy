@@ -10,6 +10,7 @@ python setup.py install
 
 python '/home/octo/Desktop/QTPY/qt.py'
 # Automatic ordering code
+from time import sleep
 from ib.opt import Connection, message
 from ib.ext.Contract import Contract
 from ib.ext.Order import Order
@@ -21,6 +22,9 @@ def error_handler(msg):
 def reply_handler(msg):
     """Handles of server replies"""
     print "Server Response: %s, %s" % (msg.typeName, msg)
+
+def print_portfolio_position(msg):
+    print "Position:", msg.contract.m_symbol, msg.position, msg.marketPrice, msg.contract.m_currency, msg.contract.m_secType
 
 def make_contract(symbol, sec_type, exch, prim_exch, curr):
     """
@@ -68,6 +72,7 @@ cid = 303
 while __name__ == "__main__":
 
     conn = Connection.create(port=7496, clientId=123)
+    #conn = Connection(port=7496,clientId=1234)
     conn.connect()
     # Assign the error handling function defined above
     # to the TWS connection
@@ -75,6 +80,14 @@ while __name__ == "__main__":
     # Assign all of the server reply messages to the
     # reply_handler function defined above
     conn.registerAll(reply_handler)
+    # Map server replies to "print_portfolio_position" function for "UpdatePortfolio" client requests
+    conn.register(print_portfolio_position, 'UpdatePortfolio')
+    conn.register(replies_handler, 'UpdateAccountValue')
+    # Make client request for AccountUpdates (includes request for Portfolio positions)
+    conn.reqAccountUpdates(1, '')
+    # Stop client request for AccountUpdates
+    conn.reqAccountUpdates(0, '')
+    sleep(5)
     oid = cid
     cont = make_contract('SQQQ', 'STK', 'SMART', 'SMART', 'USD')
     #offer = make_order('BUY', 1, 200)
