@@ -96,3 +96,61 @@ while __name__ == "__main__":
     conn.disconnect()
     x = raw_input('enter to resend')
     cid += 1
+******
+
+# LOAD the ib.ext and ib.opt Libraries
+from ib.ext.Contract import Contract
+from ib.ext.Order import Order
+from ib.opt import Connection, message
+
+# DEFINE a basic function to capture error messages
+def error_handler(msg):
+    print "IB: Server Error = ", msg
+
+# DEFINE a basic function to capture all server replies
+def all_replies_handler(msg):
+    print "IB: Server Response = ", msg.typeName, msg
+
+# Main code
+
+# Create the connection to IBGW with client socket id=123
+# using a different method than ibConnection
+ibgw_conTradeChannel=Connection.create(port=7496,clientId=1234)
+ibgw_conTradeChannel.connect()
+
+# Map server replies for "Error" messages to the "error_handler" function
+ibgw_conTradeChannel.register(error_handler, 'Error')
+
+# Map all server replies to "all_replies_handler"
+# Use typeName to distinguish between the different message types
+# This is easier than registering different actions for different messages
+ibgw_conTradeChannel.registerAll(all_replies_handler)
+
+# Create a global OrderID for simplicity
+# It will be submitted to the IB Server for executing the trade
+# To be incremented for the next trade with calls to the IB Server
+newOrderID=1
+
+# Create a contract object
+# Update the parameters to be sent to the Market Order request
+order_ticker = Contract()
+order_ticker.m_symbol = 'GTAT'
+order_ticker.m_secType = 'STK'
+order_ticker.m_exchange = 'SMART'
+order_ticker.m_primaryExch = 'SMART'
+order_ticker.m_currency = 'USD'
+order_ticker.m_localSymbol = 'GTAT'
+
+# Create an order object
+# Update the parameters to be sent to the Market Order request
+order_desc = Order()
+order_desc.m_minQty = 100
+order_desc.m_lmtPrice = 11.00
+order_desc.m_orderType = 'LMT'
+order_desc.m_totalQuantity = 100
+order_desc.m_action = 'SELL'
+
+# Send the Market Order request
+ibgw_conTradeChannel.placeOrder(newOrderID, order_ticker, order_desc)
+
+print 'disconnected', ibgw_conTradeChannel.disconnect()
