@@ -8,6 +8,7 @@ python setup.py install
 
 #Another pack https://github.com/Komnomnomnom/swigibpy
 
+python '/home/octo/Desktop/QTPY/qt.py'
 # Automatic ordering code
 from ib.opt import Connection, message
 from ib.ext.Contract import Contract
