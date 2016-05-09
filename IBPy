@@ -1,2 +1,9 @@
 #Installing IBPy
-sudo apt-get install git-core
+source activate PyAlgo#starting env
+sudo apt-get install git-core# already installed for GIT
+cd /home/octo/IBAPI_py# directory created 
+git clone https://github.com/blampe/IbPy# download gitclone 
+cd IbPy
+#(PyAlgo)octo@ALPHA:~/IBAPI_py/IbPy$
+
+
