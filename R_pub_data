@@ -70,3 +70,7 @@ library("Quandl", lib.loc="~/R/win-library/3.2")
 Quandl.search(query = 'China crude oil consumption')
 oilCons <- Quandl('INDEXMUNDI/ENERGY_CHINA_CRUDEOIL', type = 'xts',
                   start_date = '2005-01-01', end_date = '2013-12-31')
+dollarindex <- Quandl('FRED/DTWEXM', type = 'xts',
+                  start_date = '2005-01-01', end_date = '2016-05-31')                  
+#https://research.stlouisfed.org/fred2/series/DTWEXB/downloaddata                  
+                  
