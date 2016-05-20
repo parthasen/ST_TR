@@ -1384,3 +1384,18 @@ glm.pred<-glm.probs
 glm.pred<-ifelse(glm.pred> 0.5,"Up","Down")
 table(glm.pred,TestSetLDA$Change)
 mean(glm.pred == TestSetLDA$Change)
+***Markov Chain
+http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4247363/#MOESM1
+http://blog.revolutionanalytics.com/2016/01/getting-started-with-markov-chains.html
+http://nicercode.github.io/guides/mcmc/
+http://www-rohan.sdsu.edu/~babailey/stat575/lab1.html
+http://www.diva-portal.se/smash/get/diva2:291586/FULLTEXT01.pdf
+http://www.math.washington.edu/~perkins/381AWin14/classlog.html
+http://www.worldcomp-proceedings.com/proc/p2011/MSV3481.pdf
+http://gekkoquant.com/2014/09/07/hidden-markov-models-examples-in-r-part-3-of-4/
+http://www.analyticsvidhya.com/blog/2014/07/markov-chain-simplified/
+http://mme2012.opf.slu.cz/proceedings/pdf/145_Svoboda.pdf
+https://www.wpi.edu/Pubs/E-project/Available/E-project-031411-153131/unrestricted/MQP_HS1_3699.pdf
+http://www.ccsenet.org/journal/index.php/ijbm/article/viewFile/2336/2187/
+http://www.eecs.harvard.edu/~parkes/MarkovChains-HillierLieberman.pdf
+https://www.cs.sfu.ca/~anoop/students/rzhang/rzhang_msc_thesis.pdf
