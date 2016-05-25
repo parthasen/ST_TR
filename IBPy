@@ -160,6 +160,7 @@ print 'disconnected', ibgw_conTradeChannel.disconnect()
 #http://stackoverflow.com/questions/25299539/getting-parameters-of-listed-options-futures-in-interactive-brokers-api/34754857#34754857
 #http://stackoverflow.com/questions/34561626/ibpy-getting-portfolio-information-interactive-broker-python/34755680#34755680
 #https://www.quantopian.com/posts/ibpython3
+#https://code.google.com/archive/p/ibpy/wikis/GettingStarted.wiki
 
 from ib.opt import Connection, message
 from ib.ext.Contract import Contract
