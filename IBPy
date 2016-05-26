@@ -161,6 +161,7 @@ print 'disconnected', ibgw_conTradeChannel.disconnect()
 #http://stackoverflow.com/questions/34561626/ibpy-getting-portfolio-information-interactive-broker-python/34755680#34755680
 #https://www.quantopian.com/posts/ibpython3
 #https://code.google.com/archive/p/ibpy/wikis/GettingStarted.wiki
+#https://pypi.python.org/pypi/ib/0.8.0
 
 from ib.opt import Connection, message
 from ib.ext.Contract import Contract
