@@ -11,6 +11,10 @@ http://www.tecmint.com/install-wine-on-ubuntu-and-linux-mint/
 https://wiki.winehq.org/Ubuntu
 http://askubuntu.com/questions/316025/how-to-install-and-configure-wine
 
+cd /home/octo/.wine
+
+
+
 ##First method
 $ sudo add-apt-repository ppa:ubuntu-wine/ppa
 $ sudo apt-get update
