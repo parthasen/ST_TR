@@ -12,6 +12,7 @@ https://wiki.winehq.org/Ubuntu
 http://askubuntu.com/questions/316025/how-to-install-and-configure-wine
 
 cd /home/octo/.wine
+$ sudo wine 'C:\Program Files\Internet Explorer\iexplore'
 
 
 
