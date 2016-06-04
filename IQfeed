@@ -23,7 +23,8 @@ sudo add-apt-repository ppa:ubuntu-wine/ppa -y && sudo apt-get update && sudo ap
 iqsetup21021.exe or iqlink from DTN site
 right click and run with wine
 search computer and logo at dresktop
-
+3.RUN
+DTN.IQ and DTN Launcher
 ***PYTHON
 """
 Credit: Michael Halls-Moore
