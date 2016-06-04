@@ -10,12 +10,8 @@ https://github.com/bwlewis/iqfeed
 http://www.tecmint.com/install-wine-on-ubuntu-and-linux-mint/
 https://wiki.winehq.org/Ubuntu
 http://askubuntu.com/questions/316025/how-to-install-and-configure-wine
-
 cd /home/octo/.wine
 $ sudo wine 'C:\Program Files\Internet Explorer\iexplore'
-
-
-
 ##First method
 $ sudo add-apt-repository ppa:ubuntu-wine/ppa
 $ sudo apt-get update
@@ -23,7 +19,10 @@ $ sudo apt-get install -y wine1.7
 ##Another method
 sudo add-apt-repository ppa:ubuntu-wine/ppa -y && sudo apt-get update && sudo apt-get install wine
 ##To start the Wine program, you must give the full path to the .exe program
-$ wine notepad.exe 
+2. DOWNLOAD
+iqsetup21021.exe or iqlink from DTN site
+right click and run with wine
+search computer and logo at dresktop
 
 ***PYTHON
 """
