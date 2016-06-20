@@ -237,3 +237,4 @@ if __name__ == "__main__":
     conn.placeOrder(oid, cont, offer)
 
     conn.disconnect()
+
