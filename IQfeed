@@ -1,73 +1,16 @@
-https://github.com/sobotklp/pyqfeed/blob/master/setup.py
-https://github.com/luketighe/IQFeed/blob/master/iqfeed.py
-https://github.com/bratchenko/docker-iqfeed
-https://www.quantstart.com/articles/Downloading-Historical-Intraday-US-Equities-From-DTN-IQFeed-with-Python
-https://github.com/macdice/iqfeed-debian
-
-https://github.com/bwlewis/iqfeed
-
-1. Loading wine 
-http://www.tecmint.com/install-wine-on-ubuntu-and-linux-mint/
-https://wiki.winehq.org/Ubuntu
-http://askubuntu.com/questions/316025/how-to-install-and-configure-wine
-cd /home/octo/.wine
-$ sudo wine 'C:\Program Files\Internet Explorer\iexplore'
-##First method
-$ sudo add-apt-repository ppa:ubuntu-wine/ppa
-$ sudo apt-get update
-$ sudo apt-get install -y wine1.7
-##Another method
-sudo add-apt-repository ppa:ubuntu-wine/ppa -y && sudo apt-get update && sudo apt-get install wine
-##To start the Wine program, you must give the full path to the .exe program
-2. DOWNLOAD
-iqsetup21021.exe or iqlink from DTN site
-right click and run with wine
-search computer and logo at dresktop
-3.RUN
-DTN.IQ and DTN Launcher
-***PYTHON
-"""
-Credit: Michael Halls-Moore
-Url:    https://www.quantstart.com/articles/Downloading-Historical-Intraday-US-
-        Equities-From-DTN-IQFeed-with-Python
-        
-I simply wrapped the logic into a class. 
-Will possibly extend for live feeds.
-@author: Luke Patrick James Tighe
-"""
-
 import datetime
 import socket
 import os.path
 import pandas as pd
 
-"""
-IQ DTN Feed Historical Symbol Download.
-Downloads the symbol data in CSV format and stores it in a local directroy.
-If we already have the symbol data downloaded, it will not hit IQ DTN Feed again,
-it will simple use the local data.
-To flush the local CSV file, simply delete the directory.
-Constructor enables to specify a start and end date for the symbol data as well
-as the frequency. Great for making sure data is consistent.
-Simple usage example:
-    from iqfeed import historicData
-    dateStart = datetime.datetime(2014,10,1)
-    dateEnd = datetime.datetime(2015,10,1)        
-        
-    iq = historicData(dateStart, dateEnd, 60)
-    symbolOneData = iq.download_symbol(symbolOne)
-    
-"""
 class historicData:
-
-    # 
-    def __init__(self, startDate, endDate, timeFrame=60):
+    def __init__(self, startDate, endDate, timeFrame=05):
         
         self.startDate = startDate.strftime("%Y%m%d %H%M%S")
         self.endDate = endDate.strftime("%Y%m%d %H%M%S")
         self.timeFrame = str(timeFrame)
         # We dont want the download directory to be in our source control
-        self.downloadDir = "../../MarketData/"
+        self.downloadDir = "/home/octo/Desktop/QTPY/data/sec1/"
         self.host = "127.0.0.1"  # Localhost
         self.port = 9100  # Historical data socket port
 
@@ -128,7 +71,10 @@ class historicData:
             f.close()
             
         return pd.io.parsers.read_csv(fileName, header=0, index_col=0, names=['datetime','open','low','high','close','volume','oi'], parse_dates=True)
-*****
+
+
+
+###
 import sys
 import socket
 def read_historical_data_socket(sock, recv_buffer=4096):
@@ -158,14 +104,15 @@ if __name__ == "__main__":
     # Define server host, port and symbols to download
     host = "127.0.0.1"  # Localhost
     port = 9100  # Historical data socket port
-    syms = ["SPY", "AAPL", "GOOG", "AMZN"]
+    syms = ["SPY", "QQQ", "SQQQ", "TQQQ"]
 
     # Download each symbol to disk
     for sym in syms:
         print "Downloading symbol: %s..." % sym
 
         # Construct the message needed by IQFeed to retrieve data
-        message = "HIT,%s,60,20140101 075000,,,093000,160000,1\n" % sym
+	#10 seconds 60 for seconds, 20160101 for starting day
+        message = "HIT,%s,10,20160101 075000,,,093000,160000,1\n" % sym
 
         # Open a streaming socket to the IQFeed server locally
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -183,9 +130,40 @@ if __name__ == "__main__":
         data = data.replace(",\n","\n")[:-1]
 
         # Write the data stream to disk
-        f = open("/home/octo/Desktop/QTPY/data/%s.csv" % sym, "w")
+        f = open("/home/octo/Desktop/QTPY/data/sec5/%s.csv" % sym, "w")
         f.write(data)
         f.close()
+
+
+
+https://github.com/sobotklp/pyqfeed/blob/master/setup.py
+https://github.com/luketighe/IQFeed/blob/master/iqfeed.py
+https://github.com/bratchenko/docker-iqfeed
+https://www.quantstart.com/articles/Downloading-Historical-Intraday-US-Equities-From-DTN-IQFeed-with-Python
+https://github.com/macdice/iqfeed-debian
+
+https://github.com/bwlewis/iqfeed
+
+1. Loading wine 
+http://www.tecmint.com/install-wine-on-ubuntu-and-linux-mint/
+https://wiki.winehq.org/Ubuntu
+http://askubuntu.com/questions/316025/how-to-install-and-configure-wine
+cd /home/octo/.wine
+$ sudo wine 'C:\Program Files\Internet Explorer\iexplore'
+##First method
+$ sudo add-apt-repository ppa:ubuntu-wine/ppa
+$ sudo apt-get update
+$ sudo apt-get install -y wine1.7
+##Another method
+sudo add-apt-repository ppa:ubuntu-wine/ppa -y && sudo apt-get update && sudo apt-get install wine
+##To start the Wine program, you must give the full path to the .exe program
+2. DOWNLOAD
+iqsetup21021.exe or iqlink from DTN site
+right click and run with wine
+search computer and logo at dresktop
+3.RUN
+DTN.IQ and DTN Launcher
+
 
 ******R
 Example:
