@@ -1,0 +1,307 @@
+#http://www.google.com/trends/explore#q=nasdaq
+
+GOOGLE
+http://www.nature.com/articles/srep01684
+http://www.nature.com/articles/srep01801?trendmd-shared=0
+http://www.nature.com/articles/srep05038#s1
+https://github.com/321k/Google-Trends/blob/master/Google%20Trends%20functions
+http://erikjohansson.blogspot.in/2014/12/creating-daily-search-volume-data-from_8.html
+http://datascience-enthusiast.com/R/gtrends_shiny.html
+https://static.googleusercontent.com/media/www.google.com/en//googleblogs/pdfs/google_predicting_the_present.pdf
+http://www.andrewbonneau.com/code/pulling-google-trends-data-with-gtrendsr/
+http://sfb649.wiwi.hu-berlin.de/frm/index.html
+http://www.d3mprof.com/#!google-trends/cef
+http://walczak.org/2015/11/using-r-to-query-google-trends-and-ngrams/
+http://amunategui.github.io/google-trends-walkthrough
+http://finzi.psych.upenn.edu/library/gtrendsR/html/00Index.html
+http://amunategui.github.io/google-trends-walkthrough
+http://www.meetup.com/r-enthusiasts/events/65306492/
+http://www.d3mprof.com/#!google-trends/cef
+http://poseidon01.ssrn.com/delivery.php?ID=279084110120111018016090109064083023058053048001058058104067068081069085127012004006110097020008029017007030127020123073073094012047023016072119068004079100109011014005063119103117081099027121004126105010086113024076066093080101118120103064114113013&EXT=pdf
+http://rpsychologist.com/how-to-work-with-google-ngram-data-sets-in-r-using-mysql/
+**
+devtools::install_github("dvanclev/GTrendsR")
+devtools::install_github("trinker/gtrend")
+***
+library(curl)
+library(dplyr)
+library(gtrend)
+library(ggplot2)
+#library(ngramr)
+library(scales)
+library(gtrendsR)
+***
+terms <- c("VIX", "ECB", "US federal","CAC 40", "stock", "EPS", "share price", "stock market",
+    "stock exchange", "NASDAQ","NYSE","S&P","Dow Jones Industrial Average","Nasdaq Composite","FTSE")
+out <- gtrend_scraper("senfinance@gmail.com", "parthasen2012", terms)
+
+out %>%
+    trend2long() %>%
+    plot() 
+
+out %>%
+    trend2long() %>%
+    ggplot(aes(x=start, y=trend, color=term)) +
+        geom_line() +
+        facet_wrap(~term) +
+        guides(color=FALSE)
+
+
+names(out)[1]
+
+
+dat <- out[[1]][["trend"]]
+colnames(dat)[3] <- "trend"
+ 
+dat2 <- dat[dat[["start"]] > as.Date("2004-01-01"), ]
+ 
+rects <- dat2  %>%
+    mutate(year=format(as.Date(start), "%y")) %>%
+    group_by(year) %>%
+    summarize(xstart = as.Date(min(start)), xend = as.Date(max(end)))
+ 
+ggplot() +
+    geom_rect(data = rects, aes(xmin = xstart, xmax = xend, ymin = -Inf, 
+        ymax = Inf, fill = factor(year)), alpha = 0.4) +
+    geom_line(data=dat2, aes(x=start, y=trend), size=.9) + 
+    scale_x_date(labels = date_format("%m/%y"), 
+        breaks = date_breaks("month"),
+        expand = c(0,0), 
+        limits = c(as.Date("2004-01-02"), as.Date("2016-12-31"))) +
+    theme(axis.text.x = element_text(angle = -45, hjust = 0)) 
+
+
+dat3 <- dat[dat[["start"]] > as.Date("2010-12-21") & 
+        dat[["start"]] < as.Date("2012-01-01"), ]
+ 
+ggplot() + geom_line(data=dat3, aes(x=start, y=trend), size=1.2) + 
+    scale_x_date(labels = date_format("%b %y"), 
+        breaks = date_breaks("month"),
+        expand = c(0,0)) +
+    theme(axis.text.x = element_text(angle = -45, hjust = 0)) +
+    theme_bw() + theme(panel.grid.major.y=element_blank(),
+        panel.grid.minor.y=element_blank()) + 
+    ggplot2::annotate("text", x = as.Date("2008-08-15"), y = 50, 
+        label = "Financial Crisis")
+    
+out %>%
+    trend2long() %>%
+    filter(term %in% c("NASDAQ", 
+        "VIX")) %>%
+    as.trend2long() %>%
+    plot() + 
+    guides(color=FALSE) +
+    ggplot2::annotate("text", x = as.Date("2011-08-17"), y = 60, 
+        label = "NASADAQ", color="#F8766D")+
+    ggplot2::annotate("text", x = as.Date("2006-01-17"), y = 38, 
+        label = "VIX", color="#00BFC4") +
+    theme_bw() +
+    stat_smooth()
+
+##error need to revise
+out %>%
+    trend2long() %>%
+    filter(term %in% names(out)[1:15]) %>%
+    as.trend2long() %>%
+    plot() + scale_colour_brewer(palette="Set1") +
+    facet_wrap(~term, ncol=2) + guides(color=FALSE)
+
+****
+terms <- c("VIX", "ECB", "US federal","CAC 40", "stock", "EPS", "share price", "stock market",
+    "stock exchange", "NASDAQ","NYSE","S&P","Dow Jones Industrial Average","Nasdaq Composite","FTSE")
+out <-gtrends(terms, cat=0,ch=gconnect("senfinance@gmail.com","parthasen2012"), res = "day",start_date = as.Date("2007-01-01"), end_date = as.Date(Sys.time()))
+data("out")
+plot(out)
+********
+#https://github.com/parthasen/Sentiment/blob/master/Google%20Trends%20functions
+#Create download paths
+year=c(2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014)
+output=vector()
+downloadDir="/home/octo"
+query="ftse 100"
+setwd(downloadDir)
+for(i in year){
+for(j in 1:12){
+URL=URL_GT(query, year=i, month=j, length=2)
+output=append(output, URL)
+}
+}
+
+#Create table to store output
+URL=output
+gt_results=data.frame(as.Date("10.1.2004", "%d.%m.%Y"), NA, NA, NA, 1)
+colnames(gt_results)=c("Date", "SVI", "Company", "Path", "Percentage")
+
+for(i in 1:length(URL)){
+
+#Download file
+gt_path=downloadGT(URL[i], downloadDir)
+
+#Format csv
+gt_data=readGT(gt_path)
+
+#Increment all by one to make percentage calculation possible
+gt_data[,2]=gt_data[,2]+1
+gt_data[which(is.na(gt_data[,2])),2]=1
+gt_data[5]=NA
+names(gt_data)[5]="Percentage"
+
+#Calculate percentage change
+for(j in 2:nrow(gt_data)){
+gt_data$Percentage[j]=gt_data$SVI[j]/gt_data$SVI[j-1]
+}
+
+#Find first instance of date overlap in the new file
+date_match=which(gt_data$Date==gt_results[nrow(gt_results),1])
+
+#To ensure that we haven't skipped a date (since the data might be on a weekly level in some cases) we do the same check for the results data
+date_match_results=which(gt_results$Date==gt_results[nrow(gt_results),1])
+
+if(length(date_match)>0) {
+gt_data_subset=gt_data[(date_match+1):nrow(gt_data),]
+gt_results=gt_results[1:date_match_results,]
+} else {gt_data_subset=gt_data}
+colnames(gt_data_subset)=c("Date", "SVI", "Company", "Path", "Percentage")
+gt_results=rbind(gt_results, gt_data_subset)
+} 
+*****
+#http://erikjohansson.blogspot.in/2014/12/creating-daily-search-volume-data-from_8.html
+downloadDir="/home"
+
+url=vector()
+filePath=vector()
+adjustedWeekly=data.frame()
+keyword="google trends"
+
+
+#Create URLs to daily data
+for(i in 1:12){
+    url[i]=URL_GT(keyword, year=2013, month=i, length=1)
+}
+
+#Download
+for(i in 1:length(url)){
+    filePath[i]=downloadGT(url[i], downloadDir)
+}
+
+dailyData=readGT(filePath)
+dailyData=dailyData[order(dailyData$Date),]
+
+#Get weekly data
+url=URL_GT(keyword, year=2013, month=1, length=12)
+filePath=downloadGT(url, downloadDir)
+weeklyData=readGT(filePath)
+
+adjustedDaily=dailyData[1:2]
+adjustedDaily=merge(adjustedDaily, weeklyData[1:2], by="Date", all=T)
+adjustedDaily[4:5]=NA
+names(adjustedDaily)=c("Date", "Daily", "Weekly", "Adjustment_factor", "Adjusted_daily")
+
+#Adjust for date missmatch
+for(i in 1:nrow(adjustedDaily)){
+    if(is.na(adjustedDaily$Daily[i])) adjustedDaily$Daily[i]=adjustedDaily$Daily[i-1]
+}
+
+#Create adjustment factor
+adjustedDaily$Adjustment_factor=adjustedDaily$Weekly/adjustedDaily$Daily
+
+#Remove data before first available adjustment factor
+start=which(is.finite(adjustedDaily$Adjustment_factor))[1]
+stop=nrow(adjustedDaily)
+adjustedDaily=adjustedDaily[start:stop,]
+
+#Fill in missing adjustment factors
+for(i in 1:nrow(adjustedDaily)){
+    if(is.na(adjustedDaily$Adjustment_factor[i])) adjustedDaily$Adjustment_factor[i]=adjustedDaily$Adjustment_factor[i-1]
+}
+
+#Calculated adjusted daily values
+adjustedDaily$Adjusted_daily=adjustedDaily$Daily*adjustedDaily$Adjustment_factor
+
+#Plot the results
+library(ggplot2)
+ggplot(adjustedDaily, aes(x=Date, y=Adjusted_daily))+geom_line(col="blue")+ggtitle("SVI for Google Trends")
+******
+https://github.com/okugami79/googletrend
+http://www.r-bloggers.com/gtrendsr-package-to-explore-google-trending-for-field-dependent-terms/
+
+#*****
+# required pakacges
+install.packages("tm")
+download.file("http://cran.cnr.berkeley.edu/src/contrib/Archive/Rstem/Rstem_0.4-1.tar.gz", "Rstem_0.4-1.tar.gz")
+install.packages("~/Rstem_0.4-1.tar.gz", repos = NULL, type = "source")
+download.file("http://cran.r-project.org/src/contrib/Archive/sentiment/sentiment_0.2.tar.gz", "sentiment.tar.gz")
+install.packages("~/Rstem_0.4-1.tar.gz", repos = NULL, type = "source")
+
+library(twitteR)
+library(sentiment)#https://github.com/timjurka/sentiment
+library(plyr)
+library(ggplot2)
+library(wordcloud)
+library(RColorBrewer)
+library("bitops")
+library("RCurl")
+library("rjson")
+library("ROAuth")
+library("twitteR")
+library("wordcloud")
+library("tm")
+library("plyr")
+library("ggplot2")
+library("RColorBrewer")
+library("devtools")
+library("httr")
+
+#download.file(url="http://curl.haxx.se/ca/cacert.pem", destfile="/home/octo/cacert.pem")# FOR UBUNTU not needed
+reqURL <-"https://api.twitter.com/oauth/request_token"
+accessURL <-"https://api.twitter.com/oauth/access_token"
+authURL <-"https://api.twitter.com/oauth/authorize"
+consumerKey <-"NzXtTd9phXedpBOmkr7cGQ"
+consumerSecret <-"rDzUxnriKRu29AYNaZTJy53i9nRthxA6OK133Qk4"
+oauthKey<- "91544161-wr7Wpg55JiJ1YIDdJtFOHwiq5j7fA6ZzmT5ejPCG5"
+oauthSecret <- "9eu94LBl2LYOieeAQoHoNVERHGSB1W6x76Kw4KrT4BY6o"
+twitCred <- OAuthFactory$new(consumerKey=consumerKey, consumerSecret=consumerSecret,requestURL=reqURL,accessURL=accessURL,authURL=authURL)
+#twitCred$handshake(cainfo="cacert.pem")#FOR windows after downloading cacert
+twitCred$handshake()#FOR UBUNTU
+setup_twitter_oauth(consumerKey,consumerSecret,oauthKey,oauthSecret)#Direct authentication
+#* twitter word count
+twit<-searchTwitter("#UP",n=1500)
+#searchTwitter("#UP")# when number of twit less
+#searchTwitter('OIL',since='2011-03-01', until='2011-03-02'))# for any period
+twit_text <- sapply(twit, function(x) x$getText())
+corpus <- Corpus(VectorSource(twit_text))
+corpus<- tm_map(corpus,content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')),mc.cores=1)
+corpus <- tm_map(corpus, content_transformer(tolower),mc.cores=1) 
+corpus <- tm_map(corpus, removePunctuation,mc.cores=1)
+corpus <- tm_map(corpus, function(x)removeWords(x,stopwords()),mc.cores=1)
+corpus <-tm_map(corpus, removeNumbers)
+# specify your stopwords as a character vector
+#corpus <- tm_map(corpus, removeWords, c("blabla1", "blabla2")) 
+corpus <- tm_map(corpus, stripWhitespace)
+tdm <- TermDocumentMatrix(corpus)
+m <- as.matrix(tdm)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+head(d, 10)
+set.seed(1234)
+wordcloud(words = d$word, freq = d$freq, min.freq = 1,max.words=200, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+availableTrendLocations()
+getTrends(1)#woeid 1 for worldwide from previous command
+findFreqTerms(tdm, lowfreq = 4)
+findAssocs(tdm, terms = "uso", corlimit = 0.3)
+barplot(d[1:50,]$freq, las = 2, names.arg = d[1:50,]$word,col ="lightblue", main ="Most frequent words",ylab = "Word frequencies")
+
+df <- do.call("rbind", lapply(twit, as.data.frame)) 
+head(df,3) 
+tail(df,3)
+textdf<-data.frame(df[1],df[5],df[11])
+n <- length(unique(textdf$screenName))
+counts <- table(textdf$screenName)
+
+
+
+http://thinktostart.com/category/datascience/r-tutorials/
+http://www.inside-r.org/howto/mining-twitter-airline-consumer-sentiment
+https://rpubs.com/chengjun/sentiment
+https://sites.google.com/site/miningtwitter/questions/sentiment/sentiment
+http://chengjun.github.io/en/2014/04/sentiment-analysis-with-machine-learning-in-R/
