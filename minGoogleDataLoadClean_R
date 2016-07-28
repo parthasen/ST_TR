@@ -1,0 +1,359 @@
+minutedata<-function(symbol,exchange){
+dirPath = "/home/octo/DATA/min/"  
+fileName = paste(dirPath,symbol,".csv",sep="")  
+
+download.file(paste("http://www.google.com/finance/getprices?q=",symbol,exchange,60,"&p=",15,"d&f=d,o,h,l,c,v,t",sep=""), fileName)  
+}
+***
+symbol<-"SPX"  #change for different stock/index
+exchange<-"&x=INDEXCBOE&i="
+minutedata(symbol,exchange)## call this function
+***
+symbol<-"NDX"  #change for different stock/index
+exchange<-"&x=INDEXNASDAQ&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "OEX"  #change for different stock/index
+exchange="&x=INDEXCBOE&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "UKX"  #change for different stock/index
+exchange="&x=INDEXFTSE&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "HSI"  #change for different stock/index
+exchange="&x=INDEXHANGSENG&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "NI225"  #change for different stock/index
+exchange="&x=INDEXNIKKEI&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "OIL"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "SQQQ"  #change for different stock/index
+exchange="&x=NASDAQ&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "TQQQ"  #change for different stock/index
+exchange="&x=NASDAQ&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLE"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLF"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLP"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLV"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLB"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLY"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLI"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLF"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "XLF"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "TLT"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "SST"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "EEM"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+***
+symbol = "USDCAD"  #change for different stock/index
+exchange="&x=CURRENCY&i="
+minutedata(symbol,exchange)## calling function
+***CLEANING
+**************************************************
+GSPC<-read.csv(file="/home/octo/DATA/min/SPX.csv",header=FALSE,sep=",")
+GSPC<-GSPC[-(1:7),]
+NDX<-read.csv(file="/home/octo/DATA/min/NDX.csv",header=FALSE,sep=",")
+NDX<-NDX[-(1:7),]
+OEX<-read.csv(file="/home/octo/DATA/min/OEX.csv",header=FALSE,sep=",")
+OEX<-OEX[-(1:7),]
+FTSE<-read.csv(file="/home/octo/DATA/min/UKX.csv",header=FALSE,sep=",")
+FTSE<-FTSE[-(1:7),]
+HSI<-read.csv(file="/home/octo/DATA/min/HSI.csv",header=FALSE,sep=",")
+HSI<-HSI[-(1:7),]
+NI225<-read.csv(file="/home/octo/DATA/min/NI225.csv",header=FALSE,sep=",")
+NI225<-NI225[-(1:7),]
+OIL<-read.csv(file="/home/octo/DATA/min/OIL.csv",header=FALSE,sep=",")
+OIL<-OIL[-(1:7),]
+SQQQ<-read.csv(file="/home/octo/DATA/min/SQQQ.csv",header=FALSE,sep=",")
+SQQQ<-SQQQ[-(1:7),]
+TQQQ<-read.csv(file="/home/octo/DATA/min/TQQQ.csv",header=FALSE,sep=",")
+TQQQ<-TQQQ[-(1:7),]
+XLE<-read.csv(file="/home/octo/DATA/min/XLE.csv",header=FALSE,sep=",")
+XLE<-XLE[-(1:7),]
+XLF<-read.csv(file="/home/octo/DATA/min/XLF.csv",header=FALSE,sep=",")
+XLF<-XLF[-(1:7),]
+XLP<-read.csv(file="/home/octo/DATA/min/XLP.csv",header=FALSE,sep=",")
+XLP<-XLP[-(1:7),]
+XLV<-read.csv(file="/home/octo/DATA/min/XLV.csv",header=FALSE,sep=",")
+XLV<-XLV[-(1:7),]
+XLB<-read.csv(file="/home/octo/DATA/min/XLB.csv",header=FALSE,sep=",")
+XLB<-XLB[-(1:7),]
+XLY<-read.csv(file="/home/octo/DATA/min/XLY.csv",header=FALSE,sep=",")
+XLY<-XLY[-(1:7),]
+XLI<-read.csv(file="/home/octo/DATA/min/XLI.csv",header=FALSE,sep=",")
+XLI<-XLI[-(1:7),]
+TLT<-read.csv(file="/home/octo/DATA/min/TLT.csv",header=FALSE,sep=",")
+TLT<-TLT[-(1:7),]
+SST<-read.csv(file="/home/octo/DATA/min/SST.csv",header=FALSE,sep=",")
+SST<-SST[-(1:7),]
+EEM<-read.csv(file="/home/octo/DATA/min/EEM.csv",header=FALSE,sep=",")
+EEM<-EEM[-(1:7),]
+USDCAD<-read.csv(file="/home/octo/DATA/min/USDCAD.csv",header=FALSE,sep=",")
+USDCAD<-USDCAD[-(1:7),]
+
+
+MTD<-data.frame(tail(GSPC[2],2000),tail(NDX[2],2000),tail(OEX[2],2000),tail(FTSE[2],2000),tail(HSI[2],2000),tail(NI225[2],2000),tail(OIL[2],2000),tail(SQQQ[2],2000),tail(TQQQ[2],2000),tail(XLE[2],2000),tail(XLF[2],2000),tail(XLP[2],2000),tail(XLV[2],2000),tail(XLB[2],2000),tail(XLY[2],2000),tail(XLI[2],2000),tail(TLT[2],2000),tail(EEM[2],2000),tail(USDCAD[2],2000))
+
+colnames(MTD)<-c("GSPC","NDX","OEX",'FTSE','HSI','NI225','OIL','SQQQ','TQQQ','XLE','XLF','XLP','XLV','XLB','XLY','XLI','TLT','EEM','USDCAD')
+
+MD<-as.zoo(MTD)
+
+write.zoo(MD, file ="/home/octo/DATA/MD.csv",quote = FALSE,row.names = FALSE)
+
+MD1<-read.csv(file="/home/octo/DATA/MD.csv",header=T,sep=",",stringsAsFactors = T)
+
+***
+colnames(MD)<-c("GSPC","NDX","OEX",'FTSE','HSI','NI225','OIL','SQQQ','TQQQ','XLE','XLF','XLP','XLV','XLB','XLY','XLI','TLT','EEM','USDCAD')
+
+MD<-data.frame(as.numeric(MTD$GSPC),as.numeric(MTD$NDX),as.numeric(MTD$OEX),as.numeric(MTD$FTSE),as.numeric(MTD$HSI),as.numeric(MTD$NI225),as.numeric(MTD$OIL),as.numeric(MTD$SQQQ),as.numeric(MTD$TQQQ),as.numeric(MTD$XLE),as.numeric(MTD$XLF),as.numeric(MTD$XLP),as.numeric(MTD$XLV),as.numeric(MTD$XLB),as.numeric(MTD$XLY),as.numeric(MTD$XLI),as.numeric(MTD$TLT),as.numeric(MTD$EEM),as.numeric(MTD$USDCAD))
+
+MD<-cbind(as.zoo(MTD$GSPC),as.zoo(MTD$NDX),as.zoo(MTD$OEX),as.zoo(MTD$FTSE),as.zoo(MTD$HSI),as.zoo(MTD$NI225),as.zoo(MTD$OIL),as.zoo(MTD$SQQQ),as.zoo(MTD$TQQQ),as.zoo(MTD$XLE),as.zoo(MTD$XLF),as.zoo(MTD$XLP),as.zoo(MTD$XLV),as.zoo(MTD$XLB),as.zoo(MTD$XLY),as.zoo(MTD$XLI),as.zoo(MTD$TLT),as.zoo(MTD$EEM),as.zoo(MTD$USDCAD))
+*************
+
+GSPC<-read.csv(file="/home/octo/DATA/min/SPX.csv",header=FALSE,sep=",")
+NDX<-read.csv(file="/home/octo/DATA/min/NDX.csv",header=FALSE,sep=",")
+OEX<-read.csv(file="/home/octo/DATA/min/OEX.csv",header=FALSE,sep=",")
+FTSE<-read.csv(file="/home/octo/DATA/min/UKX.csv",header=FALSE,sep=",")
+HSI<-read.csv(file="/home/octo/DATA/min/HSI.csv",header=FALSE,sep=",")
+NI225<-read.csv(file="/home/octo/DATA/min/NI225.csv",header=FALSE,sep=",")
+OIL<-read.csv(file="/home/octo/DATA/min/OIL.csv",header=FALSE,sep=",")
+SQQQ<-read.csv(file="/home/octo/DATA/min/SQQQ.csv",header=FALSE,sep=",")
+TQQQ<-read.csv(file="/home/octo/DATA/min/TQQQ.csv",header=FALSE,sep=",")
+XLE<-read.csv(file="/home/octo/DATA/min/XLE.csv",header=FALSE,sep=",")
+XLF<-read.csv(file="/home/octo/DATA/min/XLF.csv",header=FALSE,sep=",")
+XLP<-read.csv(file="/home/octo/DATA/min/XLP.csv",header=FALSE,sep=",")
+XLV<-read.csv(file="/home/octo/DATA/min/XLV.csv",header=FALSE,sep=",")
+XLB<-read.csv(file="/home/octo/DATA/min/XLB.csv",header=FALSE,sep=",")
+XLY<-read.csv(file="/home/octo/DATA/min/XLY.csv",header=FALSE,sep=",")
+XLI<-read.csv(file="/home/octo/DATA/min/XLI.csv",header=FALSE,sep=",")
+TLT<-read.csv(file="/home/octo/DATA/min/TLT.csv",header=FALSE,sep=",")
+EEM<-read.csv(file="/home/octo/DATA/min/EEM.csv",header=FALSE,sep=",")
+USDCAD<-read.csv(file="/home/octo/DATA/min/USDCAD.csv",header=FALSE,sep=",")
+MTD<-data.frame(tail(GSPC$V1,2000),tail(NDX[1],2000),tail(OEX[1],2000),tail(FTSE[1],2000),tail(HSI[1],2000),tail(NI225[1],2000),tail(OIL[1],2000),tail(SQQQ[1],2000),tail(TQQQ[1],2000),tail(XLE[1],2000),tail(XLF[1],2000),tail(XLP[1],2000),tail(XLV[1],2000),tail(XLB[1],2000),tail(XLY[1],2000),tail(XLI[1],2000),tail(TLT[1],2000),tail(EEM[1],2000),tail(USDCAD[1],2000))
+colnames(MTD)<-c("GSPC","NDX","OEX",'FTSE','HSI','NI225','OIL','SQQQ','TQQQ','XLE','XLF','XLP','XLV','XLB','XLY','XLI','TLT','EEM','USDCAD')
+************
+MD<-data.frame(ifelse(ROC(MTD$GSPC)>0,1,0),ifelse(ROC(MTD$NDX)>0,1,0),ifelse(ROC(MTD$OEX)>0,1,0),ifelse(ROC(MTD$FTSE)>0,1,0),ifelse(ROC(MTD$HSI)>0,1,0),ifelse(ROC(MTD$NI225)>0,1,0),ifelse(ROC(MTD$OIL)>0,1,0),ifelse(ROC(MTD$SQQQ)>0,1,0),ifelse(ROC(MTD$TQQQ)>0,1,0),ifelse(ROC(MTD$XLE)>0,1,0),ifelse(ROC(MTD$XLF)>0,1,0),ifelse(ROC(MTD$XLP)>0,1,0),ifelse(ROC(MTD$XLV)>0,1,0),ifelse(ROC(MTD$XLB)>0,1,0),ifelse(ROC(MTD$XLY)>0,1,0),ifelse(ROC(MTD$XLI)>0,1,0),ifelse(ROC(MTD$TLT)>0,1,0),ifelse(ROC(MTD$EEM)>0,1,0),ifelse(ROC(MTD$USDCAD)>0,1,0),ROC(MTD$GSPC),ROC(MTD$NDX),ROC(MTD$OEX),ROC(MTD$FTSE),ROC(MTD$HSI),ROC(MTD$NI225),ROC(MTD$OIL),ROC(MTD$SQQQ),ROC(MTD$TQQQ),ROC(MTD$XLE),ROC(MTD$XLF),ROC(MTD$XLP),ROC(MTD$XLV),ROC(MTD$XLB),ROC(MTD$XLY),ROC(MTD$XLI),ROC(MTD$TLT),ROC(MTD$EEM),ROC(MTD$USDCAD))
+colnames(MD)<-c("GSPC","NDX","OEX",'FTSE','HSI','NI225','OIL','SQQQ','TQQQ','XLE','XLF','XLP','XLV','XLB','XLY','XLI','TLT','EEM','USDCAD',"GSPC_R","NDX_R","OEX_R",'FTSE_R','HSI_R','NI225_R','OIL_R','SQQQ_R','TQQQ_R','XLE_R','XLF_R','XLP_R','XLV_R','XLB_R','XLY_R','XLI_R','TLT_R','EEM_R','USDCAD_R')
+
+*********
+RSI3<-RSI(MTD$NDX, n= 3)# 3 is not effective so taking 14 #RSI14<-RSI(Op(GSPC), n=14)
+#Calculate a 3-period relative strength index (RSI) off the open price strength index (RSI) off the open price
+EMA5<-EMA(MTD$NDX,n=5)
+#Calculate a 5-period exponential moving average (EMA)
+EMAcross<- MTD$NDX-EMA5
+#Let’s explore the difference between the open price and our 5-period EMA
+SMA50<-SMA(MTD$NDX,n=50)
+Trend<-MTD$NDX-SMA50#Our measure of trend: the difference between the open price and the 50-period simple moving average.
+MACD<-MACD(MTD$NDX,fast = 12, slow = 26, signal = 9)
+#Calculate a MACD with standard parameters
+MACDsignal<-MACD[,2]
+#Grab just the signal line to use as our indicator.
+MD$RSI3<-RSI3
+MD$EMAcross<-EMAcross
+MD$Trend<-Trend
+MD$MACDsignal<-MACDsignal
+U<-ifelse(ROC(MTD$NDX)>=0.01,4,ifelse(ROC(MTD$NDX)>=0.0075 & ROC(MTD$NDX)<0.01,3,ifelse(ROC(MTD$NDX)>=0.004 & ROC(MTD$NDX)<0.0075,2,ifelse(ROC(MTD$NDX)>=0.002 & ROC(MTD$NDX)<0.004,1,0))))
+D<-ifelse(ROC(MTD$NDX)<=(-0.01),-4,ifelse(ROC(MTD$NDX)<=(-0.0075) & ROC(MTD$NDX)>(-0.01),-3,ifelse(ROC(MTD$NDX)<=(-0.004) & ROC(MTD$NDX)>(-0.0075),-2,ifelse(ROC(MTD$NDX)<=(-0.002) & ROC(MTD$NDX)>(-0.004),-1,0))))
+UD<-ifelse(ROC(MTD$NDX)>0,U,D)
+MD$UD<-UD
+q1<-NDX
+rolling_quantile<-rollapply(q1,width=50,FUN=function(y) quantile(y,c(0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95)),by.column = FALSE, align = "right")
+#plot(rolling_quantile[,6])#mean price graph
+tail(rolling_quantile)
+MD$L<-tail(ifelse(q1>=rolling_quantile[,1] & q1<rolling_quantile[,2],1,ifelse(q1>=rolling_quantile[,2] & q1<rolling_quantile[,3],2,ifelse(q1>=rolling_quantile[,3] & q1<rolling_quantile[,4],3,ifelse(q1>=rolling_quantile[,4] & q1<rolling_quantile[,5],4,ifelse(q1>=rolling_quantile[,5] & q1<rolling_quantile[,6],5,ifelse(q1>=rolling_quantile[,6] & q1<rolling_quantile[,7],6,ifelse(q1>=rolling_quantile[,7] & q1<rolling_quantile[,8],7,ifelse(q1>=rolling_quantile[,8] & q1<rolling_quantile[,9],8,ifelse(q1>=rolling_quantile[,9] & q1<rolling_quantile[,10],9,ifelse(q1>=rolling_quantile[,10] & q1<rolling_quantile[,11],10,ifelse(q1>=rolling_quantile[,11],11,0))))))))))),2000)
+
+*****
+set.seed(1000)
+split<-sample.split(MD$NDX,SplitRatio = 0.75)
+train<-subset(MD,split=TRUE)
+test<-subset(MD,split=FALSE)
+*****
+lmNDX<-lm(formula = NDX ~XLE+XLP+XLV+XLB+XLY+XLI+TLT+Trend+EMAcross, data = MD)#y3
+NDX_logit<-glm(NDX ~ XLP+XLB+XLV+XLY+XLI+TLT+Trend,data=MD,family=binomial)#y1
+coef(NDX_logit)
+last(MD,2)#dataset
+y1<-exp(coef(NDX_logit))[2]*1+exp(coef(NDX_logit))[3]*1+exp(coef(NDX_logit))[4]*1+exp(coef(NDX_logit))[5]*1+exp(coef(NDX_logit))[6]*1+exp(coef(NDX_logit))[7]*1+exp(coef(NDX_logit))[2]*1)
+first(y1/(1+y1)*100)[1]#probablity of UP/DOWN OF sp500
+*******************
+MDF<-function(){
+symbol<-"SPX"  #change for different stock/index
+exchange<-"&x=INDEXCBOE&i="
+minutedata(symbol,exchange)## call this function
+#***
+symbol<-"NDX"  #change for different stock/index
+exchange<-"&x=INDEXNASDAQ&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "OEX"  #change for different stock/index
+exchange="&x=INDEXCBOE&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "UKX"  #change for different stock/index
+exchange="&x=INDEXFTSE&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "HSI"  #change for different stock/index
+exchange="&x=INDEXHANGSENG&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "NI225"  #change for different stock/index
+exchange="&x=INDEXNIKKEI&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "OIL"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "SQQQ"  #change for different stock/index
+exchange="&x=NASDAQ&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "TQQQ"  #change for different stock/index
+exchange="&x=NASDAQ&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLE"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLF"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLP"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLV"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLB"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLY"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLI"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLF"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "XLF"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "TLT"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "SST"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "EEM"  #change for different stock/index
+exchange="&x=NYSEARCA&i="
+minutedata(symbol,exchange)## calling function
+#***
+symbol = "USDCAD"  #change for different stock/index
+exchange="&x=CURRENCY&i="
+minutedata(symbol,exchange)## calling function
+#***CLEANING
+#**************************************************
+GSPC<-read.csv(file="/home/octo/DATA/min/SPX.csv",header=FALSE,sep=",")
+GSPC<-GSPC[-(1:7),]
+NDX<-read.csv(file="/home/octo/DATA/min/NDX.csv",header=FALSE,sep=",")
+NDX<-NDX[-(1:7),]
+OEX<-read.csv(file="/home/octo/DATA/min/OEX.csv",header=FALSE,sep=",")
+OEX<-OEX[-(1:7),]
+FTSE<-read.csv(file="/home/octo/DATA/min/UKX.csv",header=FALSE,sep=",")
+FTSE<-FTSE[-(1:7),]
+HSI<-read.csv(file="/home/octo/DATA/min/HSI.csv",header=FALSE,sep=",")
+HSI<-HSI[-(1:7),]
+NI225<-read.csv(file="/home/octo/DATA/min/NI225.csv",header=FALSE,sep=",")
+NI225<-NI225[-(1:7),]
+OIL<-read.csv(file="/home/octo/DATA/min/OIL.csv",header=FALSE,sep=",")
+OIL<-OIL[-(1:7),]
+SQQQ<-read.csv(file="/home/octo/DATA/min/SQQQ.csv",header=FALSE,sep=",")
+SQQQ<-SQQQ[-(1:7),]
+TQQQ<-read.csv(file="/home/octo/DATA/min/TQQQ.csv",header=FALSE,sep=",")
+TQQQ<-TQQQ[-(1:7),]
+XLE<-read.csv(file="/home/octo/DATA/min/XLE.csv",header=FALSE,sep=",")
+XLE<-XLE[-(1:7),]
+XLF<-read.csv(file="/home/octo/DATA/min/XLF.csv",header=FALSE,sep=",")
+XLF<-XLF[-(1:7),]
+XLP<-read.csv(file="/home/octo/DATA/min/XLP.csv",header=FALSE,sep=",")
+XLP<-XLP[-(1:7),]
+XLV<-read.csv(file="/home/octo/DATA/min/XLV.csv",header=FALSE,sep=",")
+XLV<-XLV[-(1:7),]
+XLB<-read.csv(file="/home/octo/DATA/min/XLB.csv",header=FALSE,sep=",")
+XLB<-XLB[-(1:7),]
+XLY<-read.csv(file="/home/octo/DATA/min/XLY.csv",header=FALSE,sep=",")
+XLY<-XLY[-(1:7),]
+XLI<-read.csv(file="/home/octo/DATA/min/XLI.csv",header=FALSE,sep=",")
+XLI<-XLI[-(1:7),]
+TLT<-read.csv(file="/home/octo/DATA/min/TLT.csv",header=FALSE,sep=",")
+TLT<-TLT[-(1:7),]
+SST<-read.csv(file="/home/octo/DATA/min/SST.csv",header=FALSE,sep=",")
+SST<-SST[-(1:7),]
+EEM<-read.csv(file="/home/octo/DATA/min/EEM.csv",header=FALSE,sep=",")
+EEM<-EEM[-(1:7),]
+USDCAD<-read.csv(file="/home/octo/DATA/min/USDCAD.csv",header=FALSE,sep=",")
+USDCAD<-USDCAD[-(1:7),]
+
+
+MTD<-data.frame(tail(GSPC[2],2000),tail(NDX[2],2000),tail(OEX[2],2000),tail(FTSE[2],2000),tail(HSI[2],2000),tail(NI225[2],2000),tail(OIL[2],2000),tail(SQQQ[2],2000),tail(TQQQ[2],2000),tail(XLE[2],2000),tail(XLF[2],2000),tail(XLP[2],2000),tail(XLV[2],2000),tail(XLB[2],2000),tail(XLY[2],2000),tail(XLI[2],2000),tail(TLT[2],2000),tail(EEM[2],2000),tail(USDCAD[2],2000))
+
+colnames(MTD)<-c("GSPC","NDX","OEX",'FTSE','HSI','NI225','OIL','SQQQ','TQQQ','XLE','XLF','XLP','XLV','XLB','XLY','XLI','TLT','EEM','USDCAD')
+tail(MTD)
+}
+MDF()#calling function
