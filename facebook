@@ -1,0 +1,60 @@
+#http://thinktostart.com/analyzing-facebook-with-r/
+#https://github.com/parthasen/Rfacebook
+# token generated here: https://developers.facebook.com/tools/explorer 
+
+library(Rfacebook)
+library(devtools)
+install_github("Rfacebook", "pablobarbera", subdir = "Rfacebook")  # from GitHub
+require("Rfacebook")
+***
+token <- "CAACEdEose0cBAJO4mlaMpNW0R9bbbP602oEGjresivoDF5abo6BorZCP1RQ39SqyY9W1Cz3RGDAZBZAoheuEhQs1khLa6f7sxutHS8ybtORlM8l8n7R3jYTuRR6ABw1ulZBS8ugh6qdRVNQYXIqPJoyH8yzA2HO6A6htTvAx6hml07uUcapy5EuyCph4oReUAhWaznxC9AZDZD"
+
+me <- getUsers("me", token, private_info = TRUE)
+me$name
+me$hometown # my hometown
+my_friends <- getFriends(token, simplify = TRUE)
+head(my_friends$id, n = 1) # get lowest user ID
+my_likes <- getLikes(user="me", token=fb_oauth)
+
+table(my_friends_info$gender)  # gender
+table(substr(my_friends_info$locale, 1, 2)) 
+table(substr(my_friends_info$locale, 4, 5))  # country
+table(my_friends_info$relationship_status)["It's complicated"]  # relationship status
+mat <- getNetwork(token, format = "adj.matrix")
+page <- getPage("humansofnewyork", token=fb_oauth, n = 50)
+post_id <- head(page$id, n = 1)  ## ID of most recent post
+post <- getPost(post_id, token, n = 50, likes = TRUE, comments = FALSE)
+users <- getUsers(post$likes$from_id, token)
+table(users$gender)  # gender
+table(substr(users$locale, 4, 5))  # country
+table(substr(users$locale, 1, 2))  # language
+
+****
+install.packages("devtools")
+library(devtools)
+install_github("Rfacebook", "pablobarbera", subdir="Rfacebook")
+require("Rfacebook")
+#https://developers.facebook.com/apps
+fb_oauth <- fbOAuth(app_id="1189489354396840", app_secret="bb453711c79c6a28b7334f65a0cd6dd8",extended_permissions = TRUE)
+save(fb_oauth, file="fb_oauth")
+load("fb_oauth")
+token <-"CAACEdEose0cBACQlkPzkvFuzryvgwdp2PZAOwJhEs0pqZBqlOJJtfnttu5iDMvjQynbpyzbHd3QMrQ7bUFzZCfZCKeZAXODqA6AcFIoFnMxfiWPf7Dhi8blyQFIrtpGQeXFdcEmktZAKBN0UrvhzZArpz52A7v2rbrYRnbBWUZCuCsHB0Hvig8ZC54yPzUk9yySpYGMf1m48OFKwPSydPtDBs"
+library("tm", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+library("tm.plugin.webmining", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+library("XML", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
+tm.plugin.sentiment
+corpus <-WebCorpus(GoogleFinanceSource("AAPL"))
+stock ← “AAPL”
+sentences ← sentDetect(corpus)
+filteredSentences ← sentences[grepl(stock,sentences)]
+sapply(corpus,FUN=function(x){attr(x,"Heading")})
+http://www.rinfinance.com/agenda/2012/talk/Nagar+Hahsler.pdf
+
+
+posts <- searchFacebook( string="facebook", token=fb_oauth, n=100,since = "yesterday 00:00", until = "yesterday 23:59" )
+#https://developers.facebook.com/tools/explorer 
+me <- getUsers("parthasen.net", token, private_info = TRUE)
+my_friends <- getFriends(token, simplify = TRUE)
+me <- getUsers("me", token=fb_oauth)
+pages <- searchPages( string="SPY", token=fb_oauth, n=100 )
+https://cran.r-project.org/web/packages/Rfacebook/Rfacebook.pdf
