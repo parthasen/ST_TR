@@ -1,0 +1,755 @@
+http://www.r-bloggers.com/a-brief-tour-of-the-trees-and-forests/
+http://www.edureka.co/blog/implementing-kmeans-clustering-on-the-crime-dataset/
+http://www.rdatamining.com/examples/decision-tree
+http://www.statmethods.net/advstats/cart.html
+http://www.stat.cmu.edu/~brian/724/
+http://will-stanton.com/machine-learning-with-r-an-irresponsibly-fast-tutorial/
+http://ocw.mit.edu/courses/sloan-school-of-management/15-097-prediction-machine-learning-and-statistics-spring-2012/lecture-notes/MIT15_097S12_lec02.pdf
+http://www.analyticsvidhya.com/blog/2015/08/common-machine-learning-algorithms/
+http://www-bcf.usc.edu/~gareth/ISL/
+https://github.com/asadoughi/stat-learning
+http://statweb.stanford.edu/~tibs/ElemStatLearn/
+http://www.kdnuggets.com/2013/02/online-courses-statistics-machine-learning-analytics.html
+https://lagunita.stanford.edu/courses/HumanitiesandScience/StatLearning/Winter2015/about
+https://class.coursera.org/predmachlearn-034/auth
+http://datasciencespecialization.github.io/
+http://fastml.com/machine-learning-courses-online/
+http://alex.smola.org/teaching/cmu2013-10-701/intro.html
+https://www.udacity.com/course/viewer#!/c-cs271/l-48688925/m-2944938761
+https://campus.datacamp.com/courses/introduction-to-machine-learning-with-r/chapter-1-what-is-machine-learning?ex=1
+https://www.datacamp.com/courses/introduction-to-machine-learning-with-R
+********
+train_url <- "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
+table(train$Survived)
+table(train$Sex, train$Survived)
+train <- read.csv(train_url)
+str(train)
+prop.table(table(train$Survived))
+prop.table(table(train$Survived),1)#row wise
+prop.table(table(train$Survived),2)#column wise
+install.packages("rpart", lib="/home/octo/R/i686-pc-linux-gnu-library/3.2")
+library("rpart", lib.loc="~/R/i686-pc-linux-gnu-library/3.2")
+my_tree <- rpart(Survived ~ Sex + Age, 
+                 data = train, 
+                 method ="class")
+plot(my_tree)
+text(my_tree)
+# Build the decision tree
+my_tree_two<-rpart(Survived~Pclass+Sex+Age+SibSp+Parch+Fare+Embarked,data=train,method="class")
+
+# Visualize the decision tree using plot() and text()
+plot(my_tree_two)
+text(my_tree_two)
+
+install.packages("RGtk2", lib="/home/octo/R/i686-pc-linux-gnu-library/3.2")
+## at ubuntu console:  sudo apt-get install libgtk2.0-dev 
+
+
+install.packages(c("rattle", "rpart.plot", "RColorBrewer"), lib="/home/octo/R/i686-pc-linux-gnu-library/3.2")
+library("rattle", lib.loc="~/R/i686-pc-linux-gnu-library/3.2")
+library("rpart.plot", lib.loc="~/R/i686-pc-linux-gnu-library/3.2")
+library("RColorBrewer", lib.loc="~/R/i686-pc-linux-gnu-library/3.2")
+
+# Time to plot your fancy tree
+fancyRpartPlot(my_tree_two)
+printcp(my_tree_two)
+plotcp(my_tree_two)
+ptree<- prune(my_tree_two,cp= my_tree_two$cptable[which.min(my_tree_two$cptable[,"xerror"]),"CP"])
+fancyRpartPlot(ptree)
+# Your train and test set are still loaded in
+str(train)
+str(test)
+
+# Make your prediction using the test set
+my_prediction <- predict(my_tree_two, test, type = "class")
+
+# Create a data frame with two columns: PassengerId & Survived. Survived contains your predictions
+my_solution <- data.frame(PassengerId = test$PassengerId, Survived = my_prediction)
+
+# Check that your data frame has 418 entries
+nrow(my_solution)
+
+# Write your solution to a csv file with the name my_solution.csv
+write.csv(my_solution, file = "my_solution.csv", row.names = FALSE)
+
+my_tree_three <-rpart(Survived~Pclass+Sex+Age+SibSp+Parch+Fare+Embarked,data=train,method="class",control= rpart.control(minsplit = 50, cp =0.00))
+# Visualize your new decision tree
+fancyRpartPlot(my_tree_three )
+# Create a new decision tree my_tree_three
+my_tree_four <- rpart(Survived~Pclass+Sex+Age+SibSp+Parch+Fare+Embarked+family_size,data=train_two,method="class",control= rpart.control(minsplit = 50, cp =0.00))
+  
+# Visualize your new decision tree
+fancyRpartPlot(my_tree_four)
+
+          RANDOM FOREST
+Data Cleaning
+# All data, both training and test set
+all_data
+
+# Passenger on row 62 and 830 do not have a value for embarkment. 
+# Since many passengers embarked at Southampton, we give them the value S.
+all_data$Embarked[c(62, 830)] <- "S"
+
+# Factorize embarkment codes.
+all_data$Embarked <- factor(all_data$Embarked)
+
+# Passenger on row 1044 has an NA Fare value. Let's replace it with the median fare value.
+all_data$Fare[1044] <- median(all_data$Fare, na.rm = TRUE)
+
+# How to fill in missing Age values?
+# We make a prediction of a passengers Age using the other variables and a decision tree model. 
+# This time you give method = "anova" since you are predicting a continuous variable.
+library(rpart)
+predicted_age <- rpart(Age ~ Pclass + Sex + SibSp + Parch + Fare + Embarked + Title + family_size,
+                       data = all_data[!is.na(all_data$Age),], method = "anova")
+all_data$Age[is.na(all_data$Age)] <- predict(predicted_age, all_data[is.na(all_data$Age),])
+
+# Split the data back into a train set and a test set
+train <- all_data[1:891,]
+test <- all_data[892:1309,]
+
+install.packages("randomForest", lib="/home/octo/R/i686-pc-linux-gnu-library/3.2")
+library("randomForest", lib.loc="~/R/i686-pc-linux-gnu-library/3.2")
+
+# train and test are available in the workspace
+str(train)
+str(test)
+
+# Load in the package
+library(randomForest)
+
+# Train set and test set
+str(train)
+str(test)
+
+# Set seed for reproducibility
+set.seed(111)
+
+# Apply the Random Forest Algorithm
+my_forest <- randomForest(as.factor(Survived) ~ Pclass+Sex+Age+SibSp+Parch+Fare+Embarked+Title,data=train,importance=TRUE,ntree=1000)
+
+# Make your prediction using the test set
+my_prediction <- predict(my_forest,test)
+
+# Create a data frame with two columns: PassengerId & Survived. Survived contains your predictions
+my_solution <- data.frame(PassengerId = test$PassengerId, Survived = my_prediction)
+
+# Write your solution away to a csv file with the name my_solution.csv
+write.csv(my_solution, file = "my_solution.csv", row.names = FALSE)
+varImpPlot(my_forest)
+
+Type it into the console and see what happens.
+
+When running the function, two graphs appear: the accuracy plot shows how much worse the model would perform without the included variables. So a high decrease (= high value x-axis) links to a high predictive variable. The second plot is the Gini coefficient. The higher the variable scores here, the more important it is for the model.
+
+#################STANFORD########
+install.packages("ISLR")
+install.packages("leaps")
+install.packages("glmnet")
+install.packages("boot")
+install.packages("class")
+install.packages("MASS")
+
+### vectors, data, matrices, subsetting
+x=c(2,7,5)
+x
+y=seq(from=4,length=3,by=3)
+?seq
+y
+x+y
+x/y
+x^y
+x[2]
+x[2:3]
+x[-2]
+x[-c(1,2)]
+z=matrix(seq(1,12),4,3)
+z
+z[3:4,2:3]
+z[,2:3]
+z[,1]
+z[,1,drop=FALSE]
+dim(z)
+ls()
+rm(y)
+ls()
+
+### Generating random data, graphics
+x=runif(50)
+y=rnorm(50)
+plot(x,y)
+plot(x,y,xlab="Random Uniform",ylab="Random Normal",pch="*",col="blue")
+par(mfrow=c(2,1))
+plot(x,y)
+hist(y)
+par(mfrow=c(1,1))
+
+### Reading in data
+Auto=read.csv("Auto.csv")
+pwd()
+Auto=read.csv("../Auto.csv")
+names(Auto)
+dim(Auto)
+class(Auto)
+summary(Auto)
+plot(Auto$cylinders,Auto$mpg)
+plot(Auto$cyl,Auto$mpg)
+attach(Auto)
+search()
+plot(cylinders,mpg)
+cylinders=as.factor(cylinders)
+plot(cylinders,mpg,xlab="Cylinders",ylab="Mpg",col="red")
+pdf(file="../mpg.pdf")
+plot(cylinders,mpg,xlab="Cylinders",ylab="Mpg",col="red")
+dev.off()
+pairs(Auto,col="brown")
+pairs(mpg~cylinders+acceleration+weight,Auto)
+q()
+
+
+### Simple linear regression
+names(Boston)
+?Boston
+plot(medv~lstat,Boston)
+fit1=lm(medv~lstat,data=Boston)
+fit1
+summary(fit1)
+abline(fit1,col="red")
+names(fit1)
+confint(fit1)
+predict(fit1,data.frame(lstat=c(5,10,15)),interval="confidence")
+
+### Multiple linear regression
+fit2=lm(medv~lstat+age,data=Boston)
+summary(fit2)
+fit3=lm(medv~.,Boston)
+summary(fit3)
+par(mfrow=c(2,2))
+plot(fit3)
+fit4=update(fit3,~.-age-indus)
+summary(fit4)
+
+### Nonlinear terms and Interactions
+fit5=lm(medv~lstat*age,Boston)
+summary(fit5)
+fit6=lm(medv~lstat +I(lstat^2),Boston); summary(fit6)
+attach(Boston)
+par(mfrow=c(1,1))
+plot(medv~lstat)
+points(lstat,fitted(fit6),col="red",pch=20)
+fit7=lm(medv~poly(lstat,4))
+points(lstat,fitted(fit7),col="blue",pch=20)
+plot(1:20,1:20,pch=1:20,cex=2)
+
+###Qualitative predictors
+fix(Carseats)
+names(Carseats)
+summary(Carseats)
+fit1=lm(Sales~.+Income:Advertising+Age:Price,Carseats)
+summary(fit1)
+contrasts(Carseats$ShelveLoc)
+
+###Writing R functions
+regplot=function(x,y){
+  fit=lm(y~x)
+  plot(x,y)
+  abline(fit,col="red")
+}
+attach(Carseats)
+regplot(Price,Sales)
+regplot=function(x,y,...){
+  fit=lm(y~x)
+  plot(x,y,...)
+  abline(fit,col="red")
+}
+regplot(Price,Sales,xlab="Price",ylab="Sales",col="blue",pch=20)
+
+
+
+require(ISLR)
+names(Smarket)
+summary(Smarket)
+?Smarket
+pairs(Smarket,col=Smarket$Direction)
+
+# Logistic regression
+glm.fit<-glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,data=Smarket,family=binomial)
+summary(glm.fit)
+glm.probs=predict(glm.fit,type="response") 
+glm.probs[1:5]
+glm.pred=ifelse(glm.probs>0.5,"Up","Down")
+attach(Smarket)
+table(glm.pred,Direction)
+mean(glm.pred==Direction)
+
+# Make training and test set
+train = Year<2005
+glm.fit<-glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume,data=Smarket,family=binomial, subset=train)
+glm.probs<-predict(glm.fit,newdata=Smarket[!train,],type="response") 
+glm.pred<-ifelse(glm.probs >0.5,"Up","Down")
+Direction.2005<-Smarket$Direction[!train]
+table(glm.pred,Direction.2005)
+mean(glm.pred==Direction.2005)
+
+#Fit smaller model
+glm.fit<-glm(Direction~Lag1+Lag2,data=Smarket,family=binomial, subset=train)
+glm.probs<-predict(glm.fit,newdata=Smarket[!train,],type="response") 
+glm.pred<-ifelse(glm.probs >0.5,"Up","Down")
+table(glm.pred,Direction.2005)
+mean(glm.pred==Direction.2005)
+106/(76+106)
+
+
+require(MASS)
+
+## Linear Discriminant Analysis
+lda.fit<-lda(Direction~Lag1+Lag2,data=Smarket, subset=Year<2005)
+lda.fit
+plot(lda.fit)
+Smarket.2005<-subset(Smarket,Year==2005)
+lda.pred<-predict(lda.fit,Smarket.2005)
+lda.pred[1:5,]
+class(lda.pred)
+data.frame(lda.pred)[1:5,]
+table(lda.pred$class,Smarket.2005$Direction)
+mean(lda.pred$class==Smarket.2005$Direction)
+
+## K-Nearest Neighbors
+library(class)
+?knn
+attach(Smarket)
+Xlag<-cbind(Lag1,Lag2)
+train<-Year<2005
+knn.pred<-knn(Xlag[train,],Xlag[!train,],Direction[train],k=1)
+table(knn.pred,Direction[!train])
+mean(knn.pred==Direction[!train])
+
+
+ require(ISLR)
+require(boot)
+?cv.glm
+plot(mpg~horsepower,data=Auto)
+
+## LOOCV
+glm.fit<-glm(mpg~horsepower, data=Auto)
+cv.glm(Auto,glm.fit)$delta #pretty slow (doesnt use formula (5.2) on page 180)
+
+##Lets write a simple function to use formula (5.2)
+loocv<-function(fit){
+  h<-lm.influence(fit)$h
+  mean((residuals(fit)/(1-h))^2)
+}
+
+## Now we try it out
+loocv(glm.fit)
+cv.error<-rep(0,5)
+degree<-1:5
+for(d in degree){
+  glm.fit<-glm(mpg~poly(horsepower,d), data=Auto)
+  cv.error[d]=loocv(glm.fit)
+}
+plot(degree,cv.error,type="b")
+
+## 10-fold CV
+
+cv.error10<-rep(0,5)
+for(d in degree){
+  glm.fit<-glm(mpg~poly(horsepower,d), data=Auto)
+  cv.error10[d]=cv.glm(Auto,glm.fit,K=10)$delta[1]
+}
+lines(degree,cv.error10,type="b",col="red")
+
+
+## Bootstrap
+## Minimum risk investment - Section 5.2
+
+alpha<-function(x,y){
+  vx=var(x)
+  vy=var(y)
+  cxy=cov(x,y)
+  (vy-cxy)/(vx+vy-2*cxy)
+}
+alpha(Portfolio$X,Portfolio$Y)
+
+## What is the standard error of alpha?
+
+alpha.fn<-function(data, index){
+  with(data[index,],alpha(X,Y))
+}
+
+alpha.fn(Portfolio,1:100)
+
+set.seed(1)
+alpha.fn (Portfolio,sample(1:100,100,replace=TRUE))
+
+boot.out<-boot(Portfolio,alpha.fn,R=1000)
+boot.out
+plot(boot.out)
+
+
+#Model Selection
+library("ISLR", lib.loc="~/R/win-library/3.2")
+summary(Hitters)
+Hitters<-na.omit(Hitters)
+with(Hitters, sum(is.na(Salary)))// with() and by() function. Here to test the presence of any NA?
+
+##Best Subset regression
+library("leaps", lib.loc="~/R/win-library/3.2")
+regfit.full<-regsubsets(Salary ~ ., data = Hitters)
+summary(regfit.full)
+regfit.full<-regsubsets(Salary ~ ., data = Hitters, nvmax = 19)
+reg.summary <-summary(regfit.full)
+names(reg.summary)
+plot(reg.summary$cp, xlab = "Number of Variables", ylab = "Cp")
+which.min(reg.summary$cp)
+points(10, reg.summary$cp[10], pch = 20, col = "red")
+plot(regfit.full, scale = "Cp")
+coef(regfit.full, 10)
+
+##Forward Stepwise Selection
+regfit.fwd <-regsubsets(Salary ~ ., data = Hitters, nvmax = 19, method = "forward")
+summary(regfit.fwd)
+plot(regfit.fwd, scale = "Cp")
+
+Model Selection Using a Validation Set
+---------------------------------------
+Lets make a training and validation set, so that we can choose a good subset model.
+We will do it using a slightly different approach from what was done in the the book.
+dim(Hitters)
+set.seed(1)
+train <-sample(seq(263), 180, replace = FALSE)
+train
+regfit.fwd <-regsubsets(Salary ~ ., data = Hitters[train, ], nvmax = 19, method = "forward")
+val.errors = rep(NA, 19)
+x.test<-model.matrix(Salary ~ ., data = Hitters[-train, ])  # notice the -index!
+for (i in 1:19) {
+  coefi<-coef(regfit.fwd, id = i)
+  pred<-x.test[, names(coefi)] %*% coefi
+  val.errors[i] = mean((Hitters$Salary[-train] - pred)^2)
+}
+plot(sqrt(val.errors), ylab = "Root MSE", ylim = c(300, 400), pch = 19, type = "b")
+points(sqrt(regfit.fwd$rss[-1]/180), col = "blue", pch = 19, type = "b")
+legend("topright", legend = c("Training", "Validation"), col = c("blue", "black"), pch = 19)
+predict.regsubsets<-function(object, newdata, id, ...) {
+  form<-as.formula(object$call[[2]])
+  mat<-model.matrix(form, newdata)
+  coefi<-coef(object, id = id)
+  mat[, names(coefi)] %*% coefi
+}
+
+
+
+
+##Model Selection by Cross-Validation
+set.seed(11)
+folds<-sample(rep(1:10, length = nrow(Hitters)))
+folds
+table(folds)
+cv.errors<-matrix(NA, 10, 19)
+for (k in 1:10) {
+  best.fit<-regsubsets(Salary ~ ., data = Hitters[folds != k, ], nvmax = 19, 
+                        method = "forward")
+  for (i in 1:19) {
+    pred<-predict(best.fit, Hitters[folds == k, ], id = i)
+    cv.errors[k, i]<-mean((Hitters$Salary[folds == k] - pred)^2)
+  }
+}
+rmse.cv<-sqrt(apply(cv.errors, 2, mean))
+plot(rmse.cv, pch = 19, type = "b")
+
+
+##Ridge Regression and the Lasso
+-------------------------------
+We will use the package `glmnet`, which does not use the model formula language, so we will set up an `x` and `y`.
+```{r}
+
+library(glmnet)
+x<-model.matrix(Salary ~ . - 1, data = Hitters)
+y = Hitters$Salary
+fit.ridge = glmnet(x, y, alpha = 0)
+plot(fit.ridge, xvar = "lambda", label = TRUE)
+cv.ridge = cv.glmnet(x, y, alpha = 0)
+plot(cv.ridge)
+fit.lasso = glmnet(x, y)
+plot(fit.lasso, xvar = "lambda", label = TRUE)
+cv.lasso = cv.glmnet(x, y)
+plot(cv.lasso)
+coef(cv.lasso)
+
+//Suppose we want to use our earlier train/validation division to select the `lambda` for the lasso.
+
+
+lasso.tr = glmnet(x[train, ], y[train])
+lasso.tr
+pred = predict(lasso.tr, x[-train, ])
+dim(pred)
+rmse = sqrt(apply((y[-train] - pred)^2, 2, mean))
+plot(log(lasso.tr$lambda), rmse, type = "b", xlab = "Log(lambda)")
+lam.best = lasso.tr$lambda[order(rmse)[1]]
+lam.best
+coef(lasso.tr, s = lam.best)
+
+
+
+
+##Nonlinear Models
+require(ISLR)
+attach(Wage)
+fit = lm(wage ~ poly(age, 4), data = Wage)
+summary(fit)
+agelims = range(age)
+age.grid = seq(from = agelims[1], to = agelims[2])
+preds = predict(fit, newdata = list(age = age.grid), se = TRUE)
+se.bands = cbind(preds$fit + 2 * preds$se, preds$fit - 2 * preds$se)
+plot(age, wage, col = "darkgrey")
+lines(age.grid, preds$fit, lwd = 2, col = "blue")
+matlines(age.grid, se.bands, col = "blue", lty = 2)
+fita = lm(wage ~ age + I(age^2) + I(age^3) + I(age^4), data = Wage)
+summary(fita)
+#Here I() is a wrapper function; we need it because age^2 means something to the formula language, while I(age^2) is protected. The coefficients are different #to 
+
+those we got before! However, the fits are the same:
+plot(fitted(fit), fitted(fita))
+summary(fit)
+fita = lm(wage ~ education, data = Wage)
+fitb = lm(wage ~ education + age, data = Wage)
+fitc = lm(wage ~ education + poly(age, 2), data = Wage)
+fitd = lm(wage ~ education + poly(age, 3), data = Wage)
+anova(fita, fitb, fitc, fitd)
+
+##Polynomial logistic regression
+fit = glm(I(wage > 250) ~ poly(age, 3), data = Wage, family = binomial)
+summary(fit)
+preds = predict(fit, list(age = age.grid), se = T)
+se.bands = preds$fit + cbind(fit = 0, lower = -2 * preds$se, upper = 2 * preds$se)
+se.bands[1:5, ]
+prob.bands = exp(se.bands)/(1 + exp(se.bands))
+matplot(age.grid, prob.bands, col = "blue", lwd = c(2, 1, 1), lty = c(1, 2, 
+                                                                      2), type = "l", ylim = c(0, 0.1))
+points(jitter(age), I(wage > 250)/10, pch = "|", cex = 0.5)
+
+##Splines
+require(splines)
+fit = lm(wage ~ bs(age, knots = c(25, 40, 60)), data = Wage)
+plot(age, wage, col = "darkgrey")
+lines(age.grid, predict(fit, list(age = age.grid)), col = "darkgreen", lwd = 2)
+abline(v = c(25, 40, 60), lty = 2, col = "darkgreen")
+fit = smooth.spline(age, wage, df = 16)
+lines(fit, col = "red", lwd = 2)
+fit = smooth.spline(age, wage, cv = TRUE)
+lines(fit, col = "purple", lwd = 2)
+fit
+
+##Generalized Additive Models
+require(gam
+        gam1 = gam(wage ~ s(age, df = 4) + s(year, df = 4) + education, data = Wage)
+        par(mfrow = c(1, 3))
+        plot(gam1, se = T)
+        gam2 = gam(I(wage > 250) ~ s(age, df = 4) + s(year, df = 4) + education, data = Wage, 
+                   family = binomial)
+        plot(gam2)
+        gam2a = gam(I(wage > 250) ~ s(age, df = 4) + year + education, data = Wage, 
+                    family = binomial)
+        anova(gam2a, gam2, test = "Chisq")
+        par(mfrow = c(1, 3))
+        lm1 = lm(wage ~ ns(age, df = 4) + ns(year, df = 4) + education, data = Wage)
+        plot.gam(lm1, se = T)
+        
+        
+        
+        ##Decision Trees
+        install.packages("ISLR")
+        install.packages("tree")
+        require(ISLR)
+        require(tree)
+        attach(Carseats)
+        hist(Sales)
+        High = ifelse(Sales <= 8, "No", "Yes")
+        Carseats = data.frame(Carseats, High)
+        tree.carseats = tree(High ~ . - Sales, data = Carseats)
+        summary(tree.carseats)
+        plot(tree.carseats)
+        text(tree.carseats, pretty = 0)
+        tree.carseats
+        set.seed(1011)
+        train = sample(1:nrow(Carseats), 250)
+        tree.carseats = tree(High ~ . - Sales, Carseats, subset = train)
+        plot(tree.carseats)
+        text(tree.carseats, pretty = 0)
+        tree.pred = predict(tree.carseats, Carseats[-train, ], type = "class")
+        with(Carseats[-train, ], table(tree.pred, High))
+        cv.carseats = cv.tree(tree.carseats, FUN = prune.misclass)#CV to prune it.
+        cv.carseats
+        plot(cv.carseats)
+        prune.carseats = prune.misclass(tree.carseats, best = 13)
+        plot(prune.carseats)
+        text(prune.carseats, pretty = 0)
+        tree.pred = predict(prune.carseats, Carseats[-train, ], type = "class")
+        with(Carseats[-train, ], table(tree.pred, High))
+        
+        ###Random Forests and Boosting
+        install.packages("randomForest")
+        require(randomForest)
+        require(MASS)
+        set.seed(101)
+        dim(Boston)
+        train = sample(1:nrow(Boston), 300)
+        rf.boston = randomForest(medv ~ ., data = Boston, subset = train)
+        rf.boston
+        #The MSR and % variance explained are based on OOB or out-of-bag estimates, a very clever device in random forests to get honest error estimates. The #model 
+
+reports that mtry=4, which is the number of variables randomly chosen at each split. Since p=13 here, we could try all 13 possible values of mtry. We $will do so, 
+
+record the results, and make a plot.\
+        oob.err = double(13)
+        test.err = double(13)
+        for (mtry in 1:13) {
+          fit = randomForest(medv ~ ., data = Boston, subset = train, mtry = mtry, 
+                             ntree = 400)
+          oob.err[mtry] = fit$mse[400]
+          pred = predict(fit, Boston[-train, ])
+          test.err[mtry] = with(Boston[-train, ], mean((medv - pred)^2))
+          cat(mtry, " ")
+        }
+        matplot(1:mtry, cbind(test.err, oob.err), pch = 19, col = c("red", "blue"), 
+                type = "b", ylab = "Mean Squared Error")
+        legend("topright", legend = c("OOB", "Test"), pch = 19, col = c("red", "blue"))
+        
+        ###Boosting
+        install.packages("gbm")
+        require(gbm)
+        boost.boston = gbm(medv ~ ., data = Boston[train, ], distribution = "gaussian", 
+                           n.trees = 10000, shrinkage = 0.01, interaction.depth = 4)
+        summary(boost.boston)
+        plot(boost.boston, i = "lstat")
+        plot(boost.boston, i = "rm")
+        
+        #Lets make a prediction on the test set. With boosting, the number of trees is a tuning parameter, and if we have too many we can overfit. So we should use 
+
+#cross-validation to select the number of trees. We will leave this as an exercise. Instead, we will compute the test error as a function of the number of trees, #and 
+
+make a plot.
+        n.trees = seq(from = 100, to = 10000, by = 100)
+        predmat = predict(boost.boston, newdata = Boston[-train, ], n.trees = n.trees)
+        dim(predmat)
+        berr = with(Boston[-train, ], apply((predmat - medv)^2, 2, mean))
+        plot(n.trees, berr, pch = 19, ylab = "Mean Squared Error", xlab = "# Trees", 
+             main = "Boosting Test Error")
+        abline(h = min(test.err), col = "red")
+        
+        
+        
+        
+        ####SVM
+        #Linear SVM classifier
+        ##e1071 which contains the svm function
+        install.packages("e1071")
+        library(e1071)
+        ## Data
+        set.seed(10111)
+        x = matrix(rnorm(40), 20, 2)
+        y = rep(c(-1, 1), c(10, 10))
+        x[y == 1, ] = x[y == 1, ] + 1
+        plot(x, col = y + 3, pch = 19)
+        
+        ## Loading required package: class
+        dat = data.frame(x, y = as.factor(y))
+        svmfit = svm(y ~ ., data = dat, kernel = "linear", cost = 10, scale = FALSE)
+        print(svmfit)
+        
+        make.grid = function(x, n = 75) {
+          grange = apply(x, 2, range)
+          x1 = seq(from = grange[1, 1], to = grange[2, 1], length = n)
+          x2 = seq(from = grange[1, 2], to = grange[2, 2], length = n)
+          expand.grid(X1 = x1, X2 = x2)
+        }
+        xgrid = make.grid(x)
+        ygrid = predict(svmfit, xgrid)
+        plot(xgrid, col = c("red", "blue")[as.numeric(ygrid)], pch = 20, cex = 0.2)
+        points(x, col = y + 3, pch = 19)
+        points(x[svmfit$index, ], pch = 5, cex = 2)
+        #The svm function is not too friendly, in that we have to do some work to get back the linear coefficients, as described in the text. Probably the reason is 
+
+that #this only makes sense for linear kernels, and the function is more general. Here we will use a formula to extract the coefficients; for those interested in where 
+
+#this comes from, have a look in chapter 12 of ESL (“Elements of Statistical Learning”).
+        #We extract the linear coefficients, and then using simple algebra, we include the decision boundary and the two margins.
+        
+        beta = drop(t(svmfit$coefs) %*% x[svmfit$index, ])
+        beta0 = svmfit$rho
+        plot(xgrid, col = c("red", "blue")[as.numeric(ygrid)], pch = 20, cex = 0.2)
+        points(x, col = y + 3, pch = 19)
+        points(x[svmfit$index, ], pch = 5, cex = 2)
+        abline(beta0/beta[2], -beta[1]/beta[2])
+        abline((beta0 - 1)/beta[2], -beta[1]/beta[2], lty = 2)
+        abline((beta0 + 1)/beta[2], -beta[1]/beta[2], lty = 2)
+
+        ####Nonlinear SVM
+        load(url("http://www-stat.stanford.edu/~tibs/ElemStatLearn/datasets/ESL.mixture.rda"))
+        names(ESL.mixture)
+        rm(x, y)
+        attach(ESL.mixture)
+        plot(x, col = y + 1)
+        dat = data.frame(y = factor(y), x)
+        fit = svm(factor(y) ~ ., data = dat, scale = FALSE, kernel = "radial", cost = 5)
+        #Now we are going to create a grid, as before, and make predictions on the grid. These data have the grid points for each variable included on the data frame.
+        xgrid = expand.grid(X1 = px1, X2 = px2)
+        ygrid = predict(fit, xgrid)
+        plot(xgrid, col = as.numeric(ygrid), pch = 20, cex = 0.2)
+        points(x, col = y + 1, pch = 19)
+        
+#We can go further, and have the predict function produce the actual function estimates at each of our grid points. We can include the actual decision #boundary on the 
+
+plot by making use of the contour function. On the dataframe is also prob, which is the true probability of class 1 for these data, at the #gridpoints. If we plot its 
+
+0.5 contour, that will give us the Bayes Decision Boundary, which is the best one could ever do.
+        func = predict(fit, xgrid, decision.values = TRUE)
+        func = attributes(func)$decision
+        xgrid = expand.grid(X1 = px1, X2 = px2)
+        ygrid = predict(fit, xgrid)
+        plot(xgrid, col = as.numeric(ygrid), pch = 20, cex = 0.2)
+        points(x, col = y + 1, pch = 19)
+        contour(px1, px2, matrix(func, 69, 99), level = 0, add = TRUE)
+        contour(px1, px2, matrix(prob, 69, 99), level = 0.5, add = TRUE, col = "blue",  lwd = 2)
+        #We see in this case that the radial kernel has done an excellent job.
+
+        ###Principal Components
+        dimnames(USArrests)
+        apply(USArrests, 2, mean)
+        apply(USArrests, 2, var)#We see that Assault has a much larger variance than the other variables. It would dominate the principal components, so we #choose to 
+
+standardize the variables when we perform PCA
+        pca.out = prcomp(USArrests, scale = TRUE)
+        pca.out
+        names(pca.out)
+        biplot(pca.out, scale = 0)
+
+        ###########K-Means Clustering
+        set.seed(101)
+        x = matrix(rnorm(100 * 2), 100, 2)
+        xmean = matrix(rnorm(8, sd = 4), 4, 2)
+        which = sample(1:4, 100, replace = TRUE)
+        x = x + xmean[which, ]
+        plot(x, col = which, pch = 19)
+        km.out = kmeans(x, 4, nstart = 15)#We know the “true” cluster IDs, but we wont tell that to the kmeans algorithm.
+        km.out
+        plot(x, col = km.out$cluster, cex = 2, pch = 1, lwd = 2)
+        points(x, col = which, pch = 19)
+        points(x, col = c(4, 3, 2, 1)[which], pch = 19)
+
+        ##Hierarchical Clustering
+        hc.complete = hclust(dist(x), method = "complete")
+        plot(hc.complete)
+        hc.single = hclust(dist(x), method = "single")
+        plot(hc.single)
+        hc.average = hclust(dist(x), method = "average")
+        plot(hc.average)
+        #Lets compare this with the actualy clusters in the data. We will use the function cutree to cut the tree at level 4. This will produce a vector of numbers 
+
+from 1 #to 4, saying which branch each observation is on. You will sometimes see pretty plots where the leaves of the dendrogram are colored. I searched a bit on #the 
+
+web for how to do this, and its a little too complicated for this demonstration.
+        hc.cut = cutree(hc.complete, 4)
+        table(hc.cut, which)
+        table(hc.cut, km.out$cluster)
+plot(hc.complete, labels = which)#dendrogram
