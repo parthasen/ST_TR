@@ -1,0 +1,36 @@
+#library("quantmod")
+symbol = "NIFTYBEES"  #change for different stock/index
+noDays = 15  # change the number of days
+interval = 60 #Seconds  
+minutedata(symbol,nodays,interval)## call this function
+##********************** to run the function below till END***********#
+minutedata<-function(symbol,nodays,interval){
+dirPath = "/home/octo/Desktop/QTPY/data/"  
+fileName = paste(dirPath,symbol,".csv",sep="")  
+
+download.file(paste("http://www.google.com/finance/getprices?q=",symbol,"&x=NSE&i=",interval,"&p=",noDays,"d&f=d,o,h,l,c,v,t",sep=""), fileName)  
+
+unix2POSIXct <- function (time)  structure(time, class = c("POSIXt", "POSIXct"))  
+data = read.table(fileName,sep=",",col.names=c("DATE1","CLOSE","HIGH","LOW","OPEN","VOLUME"),fill=TRUE)  
+data$DATE = 0  
+data$TIME = 0  
+
+for (i in 8:nrow(data))  
+{  
+  if(i==8 || substr(as.vector((data$DATE1[i])),1,1) == "a")  
+  {  
+    tempDate = unix2POSIXct(as.numeric(substr(as.vector((data$DATE1[i])),2,nchar(as.vector((data$DATE1[i]))))))    
+    data$DATE[i] = as.numeric(format(tempDate,format="%Y%m%d"))  
+    data$TIME[i] = as.numeric(format(tempDate,format="%H%M"))  
+  } else {  
+    tempDate1 = tempDate + as.numeric(as.vector(data$DATE1[i]))*interval   
+    data$DATE[i] = as.numeric(format(tempDate1,format="%Y%m%d"))  
+    data$TIME[i] = as.numeric(format(tempDate1,format="%H%M"))  
+  }   
+}  
+data1=as.data.frame(data)  
+data1=(data1[data1$TIME>915 & data1$TIME<=1530,])  
+
+finalData = data.frame(DATE=as.vector(data1$DATE),TIME=as.vector(data1$TIME),CLOSE=as.vector(data1$CLOSE),HIGH=as.vector(data1$HIGH),LOW=as.vector(data1$LOW),OPEN=as.vector(data1$OPEN),VOLUME=as.vector(data1$VOLUME))  
+finalData = data.frame(DATE=data1$DATE,TIME=data1$TIME,CLOSE=data1$CLOSE,HIGH=data1$HIGH,LOW=data1$LOW,OPEN=data1$OPEN,VOLUME=data1$VOLUME)  
+write.csv(finalData,file=fileName,row.names=FALSE)} 
