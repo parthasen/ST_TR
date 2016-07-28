@@ -1,0 +1,363 @@
+http://text-processing.com/demo/sentiment/
+https://market.mashape.com/japerk/text-processing/Pricing
+
+https://simplypython.wordpress.com/2014/08/23/extracting-stocks-info-from-yahoo-finance-using-python-updates/
+http://stackoverflow.com/questions/16524249/python-yahoo-stock-exchange-web-scraping
+https://simplypython.wordpress.com/2015/03/09/python-integrated-stock-data-retrieval-and-stock-filter/
+https://simplypython.wordpress.com/2014/10/22/getting-historical-stock-quotes-and-dividend-info-using-python/
+http://francescopochetti.com/scrapying-around-web/
+https://simplypython.wordpress.com/2014/09/16/direct-scraping-stock-data-from-yahoo-finance/
+
+https://simplypython.wordpress.com/2014/09/16/direct-scraping-stock-data-from-yahoo-finance/
+
+https://pypi.python.org/pypi?%3Aaction=search&term=yahoo&submit=search
+http://community.alteryx.com/t5/Engine-Works-Blog/Web-Scraping-with-Alteryx-Part-1/ba-p/2327
+http://codereview.stackexchange.com/questions/106457/a-web-crawler-for-scraping-images-from-stock-photo-websites
+
+http://www.amazon.in/Web-Scraping-Python-Collecting-Modern-ebook/dp/B00ZJNH0G0?tag=googinhydr18418-21
+http://www.amazon.in/Machine-Learning-Python-Techniques-Predictive-ebook/dp/B00VOY1I98/ref=pd_sim_351_5?ie=UTF8&dpID=41MH80MijnL&dpSrc=sims&preST=_AC_UL160_SR128%2C160_&refRID=0469SRAJ5NJ9HHRFX5R7
+http://www.amazon.in/Web-Scraping-Python-Ryan-Mitchell/dp/1491910291
+https://www.packtpub.com/books/content/web-scraping-python
+https://github.com/REMitchell/python-scraping
+http://codecondo.com/web-scraping-python/
+http://jakeaustwick.me/python-web-scraping-resource/
+https://webscraping.com/blog/How-to-teach-yourself-web-scraping/
+https://www.airpair.com/python/python-code-mentoring-web-scraping
+https://www.quantconnect.com/
+
+https://docs.python.org/3.0/library/urllib.parse.html
+https://docs.python.org/2/howto/urllib2.html
+https://pymotw.com/2/urllib2/
+https://github.com/scrapy/scrapyd
+http://scrapyd.readthedocs.org/en/latest/overview.html#how-scrapyd-works
+http://blog.siliconstraits.vn/building-web-crawler-scrapy/
+http://www.jmbarnes.com/2015/03/30/learning-to-crawl.html
+https://opensourcehacker.com/2011/03/08/installing-and-using-scrapy-web-crawler-to-search-text-on-multiple-sites/
+http://www.treselle.com/blog/web-crawler-python-with-scrapy/
+http://www.devx.com/webdev/build-a-python-web-crawler-with-scrapy.html
+http://amaral-lab.org/blog/quick-introduction-web-crawling-using-scrapy-part-
+
+sudo pip install BeautifulSoup
+sudo pip install BeautifulSoup4
+sudo pip install Requests
+sudo pip install lxml
+pip install Scrapy
+#conda install -c scrapinghub scrapy
+
+1.You should check a site's terms and conditions before you scrape them. It's their data and they likely have some rules to govern it.
+2.Be nice - A computer will send web requests much quicker than a user can. Make sure you space out your requests a bit so that you don't hammer the site's server.
+3.Scrapers break - Sites change their layout all the time. If that happens, be prepared to rewrite your code.
+4.Web pages are inconsistent - There's sometimes some manual clean up that has to happen even after you've gotten your data.
+
+pip install selenium
+**http://selenium-python.readthedocs.org/en/latest/locating-elements.html
+
+sudo apt-get install python-pip python-dev
+sudo pip install --upgrade pip
+sudo pip install --upgrade virtualenv
+
+virtualenv --distribute venv
+source venv/bin/activate
+
+wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-x86_64.tar.bz2
+tar -xjvf phantomjs-1.9.2-linux-x86_64.tar.bz2
+sudo cp phantomjs-1.9.2-linux-x86_64/bin/phantomjs /usr/bin/
+
+*****scrap.py
+import requests
+import lxml.html as lh
+from bs4 import BeautifulSoup
+from urllib2 import urlopen
+from time import sleep # be nice
+from selenium import webdriver
+
+***firefox webdriver 
+browser = webdriver.Firefox()
+browser.get('http://commons.wikimedia.org/wiki/File%3aBrad_Pitt_Cannes_2011.jpg')
+content = browser.page_source
+browser.quit()
+ 
+doc = lh.fromstring(content)
+for elt in doc.xpath('//span[a[contains(@title,"Use this file")]]/text()'):
+    print elt
+
+***PhatomJS webdriver
+ 
+browser = webdriver.PhantomJS()
+browser.set_window_size(1024, 768)
+browser.get('http://commons.wikimedia.org/wiki/File%3aBrad_Pitt_Cannes_2011.jpg')
+content = browser.page_source
+browser.quit()
+ 
+doc = lh.fromstring(content)
+for elt in doc.xpath('//span[a[contains(@title,"Use this file")]]/text()'):
+    print elt
+****
+BASE_URL = "http://www.chicagoreader.com"
+
+def make_soup(url):
+    html = urlopen(url).read()
+    return BeautifulSoup(html, "lxml")
+
+def get_category_links(section_url):
+    soup = make_soup(section_url)
+    boccat = soup.find("dl", "boccat")
+    category_links = [BASE_URL + dd.a["href"] for dd in boccat.findAll("dd")]
+    return category_links
+
+def get_category_winner(category_url):
+    soup = make_soup(category_url)
+    category = soup.find("h1", "headline").string
+    winner = [h2.string for h2 in soup.findAll("h2", "boc1")]
+    runners_up = [h2.string for h2 in soup.findAll("h2", "boc2")]
+    return {"category": category,
+            "category_url": category_url,
+            "winner": winner,
+            "runners_up": runners_up}
+
+if __name__ == '__main__':
+    food_n_drink = ("http://www.chicagoreader.com/chicago/"
+                    "best-of-chicago-2011-food-drink/BestOf?oid=4106228")
+
+    categories = get_category_links(food_n_drink)
+
+    data = [] # a list to store our dictionaries
+    for category in categories:
+        winner = get_category_winner(category)
+        data.append(winner)
+        sleep(1) # be nice
+
+    print data
+****GOGGLE 
+def init_driver():
+    driver = webdriver.Firefox()
+    driver.wait = WebDriverWait(driver, 5)
+    return driver
+ 
+ 
+ 
+def lookup(driver, query):
+    driver.get("http://www.google.com")
+    try:
+        box = driver.wait.until(EC.presence_of_element_located(
+            (By.NAME, "q")))
+        button = driver.wait.until(EC.element_to_be_clickable(
+            (By.NAME, "btnK")))
+        box.send_keys(query)
+        try:
+            button.click()
+        except ElementNotVisibleException:
+            button = driver.wait.until(EC.visibility_of_element_located(
+                (By.NAME, "btnG")))
+            button.click()
+    except TimeoutException:
+        print("Box or Button not found in google.com") 
+ 
+if __name__ == "__main__":
+    driver = init_driver()
+    lookup(driver, "NASDAQ")
+    time.sleep(5)
+    driver.quit()
+*****
+import csv
+import requests
+from BeautifulSoup import BeautifulSoup
+
+url = 'http://www.showmeboone.com/sheriff/JailResidents/JailResidents.asp'
+response = requests.get(url)
+html = response.content
+
+soup = BeautifulSoup(html)
+table = soup.find('table', attrs={'class': 'resultsTable'})
+
+list_of_rows = []
+for row in table.findAll('tr')[1:]:
+    list_of_cells = []
+    for cell in row.findAll('td'):
+        text = cell.text.replace('&nbsp;', '')
+        list_of_cells.append(text)
+    list_of_rows.append(list_of_cells)
+
+outfile = open("./inmates.csv", "wb")
+writer = csv.writer(outfile)
+writer.writerow(["Last", "First", "Middle", "Gender", "Race", "Age", "City", "State"])
+writer.writerows(list_of_rows)
+***FORM based entry
+import urllib.parse
+import urllib.request
+
+#Form URL: http://www.tizag.com/phpT/examples/formexample.php
+
+
+
+#URL of CGI script it calls:
+url = "http://www.tizag.com/phpT/examples/formexample.php"
+
+values = { 'Fname' : "Jay",
+           'Lname' : "Summet",
+            'food[]': "Steak",
+            "TofD": "Day",
+            "submit": "submit"  #This PHP example checks for this entry!
+           }
+
+data = urllib.parse.urlencode(values)
+data = data.encode('ascii')   #Needed for Python 3.2 and above!
+req = urllib.request.Request(url,data)
+
+response = urllib.request.urlopen(req)
+the_page = response.read()  #As bytes!
+#print(the_page)
+pageStr = the_page.decode()         #As a string!
+
+#Find the printed data...
+helloAt = pageStr.find("Hello")
+print("Hello at:", helloAt )
+print(pageStr[helloAt:helloAt+300] )
+***HTML formatting
+import urllib.request
+
+def parseTable(html):
+    #Each "row" of the HTML table will be a list, and the items
+    #in that list will be the TD data items.
+    ourTable = []
+
+    #We keep these set to NONE when not actively building a
+    #row of data or a data item.
+    ourTD = None    #Stores one table data item
+    ourTR = None    #List to store each of the TD items in.
+
+
+    #State we keep track of
+    inTable = False
+    inTR = False
+    inTD = False
+
+    #Start looking for a start tag at the beginning!
+    tagStart = html.find("<", 0)
+
+    while( tagStart != -1):
+        tagEnd = html.find(">", tagStart)
+
+        if tagEnd == -1:    #We are done, return the data!
+            return ourTable
+
+        tagText = html[tagStart+1:tagEnd]
+
+        #only look at the text immediately following the <
+        tagList = tagText.split()
+        tag = tagList[0]
+        tag = tag.lower()
+
+        #Watch out for TABLE (start/stop) tags!
+        if tag == "table":      #We entered the table!
+            inTable = True
+        if tag == "/table":     #We exited a table.
+            inTable = False
+
+        #Detect/Handle Table Rows (TR's)
+        if tag == "tr":
+            inTR = True
+            ourTR = []      #Started a new Table Row!
+
+        #If we are at the end of a row, add the data we collected
+        #so far to the main list of table data.
+        if tag == "/tr":
+            inTR = False
+            ourTable.append(ourTR)
+            ourTR = None
+
+        #We are starting a Data item!
+        if tag== "td":
+            inTD = True
+            ourTD = ""      #Start with an empty item!
+
+        #We are ending a data item!
+        if tag == "/td":
+            inTD = False
+            if ourTD != None and ourTR != None:
+                cleanedTD = ourTD.strip()   #Remove extra spaces
+                ourTR.append( ourTD.strip() )
+            ourTD = None
+
+
+        #Look for the NEXT start tag. Anything between the current
+        #end tag and the next Start Tag is potential data!
+        tagStart = html.find("<", tagEnd+1)
+
+        #If we are in a Table, and in a Row and also in a TD,
+        # Save anything that's not a tag! (between tags)
+        #
+        #Note that this may happen multiple times if the table
+        #data has tags inside of it!
+        #e.g. <td>some <b>bold</b> text</td>
+        #
+        #Because of this, we need to be sure to put a space between each
+        #item that may have tags separating them. We remove any extra
+        #spaces (above) before we append the ourTD data to the ourTR list.
+        if inTable and inTR and inTD:
+            ourTD = ourTD + html[tagEnd+1:tagStart] + " "
+            #print("td:", ourTD)   #for debugging
+
+
+    #If we end the while loop looking for the next start tag, we
+    #are done, return ourTable of data.
+    return(ourTable)
+
+
+response = urllib.request.urlopen("http://www.summet.com/dmsi/html/codesamples/simpleTable.html")
+html_bytes = response.read()
+html = html_bytes.decode()
+print(html)
+
+dataTable = parseTable(html)
+print(dataTable)
+***SCRAPY
+#use ENV
+http://lucidworks.com/blog/2013/06/13/indexing-web-sites-in-solr-with-python/
+pip install scrapy# already installed version 0.24.4
+cat > twpy.py <<EOF
+import scrapy
+
+class BlogSpider(scrapy.Spider):
+    name = 'blogspider'
+    start_urls = ['https://blog.scrapinghub.com']
+
+    def parse(self, response):
+        for url in response.css('ul li a::attr("href")').re('.*/category/.*'):
+            yield scrapy.Request(response.urljoin(url), self.parse_titles)
+
+    def parse_titles(self, response):
+        for post_title in response.css('div.entries > ul > li a::text').extract():
+            yield {'title': post_title}
+
+EOF
+scrapy runspider twpy.py
+##SCRAPY and MONGO ##https://realpython.com/blog/python/web-scraping-with-scrapy-and-mongodb/
+http://mherman.org/blog/2012/11/05/scraping-web-pages-with-scrapy/#.Vr3MskJ9ygp
+http://scraping.pro/web-scraping-python-scrapy-blog-series/
+
+pip install Scrapy==1.0.3
+pip freeze > requirements.txt
+	#Once Scrapy is setup, verify your installation by running this command in the Python shell:
+>>> import scrapy
+>>>
+pip install pymongo# install PyMongo
+pip freeze > requirements.txt
+
+scrapy startproject stack#new Scrapy project named stack
+
+##Specify Data: The items.py file is used to define storage “containers” for the data that we plan to scrape.
+## add items at  items.py
+# stack_spider.py in the “spiders” directory
+#XPath Selectors
+scrapy crawl stack
+scrapy crawl stack -o items.json -t json
+#Store the Data in MongoDB
+#Pipeline Management
+$ mongo
+> use stackoverflow
+> db.questions.count()
+
+Create the Boilerplate:Within the “stack” directory, start by generating the spider boilerplate from the crawl template:
+scrapy genspider stack_crawler stackoverflow.com -t crawl
+****
