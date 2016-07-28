@@ -1,0 +1,214 @@
+source_gist("https://gist.github.com/parthasen/b1e40b0d65cf6621814ee19c27633818")
+sessionInfo()
+********
+#function to actually scrape Twitter
+filterStream( file.name="tweets_test.json",track="NASDAQ", tweets=1000, oauth=credential, timeout=120, lang='en' )
+#Parses the tweets
+tweet_df <- parseTweets(tweets='tweets_test.json')
+#using the Twitter dataframe
+tweet_df$created_at
+tweet_df$text
+plot(tweet_df$friends_count, tweet_df$followers_count) #plots scatterplot
+cor(tweet_df$friends_count, tweet_df$followers_count) #returns the correlation coefficient
+RJtwit <- stream_in(file('/home/octo/tweets_test.json'))# json input to R
+RJtwit[4]# only text 
+**************
+#the cainfo parameter is necessary only on Windows
+r_stats <- searchTwitter("OIL", n=1500)
+#r_stats<- searchTwitter("#nasdaq", n=1500)
+#should get 1500
+length(r_stats)
+#[1] 1500
+ 
+#save text
+r_stats_text <- sapply(r_stats, function(x) x$getText())
+ 
+#create corpus
+r_stats_text_corpus <- Corpus(VectorSource(r_stats_text))
+ 
+#clean up
+r_stats_text_corpus <- tm_map(r_stats_text_corpus, content_transformer(tolower)) 
+r_stats_text_corpus <- tm_map(r_stats_text_corpus, removePunctuation)
+r_stats_text_corpus <- tm_map(r_stats_text_corpus, function(x) removeWords(x,stopwords()))
+wordcloud(r_stats_text_corpus)
+ 
+#alternative steps if you're running into problems 
+
+#run this step if you get the error:
+#(please break it!)' in 'utf8towcs'
+r_stats_text_corpus <- tm_map(r_stats_text_corpus,
+                              content_transformer(function(x) iconv(x, to='UTF-8', sub='byte')),
+                              mc.cores=1
+                              )
+r_stats_text_corpus <- tm_map(r_stats_text_corpus, content_transformer(tolower), mc.cores=1)
+r_stats_text_corpus <- tm_map(r_stats_text_corpus, removePunctuation, mc.cores=1)
+r_stats_text_corpus <- tm_map(r_stats_text_corpus, function(x)removeWords(x,stopwords()), mc.cores=1)
+wordcloud(r_stats_text_corpus)
+#wordcloud(terms_text_corpus, scale=c(2,0.2))
+library(RColorBrewer)
+pal2 <- brewer.pal(8,"Dark2")
+wordcloud(r_stats_text_corpus,min.freq=2,max.words=100, random.order=T, colors=pal2)
+*****
+library(RColorBrewer)
+pal2 <- brewer.pal(8,"Dark2")
+wordcloud(r_stats_text_corpus,min.freq=2,max.words=100, random.order=T, colors=pal2)
+******
+require(tm) 
+require(rJava)
+install.packages("SnowballC", repos="http://R-Forge.R-project.org")
+require(SnowballC)
+
+a <- Corpus(VectorSource(tweet_df$text))
+a <- tm_map(a, tolower)
+a <- tm_map(a, removePunctuation)
+a <- tm_map(a, removeNumbers)
+a <- tm_map(a, removeWords, stopwords("english")) 
+a <- tm_map(a, stemDocument, language = "english")
+a <- tm_map(a, stripWhitespace)
+a <- tm_map(a, stemDocument)
+toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
+a <- tm_map(a, toSpace, "/")
+a <- tm_map(a, toSpace, "@")
+a <- tm_map(a, toSpace, "\\|")
+
+
+a.tdm <- TermDocumentMatrix(a, control = list(minWordLength = 3))
+inspect(a)
+
+
+text<-readLines("/home/octo/twitter_data.txt")
+a <- Corpus(VectorSource(text))
+
+
+*******
+require(devtools)
+install_github('rCharts','ramnathv')
+require(rCharts) 
+user <- getUser("estimize") #Set the username
+userFriends <- user$getFriends()
+userFollowers <- user$getFollowers()
+userNeighbors <- union(userFollowers, userFriends) #merge followers and friends
+userNeighbors.df = twListToDF(userNeighbors) #create the dataframe
+userNeighbors.df[userNeighbors.df=="0"]<-1 
+userNeighbors.df[userNeighbors.df==0]<-1 
+userNeighbors.df$logFollowersCount <-log(userNeighbors.df$followersCount)
+userNeighbors.df$logFriendsCount <-log(userNeighbors.df$friendsCount)
+
+kObject.log <- data.frame(userNeighbors.df$logFriendsCount,userNeighbors.df$logFollowersCount) 
+mydata <- kObject.log
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+for (i in 2:15) wss[i] <- sum(kmeans(mydata,centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+ylab="Within groups sum of squares")
+
+#Run the K Means algorithm, specifying 4 centers
+user2Means.log <- kmeans(kObject.log, centers=4, iter.max=10, nstart=100)
+#Add the vector of specified clusters back to the original vector as a factor
+userNeighbors.df$cluster <- factor(user2Means.log$cluster)
+
+p2 <- nPlot(logFollowersCount ~ logFriendsCount, group = 'cluster', data = userNeighbors.df, type = 'scatterChart')
+ 
+p2$xAxis(axisLabel = 'Followers Count')
+ 
+p2$yAxis(axisLabel = 'Friends Count')
+ 
+p2$chart(tooltipContent = "#! function(key, x, y, e){
+return e.point.screenName + ' Followers: ' + e.point.followersCount +' Friends: ' + e.point.friendsCount
+} !#")
+p2
+************
+library(RCurl);
+library(RJSONIO);
+#https://code.google.com/apis/console/
+api_key<-"AIzaSyB3NBOUtyzmhNJ6VzULInJF3PuUpauYC4E"
+user_id <- "53193909035"
+data <- getURL(paste("https://www.googleapis.com/plus/v1/people/",user_id,"/activities/public?maxResults=100&key=", api_key, sep=""),ssl.verifypeer = FALSE)
+ 
+js <- fromJSON(data, asText=TRUE);
+
+df = data.frame(no = 1:length(js$items))
+ 
+for (i in 1:nrow(df)){
+ 
+df$kind[i] = js$items[[i]]$verb
+ 
+df$title[i] = js$items[[i]]$title
+ 
+df$replies[i] = js$items[[i]]$object$replies$totalItems
+ 
+df$plusones[i] = js$items[[i]]$object$plusoners$totalItems
+ 
+df$reshares[i] = js$items[[i]]$object$resharers$totalItems
+ 
+df$url[i] = js$items[[i]]$object$url
+ 
+}
+
+filename <- paste("gplus_data_", user_id, sep="") # in case we have more user_ids
+write.table(df, file = paste0(filename,".csv"), sep = ",", col.names = NA,
+qmethod = "double")
+
+df_graph = df[,c(1,4,5,6)]
+require(ggplot2)
+
+require(reshape2)
+ 
+melted=melt(df_graph,id.vars='no')
+ 
+ggplot(melted,aes(x=factor(no),y=value,color=factor(variable),group=factor(variable)))+
+geom_line()+xlab('no')+guides(color=guide_legend("metrics"))+
+labs(title="Google+")
+install_github('zatonovo/odessa')
+install.packages(c('devtools','httr','forecast','lubridate'))
+library(RCurl)
+library(rjson)
+library(odessa)
+
+database = "tweetDB"
+collection = "Apple"
+limit = "100"
+db <- paste("http://localhost:28017/",database,"/",collection,"/?limit=",limit,sep = "")
+tweets <- fromJSON(getURL(db))
+
+
+tweet_df = data.frame(text=1:limit)
+for (i in 1:limit){
+tweet_df$text[i] = tweets$rows[[i]]$tweet_text}
+tweet_df
+
+
+# install package to connect through monodb
+install.packages(“rmongodb”)
+library(rmongodb)
+# connect to MongoDB
+mongo = mongo.create(host = “localhost”)
+mongo.is.connected(mongo)
+ 
+mongo.get.databases(mongo)
+ 
+mongo.get.database.collections(mongo, db = “tweetDB2″) #”tweetDB” is where twitter data is stored
+ 
+library(plyr)
+## create the empty data frame
+df1 = data.frame(stringsAsFactors = FALSE)
+ 
+## create the namespace
+DBNS = “tweetDB2.#analytic”
+ 
+## create the cursor we will iterate over, basically a select * in SQL
+cursor = mongo.find(mongo, DBNS)
+ 
+## create the counter
+i = 1
+ 
+## iterate over the cursor
+while (mongo.cursor.next(cursor)) {
+# iterate and grab the next record
+tmp = mongo.bson.to.list(mongo.cursor.value(cursor))
+# make it a dataframe
+tmp.df = as.data.frame(t(unlist(tmp)), stringsAsFactors = F)
+# bind to the master dataframe
+df1 = rbind.fill(df1, tmp.df)
+}
+ 
+dim(df1)
