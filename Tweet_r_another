@@ -1,0 +1,89 @@
+#####
+#https://sites.google.com/site/miningtwitter/basics/getting-data
+#http://sivaanalytics.wordpress.com/2013/10/07/getting-started-with-twitter-package/
+public_tweets = publicTimeline()
+today_trends = getTrends(period = "weekly")
+dmhash_tweets = searchTwitter("#datamining")
+wea_tweets = userTimeline("weather")
+#####
+##https://sites.google.com/site/miningtwitter/questions/sentiment/sentiment
+#the necessary packages
+#Let's collect some tweets containing the term "nifty" 
+# harvest some tweets
+user <- getUser("WarrenBuffett")
+userTimeline(user, n=20, maxID=NULL, sinceID=NULL, includeRts=FALSE)
+some_tweets = searchTwitter("nifty", n=1500, lang="en")
+some_tweets<-searchTwitter("nifty", n=1500, lang="en")
+some_txt<-sapply(some_tweets, function(x) x$getText())
+#some_txt<-sapply(some_tweets, function(x) x$getText())
+some_txt<-gsub("(RT|via)((?:\\b\\W*@\\w+)+)", "", some_txt)
+some_txt<-gsub("(RT|via)((?:\\b\\W*@\\w+)+)", "", some_txt)
+some_txt<-gsub("@\\w+", "", some_txt)
+some_txt<-gsub("[[:punct:]]", "", some_txt)
+some_txt<-gsub("[[:digit:]]", "", some_txt)
+some_txt<-gsub("http\\w+", "", some_txt)
+some_txt<-gsub("[ \t]{2,}", "", some_txt)
+some_txt<-gsub("^\\s+|\\s+$", "", some_txt)
+try.error<-function(x)
+{
+  # create missing value
+  y = NA
+  # tryCatch error
+  try_error = tryCatch(tolower(x), error=function(e) e)
+  # if not an error
+  if (!inherits(try_error, "error"))
+    y = tolower(x)
+  # result
+  return(y)
+}
+some_txt<-sapply(some_txt, try.error)
+some_txt<-some_txt[!is.na(some_txt)]
+names(some_txt)<-NULL
+class_emo<-classify_emotion(some_txt, algorithm="bayes", prior=1.0)
+
+emotion = class_emo[,7]
+
+
+class_pol = classify_polarity(some_txt, algorithm="bayes")
+
+polarity = class_pol[,4]
+
+sent_df = data.frame(text=some_txt, emotion=emotion,polarity=polarity, stringsAsFactors=FALSE)
+sent_df = within(sent_df,emotion <- factor(emotion, levels=names(sort(table(emotion), decreasing=TRUE))))
+
+# get the text
+##########
+#http://blog.ouseful.info/2012/02/17/visualising-twitter-user-timeline-activity-in-r/
+require(twitteR)
+username='parthasen'
+#the most tweets we can bring back from a user timeline is the most recent 3600...
+mht=userTimeline(username,n=3200)
+tw.df=twListToDF(mht)
+
+require(ggplot2) 
+ggplot(tw.df)+geom_point(aes(x=created,y=screenName))
+tw.dfs=subset(tw.df,subset=((Sys.time()-created)<8000))
+ggplot(tw.dfs)+geom_point(aes(x=created,y=screenName))
+
+require(plyr)
+#Order the replyToSN factor levels in the order in which they were first created
+tw.dfx=ddply(tw.dfs, .var = "replyToSN", .fun = function(x) {return(subset(x, created %in% min(created),select=c(replyToSN,created)))})
+tw.dfxa=arrange(tw.dfx,-desc(created))
+tw.dfs$replyToSN=factor(tw.dfs$replyToSN, levels = tw.dfxa$replyToSN)
+#and plot the result
+ggplot(tw.dfs)+geom_point(aes(x=created,y=replyToSN))
+ggplot()+geom_point(data=subset(tw.dfs,subset=(!is.na(replyToSN))),aes(x=created,y=replyToSN),col='red') + geom_point(data=subset(tw.dfs,subset=(!is.na(rt))),aes(x=created,y=rt),col='blue') + geom_point(data=subset(tw.dfs,subset=(is.na(replyToSN) & is.na(rt))),aes(x=created,y=screenName),col='green')
+
+#First we need to count how many replies a user gets...
+#http://stackoverflow.com/a/3255448/454773
+r_table <- table(tw.dfs$replyToSN)
+#..rank them...
+r_levels <- names(r_table)[order(-r_table)]
+#..and use this ordering to order the factor levels...
+tw.dfs$replyToSN <- factor(tw.dfs$replyToSN, levels = r_levels) 
+ 
+#Then we can plot the chart...
+ggplot(subset(tw.dfs,subset=(!is.na(replyToSN))),aes(x=replyToSN)) + geom_bar(aes(y = (..count..)))+opts(axis.text.x=theme_text(angle=-90,size=6))
+
+//http://www.foundations-edge.com/blog/oauth_in_R.html
+//http://thinktostart.com/twitter-authentification-with-r/
