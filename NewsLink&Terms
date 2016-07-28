@@ -1,0 +1,253 @@
+#getNews() function at gist to get news at R system
+source_gist("https://gist.github.com/parthasen/bd05de0cf836f507c38dfdb1b91780ca")#googleNEWS.R function loading
+getNews(“AAPL”,5)
+MARKET NEWS
+**********
+http://www.wsj.com/news/markets
+http://seekingalpha.com/market-news
+http://www.streetinsider.com/
+https://www.tipranks.com/
+http://www.morningstar.com/markets.html
+http://finance.yahoo.com/
+http://www.barrons.com/
+https://www.google.com/finance/market_news
+http://money.cnn.com/
+http://money.cnn.com/data/fear-and-greed/?iid=EL
+http://www.marketwatch.com/markets
+http://www.msn.com/en-us/money
+https://www.equities.com/markets
+http://markets.on.nytimes.com/research/markets/overview/overview.asp?src=busfn
+https://www.briefing.com/
+#https://www.briefing.com/investor/markets/stock-market-update/
+http://www.usatoday.com/money/markets/
+http://247wallst.com/
+http://www.cnbc.com
+http://www.wsj.com/news/types/today-s-markets
+http://www.morningstar.com/markets.html
+http://finance.yahoo.com/investing-news/
+http://www.google.com/finance/market_news
+http://www.marketwatch.com/markets
+http://www.bloomberg.com/markets
+ZACKS
+http://www.dailyfinance.com/category/market-news/
+http://www.msn.com/en-us/money/markets
+http://www.reuters.com/finance/markets
+ESTIMIZE
+https://www.equities.com/markets
+http://markets.on.nytimes.com/research/markets/overview/overview.asp
+benzinga
+OPTIONS
+******
+http://www.optionmonster.com/news/bearish.php
+http://finance.yahoo.com/options/
+http://www.theoptionsinsider.com/
+http://www.barrons.com/public/page/options.html
+http://www.thestreet.com/thestreet-picks/stock-options/
+http://research.investors.com/options-center/reports/expiration-dates
+http://www.fow.com/Analysis/TradingAndContracts
+http://www.cboe.com/micro/spx/introduction.aspx
+https://www.nyse.com/quote/XNYS:A/options-arca
+
+PUT/CALL
+******
+http://www.cboe.com/data/putcallratio.aspx
+http://www.cboe.com/data/mktstat.aspx
+http://www.cboe.com/data/intradayvol.aspx
+https://ycharts.com/indicators/cboe_equity_put_call_ratio
+
+ECONOMICS CALENDER
+http://www.tradingeconomics.com/calendar
+http://www.fxstreet.com/economic-calendar/
+http://mam.econoday.com/byweek.asp?cust=mam&lid=0
+http://www.marketwatch.com/Economy-Politics/Calendars/Economic
+https://www.estimize.com/calendar
+https://ycharts.com/indicators
+http://www.cmegroup.com/trading/interest-rates/countdown-to-fomc.html
+http://money.cnn.com/data/fear-and-greed/
+http://www.nasdaq.com/earnings/earnings-calendar.aspx 
+
+LEAD 
+http://www.zacks.com/stocks/buy-list/ 
+http://www.reuters.com/finance/markets/upgrades 
+http://www.briefing.com/ 
+http://www.briefing.com/investor/markets/after-hours-report/ 
+http://www.nasdaq.com/earnings/daily-analyst-recommendations.aspx 
+http://www.nasdaq.com/extended-trading/premarket-mostactive.aspx 
+http://www.nasdaq.com/extended-trading/afterhours-mostactive.aspx 
+http://www.nasdaq.com/earnings/analyst-forecast-change.aspx 
+http://www.nasdaq.com/markets/most-active.aspx 
+http://community.nasdaq.com/most-rated-stocks.aspx 
+http://www.thestreet.com/topic/47941/beyond-wall-street.html 
+http://www.stockpickr.com/?_ga=1.233772182.941627207.1415386034 
+https://www.vetr.com/home/dashboard 
+http://stockscreener.us.reuters.com/Stock/US/Index?quickscreen=gaarp 
+http://www.zacks.com/screening/ 
+TECHNICAL AND SENTIMENT 
+http://stocktwits.com/signals/heatmap 
+http://www.barchart.com/stocks/signals/top100?mode=D&view=technical 
+http://www.barchart.com/my/screener/stock.php 
+http://www.earningswhispers.com/stocks.asp?symbol=### 
+INDUSTRY 
+https://in.finance.yahoo.com/q/co?s=### 
+https://in.finance.yahoo.com/q/in?s=### 
+http://news.morningstar.com/stockReturns/CapWtdIndustryReturns.html 
+http://www.zacks.com/stocks/industry-rank 
+　 
+TO KNOW RATINGS ( We will consider 2 or above) 
+http://quotes.wsj.com/###/research-ratings 
+http://quotes.barrons.com/###/research-ratings 
+http://www.thestreet.com/quote/###.html?omorig=header 
+http://www.streetinsider.com/rating_history.php?q=### 
+https://www.tipranks.com/stocks/### 
+http://quotes.morningstar.com/stock/esl/s?t=### 
+http://www.reuters.com/finance/stocks/overview?symbol=### 
+http://www.reuters.com/finance/stocks/analyst?symbol=### 
+http://www.marketwatch.com/investing/stock/### 
+http://www.msn.com/en-us/money/stockdetails?symbol=### 
+https://www.google.com/finance?q=NASDAQ%3A###&ei=nzmAVPGtKs7bkgXZ4ICgAg 
+https://in.finance.yahoo.com/q?s=### 
+http://marketrealist.com/quote-page/###/news/ 
+http://money.cnn.com/quote/quote.html?symb=### 
+http://www.dailyfinance.com/quote/nasdaq/avago-technologies/### 
+http://investing.businessweek.com/research/stocks/snapshot/snapshot.asp?ticker=### 
+http://www.barchart.com/quotes/stocks/### 
+http://www.nasdaq.com/symbol/###/premarket 
+http://www.nasdaq.com/symbol/###/guru-analysis 
+http://www.nasdaq.com/symbol/###/analyst-research 
+http://community.nasdaq.com/community-ratings.aspx?stockticker=### 
+https://in.finance.yahoo.com/q?s=### 
+https://www.tipranks.com
+http://www.streetinsider.com/
+
+http://www.earningswhispers.com/stocks.asp?symbol=ORCL 
+http://www.marketwatch.com/investing/stock/orcl/analystestimates 
+http://www.zacks.com/commentary/34812/bear-of-the-day-oracle-orcl 
+http://www.msn.com/en-us/money/stockdetails/fi-126.1.ORCL.NYS?ocid=INSFIST10 
+
+http://www.bls.gov/cpi/home.htm
+http://www.usinflationcalculator.com/inflation/historical-inflation-rates/
+http://www.usinflationcalculator.com/
+http://inflationdata.com/inflation/inflation_rate/currentinflation.asp
+http://inflation.us/
+http://www.tradingeconomics.com/united-states/inflation-cpi
+****
+#TERMS
+***
+NEGATIVE
+weak
+fear
+slowdown
+low
+worse
+fell
+Index future slips
+termination
+
+slip
+dip
+loss
+falling commodities prices
+stock-trading volumes low
+
+NEUTRAL
+marginal
+
+POSITIVE
+climb
+
+TERMS
+stock  
+EPS
+share price
+stock market
+stock exchange  
+NASDAQ
+NYSE
+S&P
+Dow Jones Industrial Average
+Nasdaq Composite
+FTSE
+NIKKEI
+Hang Seng Index
+NSE
+BSE
+future contract
+dividend
+investment
+European Central Bank 
+economic data 
+crude
+oil
+gold
+recession
+financial ratio
+treasury
+leverage
+hedge
+debt
+equity
+expected value
+expected return
+inventory
+real estate
+inflation
+housing
+unemployment
+book value
+capex
+net profit
+cash flow
+financial stress
+financial crisis
+unemployment insurance
+OIL future
+consumer sector
+energy sector
+financial sector
+Information technology sector
+Health Care Sector
+US CONSUMER PRICE INDEX
+USD
+ECB
+VIX
+NDX
+QQQ
+CBOE
+technical analysis
+US federal
+CAC 40
+IPO
+Bank of Japan
+merger
+earning announcement
+indices
+european market
+asian market
+gap stocks
+momentum stocks
+premarket
+after hours trading
+nasdaq after hours
+comodity
+OPEC
+oil inventory
+
+ECONOMIC TERMS
+Rig Count
+EIA 
+Natural Gas
+Mortgage
+Federal budget
+Bureau of Labor Statistics
+manufacturing index
+production price index
+retail sales
+
+Name and Day
+********
+Baker-Hughes Rig Count	Friday
+EIA Natural Gas Report	Thursday
+MBA Mortgage Applications	
+Federal budget or Treasury Budget	Friday
+Import price index	Friday
+Export price index Friday
