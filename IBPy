@@ -9,103 +9,8 @@ python setup.py install
 #Another pack https://github.com/Komnomnomnom/swigibpy
 
 python '/home/octo/Desktop/QTPY/qt.py'
+
 # Automatic ordering code
-from time import sleep
-from ib.opt import Connection, message
-from ib.ext.Contract import Contract
-from ib.ext.Order import Order
-
-def error_handler(msg):
-    """Handles the capturing of error messages"""
-    print "Server Error: %s" % msg
-
-def reply_handler(msg):
-    """Handles of server replies"""
-    print "Server Response: %s, %s" % (msg.typeName, msg)
-
-def print_portfolio_position(msg):
-    print "Position:", msg.contract.m_symbol, msg.position, msg.marketPrice, msg.contract.m_currency, msg.contract.m_secType
-
-def make_contract(symbol, sec_type, exch, prim_exch, curr):
-    """
-    symbol - The ticker symbol for the contract
-    sec_type - The security type for the contract ('STK' is 'stock')
-    exch - The exchange to carry out the contract on
-    prim_exch - The primary exchange to carry out the contract on
-    curr - The currency in which to purchase the contract"""
-
-    Contract.m_symbol = symbol
-    Contract.m_secType = sec_type
-    Contract.m_exchange = exch
-    Contract.m_primaryExch = prim_exch
-    Contract.m_currency = curr
-    return Contract
-
-
-
-def make_order(action,quantity, price = None):
-    """Create an Order object (Market/Limit) to go long/short.
-
-    order_type - 'MKT', 'LMT' for Market or Limit orders
-    quantity - Integral number of assets to order
-    action - 'BUY' or 'SELL'"""
-
-    if price is not None:
-        order = Order()
-        order.m_orderType = 'LMT'
-        order.m_totalQuantity = quantity
-        order.m_action = action
-        order.m_lmtPrice = price
-
-    else:
-        order = Order()
-        order.m_orderType = 'MKT'
-        order.m_totalQuantity = quantity
-        order.m_action = action
-
-
-    return order
-
-
-cid = 303
-
-while __name__ == "__main__":
-
-    conn = Connection.create(port=7496, clientId=123)
-    #conn = Connection(port=7496,clientId=1234)
-    conn.connect()
-    # Assign the error handling function defined above
-    # to the TWS connection
-    conn.register(error_handler, 'Error')
-    # Assign all of the server reply messages to the
-    # reply_handler function defined above
-    conn.registerAll(reply_handler)
-    # Map server replies to "print_portfolio_position" function for "UpdatePortfolio" client requests
-    conn.register(print_portfolio_position, 'UpdatePortfolio')
-    conn.register(replies_handler, 'UpdateAccountValue')
-    # Make client request for AccountUpdates (includes request for Portfolio positions)
-    conn.reqAccountUpdates(1, '')
-    # Stop client request for AccountUpdates
-    conn.reqAccountUpdates(0, '')
-    sleep(5)
-    oid = cid
-    cont = make_contract('SQQQ', 'STK', 'SMART', 'SMART', 'USD')
-    #offer = make_order('BUY', 1, 200)
-    offer = make_order('BUY', 1,'MKT')
-    conn.placeOrder(oid, cont, offer)
-    conn.disconnect()
-    x = raw_input('enter to resend')
-    cid += 1
-******
-
-# LOAD the ib.ext and ib.opt Libraries
-from ib.ext.Contract import Contract
-from ib.ext.Order import Order
-from ib.opt import Connection, message
-
-# DEFINE a basic function to capture error messages
-def error_handler(msg):
-    print "IB: Server Error = ", msg
 
 # DEFINE a basic function to capture all server replies
 def all_replies_handler(msg):
@@ -163,18 +68,6 @@ print 'disconnected', ibgw_conTradeChannel.disconnect()
 #https://code.google.com/archive/p/ibpy/wikis/GettingStarted.wiki
 #https://pypi.python.org/pypi/ib/0.8.0
 
-from ib.opt import Connection, message
-from ib.ext.Contract import Contract
-from ib.ext.Order import Order
-
-from random import randint
-import time
-
-def error_handler(msg):
-    print ("Server Error: %s" % msg)
-
-def reply_handler(msg):
-    print ("Server Response: %s, %s" % (msg.typeName, msg))
 
 # Globals suck; you should replace with a custom class in your production code.
 time_received_next_valid_order_id = None # will be set as soon as we connect
