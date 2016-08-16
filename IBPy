@@ -7,18 +7,8 @@ cd IbPy#(PyAlgo)octo@ALPHA:~/IBAPI_py/IbPy$
 python setup.py install
 
 #Another pack https://github.com/Komnomnomnom/swigibpy
-
-python '/home/octo/Desktop/QTPY/qt.py'
-
-# Create an order object
-# Update the parameters to be sent to the Market Order request
-order_desc = Order()
-order_desc.m_minQty = 100
-order_desc.m_lmtPrice = 11.00
-order_desc.m_orderType = 'LMT'
-order_desc.m_totalQuantity = 100
-order_desc.m_action = 'SELL'
-
+#swigibpy is working and ipynb notebook at desktop/project folder
+REF: 
 #https://www.quantstart.com/articles/Using-Python-IBPy-and-the-Interactive-Brokers-API-to-Automate-Trades
 #http://www.elitetrader.com/et/index.php?threads/ib-api-howtos-and-guidelines-for-beginners.279658/page-5
 #http://stackoverflow.com/questions/25299539/getting-parameters-of-listed-options-futures-in-interactive-brokers-api/34754857#34754857
@@ -26,7 +16,8 @@ order_desc.m_action = 'SELL'
 #https://www.quantopian.com/posts/ibpython3
 #https://code.google.com/archive/p/ibpy/wikis/GettingStarted.wiki
 #https://pypi.python.org/pypi/ib/0.8.0
-
+####
+IbPy code #triggering is not okay
 #####
 # LOAD the ib.ext and ib.opt Libraries
 from time import sleep
@@ -111,3 +102,7 @@ while __name__ == "__main__":
     conn.disconnect()
     x = raw_input('enter to resend')
     cid += 1
+####
+####
+swigibpy CODE
+###
