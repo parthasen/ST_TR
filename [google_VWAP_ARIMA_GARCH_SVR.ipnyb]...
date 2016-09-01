@@ -23,33 +23,28 @@ spReturns<-na.omit(spReturns)
 head(drawdownsStats(as.timeSeries(spReturns)),10)
 
 #ARMA model
-spyArma = armaFit( formula=~arma(5,5), data=spReturns )
+# Fit the model
+spyArma = armaFit( formula=~arma(6,11), data=spReturns )
+#spyArma@fit$aic##testing the lowest AIC
 as.numeric( predict( spyArma, n.ahead=5, doplot=F )$pred )
 
 #ARIMA model
 spyArima<-arima(spReturns, order=c(5,1,5))
 acf(spyArima$residuals)
-
+fore <- predict(spyArima, n.ahead=24)
 ressq<-(spyArima$residuals)^2
 Box.test(ressq, lag = 8, type = "Ljung-Box")
-
 pacf(ressq, main="PACF of Squared Residuals", lag = 30)
-
-
-fit <- arima(spReturns, order=c(5,1,5))
-fore <- predict(fit, n.ahead=24)
 # error bounds at 95% confidence level
 U <- fore$pred + 2*fore$se
 L <- fore$pred - 2*fore$se
 ts.plot(as.ts(spReturns), fore$pred, U, L, col=c(1,2,4,4), lty = c(1,1,2,2))
 legend("topleft", c("Actual", "Forecast", "Error Bounds (95% Confidence)"),col=c(1,2,4), lty=c(1,1,2))
 
-
 #GARCH MODEL
 spyGarch = garchFit(~arma(5,5) + garch(3,3), data=spReturns)
 predict(spyGarch, n.ahead=1, doplot=F)
 
-# Note that the GARCH order is revered from what I have discussed above
 spyGarch <- ugarchspec(variance.model=list(model="eGARCH", garchOrder=c(3,3), submodel = NULL),
         mean.model=list(armaOrder=c(5,5), include.mean=TRUE, garchInMean = TRUE))
 fit <- ugarchfit(data = spReturns, spec =spyGarch)
@@ -59,7 +54,6 @@ sigma<-fittedmodel$sigma
 fitm <- ugarchfit(data = spReturns,out.sample = 10, spec =spyGarch)
 pred <- ugarchforecast(fitm, n.ahead = 10,n.roll = 1)
 pred.fpm <- fpm(pred)
-
 
 windowLength = 100
 foreLength = length(spReturns) - windowLength
