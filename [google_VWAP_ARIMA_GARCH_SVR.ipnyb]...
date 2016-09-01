@@ -2,9 +2,10 @@ library(quantmod)
 library(lattice)
 library(timeSeries)
 library(rugarch)
+library( fArma )
 #csv file generated from [google_VWAP_ARIMA_GARCH_SVR.ipnyb] python code at Project
 #loading data at R
-data<-read.table('/home/octo/Desktop/PROJECT/DATA/RPy/spy.csv',sep=",",col.names=c("TIME","CLOSE","HIGH","LOW","OPEN","VOLUME","vwap","vwap15","vwap30","ARIMA","stdev","GARCH"),fill=TRUE)
+data<-read.table('/home/octo/Desktop/PROJECT/DATA/RPy/data.csv',sep=",",col.names=c("TIME","CLOSE","HIGH","LOW","OPEN","VOLUME"),fill=TRUE)
 #deleting first row of dataframe needed for this
 data<-data[-1,]
 # as.numeric needed to make the columns numeric from pattern
@@ -12,6 +13,17 @@ spReturns<-diff(log(as.numeric(data$CLOSE)))
 spReturns[as.character(head(index(data$CLOSE)),1)] = 0
 # delete the NA from the vector
 spReturns<-na.omit(spReturns)
+
+# The maximum draw down
+head(drawdownsStats(as.timeSeries(spReturns)),10)
+
+#ARMA model
+spyArma = armaFit( formula=~arma(5,5), data=spReturns )
+as.numeric( predict( spyArma, n.ahead=5, doplot=F )$pred )
+
+#GARCH MODEL
+spyGarch = garchFit(~arma(5,5) + garch(3,3), data=spReturns)
+predict(spyGarch, n.ahead=1, doplot=F)
 
 windowLength = 100
 foreLength = length(spReturns) - windowLength
