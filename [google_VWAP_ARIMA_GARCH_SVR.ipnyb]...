@@ -123,7 +123,8 @@ garch11Fit = function(x)
 
 ## garch algo: rolling mean price*mean garch value is predicted value, U=predicted value +2*stdev, L=predicted value -2*stdev
 ##http://www-stat.wharton.upenn.edu/~steele/Courses/956/RResources/GarchAndR/WurtzEtAlGarch.pdf
-
+##https://theaverageinvestor.wordpress.com/tag/arima/
+##http://www.r-bloggers.com/arma-models-for-trading/
 
 
 
