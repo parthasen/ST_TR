@@ -42,8 +42,20 @@ ts.plot(as.ts(spReturns), fore$pred, U, L, col=c(1,2,4,4), lty = c(1,1,2,2))
 legend("topleft", c("Actual", "Forecast", "Error Bounds (95% Confidence)"),col=c(1,2,4), lty=c(1,1,2))
 
 #GARCH MODEL
-spyGarch = garchFit(~arma(5,5) + garch(3,3), data=spReturns)
-predict(spyGarch, n.ahead=1, doplot=F)
+spyGarch = garchFit(~arma(11,11)+garch(1,1),x = spReturns, cond.dist = "std")
+predict(spyGarch, n.ahead=5, doplot=F)
+
+##garchFit(cond.dist = c("dnorm", "dsnorm", "dstd", "dsstd", "dged", "dsged"),skew = 0.9, shape = 4, include.skew = NULL, include.shape = NULL, ...)
+##garchFit(formula.mean = ~arma(0,0), formula.var = ~garch(1,1),init.rec = c("mci", "uev"), algorithms = c("sqp", "nlminb", "bfgs"))
+
+#Fitting Bollerslev’s t-GARCH(1,1) Model
+garchFit(x =spReturns, cond.dist = "std")
+
+#Fitting Laplace-GARCH(1,1) Model With Different Solvers
+garchFit(x = spReturns, cond.dist = "dged", shape = 1, include.shape = FALSE,algorithm = "nlminb+nm")
+garchFit(x = spReturns, cond.dist = "dged", shape = 1, include.shape = FALSE,algorithm = "lbfgsb+nm")
+
+garchFit(~arma(5,5), ~garch(3,3), cond.dist = "dstd",x = spReturns)
 
 spyGarch <- ugarchspec(variance.model=list(model="eGARCH", garchOrder=c(3,3), submodel = NULL),
         mean.model=list(armaOrder=c(5,5), include.mean=TRUE, garchInMean = TRUE))
@@ -54,6 +66,66 @@ sigma<-fittedmodel$sigma
 fitm <- ugarchfit(data = spReturns,out.sample = 10, spec =spyGarch)
 pred <- ugarchforecast(fitm, n.ahead = 10,n.roll = 1)
 pred.fpm <- fpm(pred)
+
+## ARCH(1,1) model we initialize α= 0.1 and β= 0.8 by typical values of financial time series, and ω by the variance of the series adjusted by the persistence ω= Var(x)∗(1−α−β).
+
+parameter estimation : garch11Fit(x = spReturns)
+
+
+garch11Fit = function(x)
+{
+    # Step 1: Initialize Time Series Globally:
+    x <<- x
+    # Step 2: Initialize Model Parameters and Bounds:
+    Mean = mean(x); Var = var(x); S = 1e-6
+    params = c(mu = Mean, omega = 0.1*Var, alpha = 0.1, beta = 0.8)
+    lowerBounds = c(mu = -10*abs(Mean), omega = S^2, alpha = S, beta = S)
+    upperBounds = c(mu = 10*abs(Mean), omega = 100*Var, alpha = 1-S, beta = 1-S)
+    # Step 3: Set Conditional Distribution Function:
+    garchDist = function(z, hh) { dnorm(x = z/hh)/hh }
+    # Step 4: Compose log-Likelihood Function:
+    garchLLH = function(parm) {
+        mu = parm[1]; omega = parm[2]; alpha = parm[3]; beta = parm[4]
+        z = (x-mu); Mean = mean(z^2)
+        # Use Filter Representation:
+        e = omega + alpha * c(Mean, z[-length(x)]^2)
+        h = filter(e, beta, "r", init = Mean)
+        hh = sqrt(abs(h))
+        llh = -sum(log(garchDist(z, hh)))
+        llh }
+    print(garchLLH(params))
+    # Step 5: Estimate Parameters and Compute Numerically Hessian:
+    fit = nlminb(start = params, objective = garchLLH,
+                 lower = lowerBounds, upper = upperBounds, control = list(trace=3))
+    epsilon = 0.0001 * fit$par
+    Hessian = matrix(0, ncol = 4, nrow = 4)
+    for (i in 1:4) {
+        for (j in 1:4) {
+            x1 = x2 = x3 = x4 = fit$par
+            x1[i] = x1[i] + epsilon[i]; x1[j] = x1[j] + epsilon[j]
+            x2[i] = x2[i] + epsilon[i]; x2[j] = x2[j] - epsilon[j]
+            x3[i] = x3[i] - epsilon[i]; x3[j] = x3[j] + epsilon[j]
+            x4[i] = x4[i] - epsilon[i]; x4[j] = x4[j] - epsilon[j]
+            Hessian[i, j] = (garchLLH(x1)-garchLLH(x2)-garchLLH(x3)+garchLLH(x4))/
+                (4*epsilon[i]*epsilon[j])
+        }
+    }
+    # Step 6: Create and Print Summary Report:
+    se.coef = sqrt(diag(solve(Hessian)))
+    tval = fit$par/se.coef
+    matcoef = cbind(fit$par, se.coef, tval, 2*(1-pnorm(abs(tval))))
+    dimnames(matcoef) = list(names(tval), c(" Estimate",
+                                            " Std. Error", " t value", "Pr(>|t|)"))
+    cat("\nCoefficient(s):\n")
+    printCoefmat(matcoef, digits = 6, signif.stars = TRUE)
+}
+
+
+## garch algo: rolling mean price*mean garch value is predicted value, U=predicted value +2*stdev, L=predicted value -2*stdev
+##http://www-stat.wharton.upenn.edu/~steele/Courses/956/RResources/GarchAndR/WurtzEtAlGarch.pdf
+
+
+
 
 windowLength = 100
 foreLength = length(spReturns) - windowLength
