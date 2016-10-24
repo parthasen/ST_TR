@@ -939,100 +939,8 @@ https://www.econ.berkeley.edu/sites/default/files/Selene%20Yue%20Xu.pdf
 
 HMM
 ***
-HMMs can be used in two ways for regime detection, the first is to use a single HMM where each state in the HMM is considered a “regime”. The second method is to have multiple HMMs each designed to model an individual regime, the task is then to chose between models by looking at which is the most likely to have generated the data. I will explore both methods.
-
-Method1
-
-library('RHmm') #Load HMM package
 #Code based upon http://systematicinvestor.wordpress.com/2012/11/01/regime-detection/
-bullMarketOne = rnorm( 100, 0.1/365, 0.05/sqrt(365) )
-bearMarket  = rnorm( 100, -0.2/365, 0.15/sqrt(365))
-bullMarketTwo = rnorm( 100, 0.15/365, 0.07/sqrt(365) )
-true.states = c(rep(1,100),rep(2,100),rep(1,100))
-returns = c( bullMarketOne, bearMarket, bullMarketTwo )
- 
-y=returns
-ResFit = HMMFit(y, nStates=2) #Fit a HMM with 2 states to the data
-VitPath = viterbi(ResFit, y) #Use the viterbi algorithm to find the most likely state path (of the training data)
-fb = forwardBackward(ResFit, y) #Forward-backward procedure, compute probabilities
- 
- 
-# Plot probabilities and implied states
-layout(1:3)
-plot(cumsum(returns),ylab="Cumulative Market Return",type="l", main="Fake Market Data")
-plot(VitPath$states, type='s', main='Implied States', xlab='', ylab='State')
-matplot(fb$Gamma, type='l', main='Smoothed Probabilities', ylab='Probability')
-legend(x='topright', c('Bear Market - State 2','Bull Market - State 1'),  fill=1:2, bty='n')
-
-Method 2
-
-library('RHmm') #Load HMM package
-library('zoo')
- 
-#HMM model 1 (high vol and low vol upwards trend)
-model1ReturnsFunc <- function(isHighVol){
-  return(rnorm( 100, 0.1,if(isHighVol){0.15}else{0.02}))
-}
-bullLowVol = model1ReturnsFunc(F)
-bullHighVol  = model1ReturnsFunc(T)
-model1TrainingReturns = c(bullLowVol, bullHighVol)
-Model1Fit = HMMFit(model1TrainingReturns, nStates=2) #Fit a HMM with 2 states to the data
- 
-#HMM model 2 (high vol and low vol downwards trend)
-model2ReturnsFunc <- function(isHighVol){
-  return(rnorm( 100, -0.1,if(isHighVol){0.15}else{0.02}))
-}
-bearLowVol = model2ReturnsFunc(F)
-bearHighVol  = model2ReturnsFunc(T)
-model2TrainingReturns = c(bearLowVol, bearHighVol)
-Model2Fit = HMMFit(model2TrainingReturns, nStates=2) #Fit a HMM with 2 states to the data
- 
-#HMM model 3 (sideways market)
-model3ReturnsFunc <- function(isHighVol){
-  return(rnorm( 100, 0.0,if(isHighVol){0.16}else{0.08}))
-}
-sidewaysLowVol = model3ReturnsFunc(F)
-sidewaysHighVol  = model3ReturnsFunc(T)
-model3TrainingReturns = c(sidewaysLowVol, sidewaysHighVol)
-Model3Fit = HMMFit(model3TrainingReturns, nStates=2) #Fit a HMM with 2 states to the data
- 
-generateDataFunc <- function(modelSequence,highVolSequence){
-  results <- c()
-  if(length(modelSequence) != length(highVolSequence)){ print("Model Sequence and Vol Sequence must be the same length"); return(NULL)}
-  for(i in 1:length(modelSequence)){
-    #Bit rubish having all these IFs here but its easy to understand for novice R users
-    if(modelSequence[i] == 1){
-       results <- c(results,model1ReturnsFunc(highVolSequence[i]))
-    }
-    if(modelSequence[i] == 2){
-       results <- c(results,model2ReturnsFunc(highVolSequence[i]))
-    }
-    if(modelSequence[i] == 3){
-       results <- c(results,model3ReturnsFunc(highVolSequence[i]))
-    }
-  }
-  return(results)
-}
- 
-#Create some out of sample data
-actualModelSequence <- c(1,1,1,3,2,2,1)
-actualVolRegime <- c(T,T,T,T,T,T,T)
-outOfSampleData <- generateDataFunc(actualModelSequence,actualVolRegime)
-#Will take 50 days of data and calculate the rolling log likelihood for each HMM model
-model1Likelihood <- rollapply(outOfSampleData,50,align="right",na.pad=T,function(x) {forwardBackward(Model1Fit,x)$LLH})
-model2Likelihood <- rollapply(outOfSampleData,50,align="right",na.pad=T,function(x) {forwardBackward(Model2Fit,x)$LLH})
-model3Likelihood <- rollapply(outOfSampleData,50,align="right",na.pad=T,function(x) {forwardBackward(Model3Fit,x)$LLH})
-layout(1:3)
-plot(cumsum(outOfSampleData),main="Fake Market Data",ylab="Cumulative Returns",type="l")
-plot(model1Likelihood,type="l",ylab="Log Likelihood of Each Model",main="Log Likelihood for each HMM Model")
-lines(model2Likelihood,type="l",col="red")
-lines(model3Likelihood,type="l",col="blue")
-plot(rep((actualModelSequence==3)*3,each=100),col="blue",type="o",ylim=c(0.8,3.1),ylab="Actual MODEL Number",main="Actual MODEL Sequence")
-lines(rep((actualModelSequence==2)*2,each=100),col="red",type="o")
-lines(rep((actualModelSequence==1)*1,each=100),col="black",type="o")
-legend(x='topright', c('Model 1 - Bull Mkt','Model 2 - Bear Mkt','Model 3 - Side ways Mkt'), col=c("black","red","blue"), bty='n',lty=c(1,1,1))
-
-
+#RHmm package not avialable
 http://gekkoquant.com/2014/09/07/hidden-markov-models-examples-in-r-part-3-of-4/
 http://cs229.stanford.edu/proj2009/ShinLee.pdf
 https://www.cs.sfu.ca/~anoop/students/rzhang/rzhang_msc_thesis.pdf
@@ -1050,10 +958,6 @@ http://www.researchgate.net/publication/256503512_Hidden_Markov_Models
 http://www2.imm.dtu.dk/courses/02433/
 https://cran.r-project.org/web/packages/HiddenMarkov/HiddenMarkov.pdf
 http://dare.uva.nl/document/2/105489
-*#
-
-
-
 ***HHM
 install.packages("RHmm", repos="http://R-Forge.R-project.org")
 library("RHmm", lib.loc="~/R/x86_64-pc-linux-gnu-library/3.2")
@@ -1073,40 +977,6 @@ library(TTR)
 
 ## Bull and Bear Markets ##
 # Load S&P 500 returns
-Sys.setenv(tz = "UTC")
-sp500 <- getYahooData("^GSPC", start = 19500101, end = 20160120, freq = "daily")
-
-# Preprocessing
-ep <- endpoints(sp500, on = "months", k = 1)
-sp500 <- sp500[ep[2:(length(ep)-1)]]
-sp500$logret <- log(sp500$Close) - lag(log(sp500$Close))
-sp500 <- na.exclude(sp500)
-
-# Plot the S&P 500 returns
-plot(sp500$logret, main = "S&P 500 log Returns")
-
-# Regime switching model
-mod <- depmix(logret ~ 1, family = gaussian(), nstates = 4, data = sp500)
-set.seed(1)
-fm2 <- fit(mod, verbose = FALSE)
-# Initial probabilities
-summary(fm2, which = "prior")
-# Transition probabilities
-summary(fm2, which = "transition")
-# Reponse/emission function
-summary(fm2, which = "response")
-
-# Classification (inference task)
-tsp500 <- as.ts(sp500)
-pbear <- as.ts(posterior(fm2)[, 2])
-tsp(pbear) <- tsp(tsp500)
-plot(cbind(tsp500[, 6], pbear), main = "Posterior Probability of State=1 (Volatile, Bear Market)")
-
-map.bear <- as.ts(posterior(fm2)[, 1] == 1)
-tsp(map.bear) <- tsp(tsp500)
-plot(cbind(tsp500[, 6], map.bear),main = "Maximum A Posteriori (MAP) State Sequence")
-**
-
 #----------------------------------------------------------------
 # Hiden Markov Model of S&P 500 log returns
 # See documentation for depmixS4 package 
