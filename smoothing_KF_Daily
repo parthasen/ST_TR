@@ -1,4 +1,6 @@
 //Kalman filter as a way to smooth time series without lag
+//https://github.com/jrnold/KFAS/blob/master/R/structSSM.R
+//http://www.bearcave.com/finance/random_r_hacks/kalman_smooth.html
 
 library(KFAS)
 library(tseries)
