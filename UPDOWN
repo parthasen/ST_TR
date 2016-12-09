@@ -1,4 +1,4 @@
-#....Dataset already formed
+#....Dataset already formed GIST
 #PLOT
 #Price Incresed with increased volume or decreased volume
 plot(PL["2016"])
